@@ -346,10 +346,6 @@ header .master_play #current-time, #duration
 
 }
 
-header .master_play #duration
-{
-
-}
 
 header .master_play .bar
 {
@@ -408,9 +404,9 @@ header .master_play .bar input
 
 header .master_play .vol
 {
-    width: 50%;
+    width: 20%;
     margin-left: 20px;
-    margin-top: -14px;
+    margin-top: -25px;
     height: 2px;
     cursor: pointer;
 
@@ -427,8 +423,7 @@ header .master_play .vol input
 {
     width: 50%;
     cursor: pointer;
-    z-index: 99999999999999999999999999999;
-    opacity: 0;
+    opacity: 1;
 }
 
 header .master_play .vol .vol_bar {
