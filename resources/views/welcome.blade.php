@@ -30,15 +30,14 @@
             <div class="menu_song">
 
                 @foreach($songs as $song)
-                <li class="songItem">
+                <li class="songItem" id="song_{{$loop->index}}">
                     <span> {{$loop->iteration}} </span>
                     <img src="{{$song->image}}" alt="">
                     <div class="song_info">
                         <div class="song_title">{{$song->title}}</div>
                         <div class="subtitle">{{$song->author}}</div>
                     </div>
-                    <i class="bi playlistPlay bi-play-circle-fill" id="1"></i>
-                    <input type="hidden" id="song_{{$song->id}}">
+                    <input type="hidden" id="song__{{$song->id}}" value="{{$song->id}}">
 
                 </li>
 
@@ -62,14 +61,14 @@
 
             <img src="" alt="" id="playerImg">
             <div class="song_info">
-                <div id="playerTitle" class="song_title">ssss</div>
-                <div id="playerSubtitle" class="subtitle">ssss</div>
+                <div id="playerTitle" class="song_title"></div>
+                <div id="playerSubtitle" class="subtitle"></div>
             </div>
 
             <div class="icon">
-                <i class="bi bi-skip-start-fill"> </i>
+                <i id="playPrev" class="bi bi-skip-start-fill"> </i>
                 <i id="playMusic" class="bi bi-play-fill"></i>
-                <i class="bi bi-skip-end-fill"></i>
+                <i id="playNext" class="bi bi-skip-end-fill"></i>
             </div>
             <span id="current-time"> 0:00 </span>
 
@@ -77,12 +76,22 @@
                 <input type="range" id="seek-slider" min="0"; max="100"; value="0">
             </div>
 
-            <span id="duration"> 0:00 </span>
+            <span id="duration"> </span>
 
             <div class="vol">
                 <i class="bi bi-volume-down-fill" id="vol_icon"></i>
-                <input type="range" id="vol-slider" min="0"; max="100"; value="0">
+                <input type="range" id="vol-slider" min="0"; max="100"; value="50">
             </div>
+
+            <span id="volume"> 50 </span>
+
+
+            <div class="vol">
+                <i class="bi bi-speedometer"></i>
+                <input type="range" id="speed-slider" min="-10"; max="10"; value="0">
+            </div>
+
+            <span id="speed"> 1.0 </span>
 
 
         </div>
@@ -93,10 +102,34 @@
 
 <script>
 
-    let SongList = {!! $songs_json !!}
-    console.log(SongList)
+    let SongList = {!! $songs_json !!};
+
+    let currentSongId = 0;
+    let audio = document.getElementById('playerAudio')
+    let playMusicButton = document.getElementById('playMusic')
+    let trackSlider = document.getElementById('seek-slider')
+    let volumeSlider = document.getElementById('vol-slider')
+    let speedSlider = document.getElementById('speed-slider')
+    let duration = document.getElementById("duration")
+    let currentTime = document.getElementById("current-time")
+    let prev = document.getElementById('playPrev');
+    let next = document.getElementById('playNext');
+    let state = "pause";
+    let stopClassIcon = "bi bi-pause-circle-fill"
+    let playClassIcon = "bi bi-play-fill"
+
+    /*
+    let playerTitle = document.getElementById('playerTitle').innerText
+    let playerSubtitle= document.getElementById('playerSubtitle').innerText
+    let playerImg= document.getElementById('playerImg').src
+    let playerSrc = document.getElementById('playerAudio').src
+
+     */
+
 
     setInitialSong()
+    setDurationTime()
+    addSongListeners()
 
     function setInitialSong()
     {
@@ -107,10 +140,185 @@
 
         document.getElementById('playerTitle').innerText=title
         document.getElementById('playerSubtitle').innerText=author
-        console.log(document.getElementById('playerImg').src)
         document.getElementById('playerImg').src = img
         document.getElementById('playerAudio').src = src
+
+        document.getElementById("song_"+currentSongId).style.backgroundColor = "#4c5262";
+
+        trackSlider.value=0
+        volumeSlider.value=50
+        speedSlider.value=0
     }
+
+    function PlayMusic()
+    {
+        if(state==="pause")
+        {
+            audio.play()
+            setStopIcon()
+            state = "play"
+        }
+        else
+        {
+            audio.pause()
+            setStartIcon()
+            state = "pause"
+        }
+
+    }
+
+
+    function setStopIcon()
+    {
+        playMusicButton.className=stopClassIcon
+        state = "play"
+    }
+
+    function setStartIcon()
+    {
+        playMusicButton.className=playClassIcon
+        state = "stop"
+    }
+
+
+    function setDurationTime()
+    {
+
+        if (audio.readyState > 0)
+        {
+            duration.innerText = calculateTime(audio.duration)
+            setTrackSliderLength(audio.duration)
+        }
+        else
+        {
+            audio.addEventListener('loadedmetadata', () =>
+            {
+                duration.innerText = calculateTime(audio.duration)
+                setTrackSliderLength(audio.duration)
+            });
+        }
+
+    }
+
+    function setTrackSliderLength(time)
+    {
+        trackSlider.max = parseInt(time)
+    }
+
+    function setTrack(id)
+    {
+
+        console.log(currentSongId,id)
+
+
+            if(id>=SongList.length)
+            {
+                document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+                currentSongId=0;
+            }
+
+            else if(id<=0)
+            {
+                document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+                currentSongId=0;
+            }
+
+            else
+            {
+
+                document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+                currentSongId=id
+
+            }
+
+        document.getElementById('playerTitle').innerText = SongList[currentSongId].title
+        document.getElementById('playerSubtitle').innerText = SongList[currentSongId].author
+        document.getElementById('playerImg').src = SongList[currentSongId].image
+        document.getElementById('playerAudio').src = SongList[currentSongId].src
+
+        document.getElementById("song_"+currentSongId).style.backgroundColor = "#4c5262";
+
+        setStopIcon()
+        audio.play()
+
+    }
+
+    function calculateTime(sec)
+    {
+        const minutes = Math.floor(sec / 60);
+        const returnMin = minutes < 10 ? `${minutes}`:`${minutes}`;
+        const seconds = Math.floor(sec % 60);
+        const returnSec = seconds < 10 ? `0${seconds}`:`${seconds}`;
+        return `${returnMin}:${returnSec}`;
+    };
+
+    function setSongCurrentIconInMenu(id)
+    {
+
+    }
+
+    playMusicButton.addEventListener('click',function ()
+    {
+        PlayMusic()
+    })
+
+    audio.addEventListener('timeupdate', function ()
+    {
+        let curr_time = parseInt(audio.currentTime)
+        let duration = parseInt(audio.duration)
+
+
+        currentTime.innerText = calculateTime(curr_time)
+        trackSlider.value = curr_time
+
+        if(curr_time>=duration )
+            playNextSongInQueue()
+
+    })
+
+    trackSlider.addEventListener('change', function ()
+    {
+        audio.currentTime = trackSlider.value
+    })
+
+    next.addEventListener('click',function ()
+    {
+
+        setTrack(currentSongId+1)
+
+    })
+
+    prev.addEventListener('click',function ()
+    {
+        setTrack(currentSongId-1)
+
+    })
+
+    function addSongListeners()
+    {
+
+        for(let i=0;i<SongList.length;i++)
+        {
+            name="song_"+i
+            document.getElementById(name).addEventListener('click', function ()
+            {
+                setTrack(i)
+                setStopIcon()
+                audio.play()
+
+            })
+        }
+    }
+
+    function playNextSongInQueue()
+    {
+        setTrack(currentSongId+1)
+        audio.play()
+    }
+
+
+
+
 
 
 </script>
