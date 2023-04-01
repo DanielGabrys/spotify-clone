@@ -223,7 +223,7 @@ header .master_play .wave .wave1{
     width: 3px;
     height: 10px;
     background: #36e2ec;
-    margin-right: 3px;
+    margin-right: 2px;
     border-radius: 10px 10px 0px 0px;
     animation: unset;
 }
@@ -233,14 +233,15 @@ header .master_play .wave .wave1{
 /* js classes */
 
 header .master_play .active1 .wave1{
-    animation: wave .5s linear infinite;
+    animation: wave .6s linear infinite;
 }
 
-header .master_play .active .wave1:nth-child(2){
+header .master_play .active1 .wave1:nth-child(2){
     animation-delay: .4s;
+
 }
 
-header .master_play .active .wave1:nth-child(3){
+header .master_play .active1 .wave1:nth-child(3){
     animation-delay: .8s;
 }
 

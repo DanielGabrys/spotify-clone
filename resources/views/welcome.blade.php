@@ -51,7 +51,7 @@
 
 
         <div class="master_play">
-            <div class="wave">
+            <div class="wave" id="wave">
                 <div class="wave1"> </div>
                 <div class="wave1"> </div>
                 <div class="wave1"> </div>
@@ -79,7 +79,7 @@
             <span id="duration"> </span>
 
             <div class="vol">
-                <i class="bi bi-volume-down-fill" id="vol_icon"></i>
+                <i class="bi bi-volume-down-fill" id="vol-icon"></i>
                 <input type="range" id="vol-slider" min="0"; max="100"; value="50">
             </div>
 
@@ -105,10 +105,13 @@
     let SongList = {!! $songs_json !!};
 
     let currentSongId = 0;
+    let currentVolumeValue = 50;
+
     let audio = document.getElementById('playerAudio')
     let playMusicButton = document.getElementById('playMusic')
     let trackSlider = document.getElementById('seek-slider')
     let volumeSlider = document.getElementById('vol-slider')
+    let volumeIcon = document.getElementById('vol-icon')
     let speedSlider = document.getElementById('speed-slider')
     let duration = document.getElementById("duration")
     let currentTime = document.getElementById("current-time")
@@ -117,6 +120,8 @@
     let state = "pause";
     let stopClassIcon = "bi bi-pause-circle-fill"
     let playClassIcon = "bi bi-play-fill"
+    let volumeOff = "bi bi-volume-mute-fill"
+    let volumeOn = "bi bi-volume-down-fill"
 
     /*
     let playerTitle = document.getElementById('playerTitle').innerText
@@ -208,7 +213,7 @@
     function setTrack(id)
     {
 
-        console.log(currentSongId,id)
+        //console.log(currentSongId,id)
 
 
             if(id>=SongList.length)
@@ -241,6 +246,8 @@
         setStopIcon()
         audio.play()
 
+        waveAnimation()
+
     }
 
     function calculateTime(sec)
@@ -252,14 +259,41 @@
         return `${returnMin}:${returnSec}`;
     };
 
-    function setSongCurrentIconInMenu(id)
+    function addSongListeners()
     {
 
+        for(let i=0;i<SongList.length;i++)
+        {
+            name="song_"+i
+            document.getElementById(name).addEventListener('click', function ()
+            {
+                setTrack(i)
+                setStopIcon()
+                audio.play()
+
+            })
+        }
     }
+
+    function playNextSongInQueue()
+    {
+        setTrack(currentSongId+1)
+        audio.play()
+    }
+
+    function waveAnimation()
+    {
+        if(state==="play")
+            document.getElementById('wave').classList.add("active1")
+        else
+            document.getElementById('wave').classList.remove("active1")
+    }
+
 
     playMusicButton.addEventListener('click',function ()
     {
         PlayMusic()
+        waveAnimation()
     })
 
     audio.addEventListener('timeupdate', function ()
@@ -294,26 +328,68 @@
 
     })
 
-    function addSongListeners()
+    volumeIcon.addEventListener("click",function ()
     {
-
-        for(let i=0;i<SongList.length;i++)
+        if(volumeIcon.className === volumeOn)
         {
-            name="song_"+i
-            document.getElementById(name).addEventListener('click', function ()
-            {
-                setTrack(i)
-                setStopIcon()
-                audio.play()
+            audio.volume = 0
+            volumeIcon.className = volumeOff
+            currentVolumeValue = document.getElementById('vol-slider').value
+            document.getElementById('vol-slider').value=0
 
-            })
         }
-    }
+        else
+        {
+            audio.volume = currentVolumeValue/100
+            volumeIcon.className = volumeOn
+            document.getElementById('vol-slider').value= currentVolumeValue
+        }
+    })
 
-    function playNextSongInQueue()
+    volumeSlider.addEventListener('change',function ()
     {
-        setTrack(currentSongId+1)
-        audio.play()
+        let volume = document.getElementById('vol-slider')
+        //console.log(volume.value)
+        if(volume.value==0)
+        {
+            volumeIcon.className = volumeOff
+            audio.volume = volume.value =0
+        }
+
+        else
+        {
+            if(volumeIcon.className === volumeOff)
+                volumeIcon.className = volumeOn
+
+            currentVolumeValue = volume.value
+            audio.volume = volume.value/volume.max
+
+        }
+    })
+
+    speedSlider.addEventListener('change',function ()
+    {
+        let volume = document.getElementById('speed-slider').value
+        let speed = calculateSpeed(volume)
+        document.getElementById("speed").innerText = speed.toString()
+        audio.playbackRate = speed
+        console.log(audio.playbackRate,speed)
+    })
+
+    function calculateSpeed(val)
+    {
+
+        let up =0;
+        if(val == -10)
+            up= -1
+        else if(val == 10)
+            up= 1
+        else
+            up = val%10/10
+
+
+        return 1+up
+
     }
 
 
