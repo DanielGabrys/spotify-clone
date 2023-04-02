@@ -8,8 +8,12 @@
 
 
     <link href="{{asset('css/App.css')}}" rel="stylesheet" />
+    <link href="{{asset('css/SongContainer.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script src="{{asset('js/App.js')}}" type="module"></script>
+    <script src="{{asset('js/Player.js')}}" type="module"></script>
 
     @livewireStyles
 
@@ -18,11 +22,16 @@
 </head>
 <body>
 
-<header>
+<div class="header">
+
     @include('sidebars.LeftMenu')
-    @yield('Center')
     @include('sidebars.Player')
-</header>
+
+</div>
+
+    {{-- @livewire('menu',['songs' =>$songs, 'songs_json' =>$songs_json]) --}}
+
+
 
 @livewireScripts
 <script>

@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Song extends Model
+class Playlist extends Model
 {
     use HasFactory;
 
-    protected $table = 'song';
+    protected $table = 'playlist';
 
     protected $fillable =
         [
-            'title',
-            'author',
+            'name',
+            'description',
         ];
 
-    public function playlists(): BelongsToMany
+    public function songs(): BelongsToMany
     {
-        return $this->belongsToMany(Playlist::class);
+        return $this->belongsToMany(Song::class);
     }
 }

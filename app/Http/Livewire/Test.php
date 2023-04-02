@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\View;
 use Livewire\Component;
 
 class Test extends Component
 {
 
-    public $content = '<h4> elo </h4> </div>';
+    public  $subView = "livewire.test3";
+
+
 
     public function render()
     {
@@ -17,6 +20,9 @@ class Test extends Component
     public function test()
     {
       // $this->content = '<h4> vfsdcds </h4> </div>';
-        return view('welcome');
+
+        $this->subView = "livewire.song-menu";
+        return $this->subView;
+
     }
 }

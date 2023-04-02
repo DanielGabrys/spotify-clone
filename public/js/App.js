@@ -23,10 +23,10 @@
     let volumeOn = "bi bi-volume-down-fill"
 
 
-    setSongDurationValues()
+  //  setSongDurationValues()
     setInitialSong()
     setDurationTime()
-    addSongListeners()
+   // addSongListeners()
 
     function setInitialSong()
     {
@@ -41,7 +41,7 @@
         document.getElementById('playerImg').src = img
         document.getElementById('playerAudio').src = src
 
-        document.getElementById("song_"+currentSongId).style.backgroundColor = "#4c5262";
+       // document.getElementById("song_"+currentSongId).style.backgroundColor = "#4c5262";
 
         trackSlider.value=0
         volumeSlider.value=50
@@ -161,20 +161,20 @@
 
         if(id>=SongList.length)
     {
-        document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+       // document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
         currentSongId=0;
     }
 
         else if(id<=0)
     {
-        document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+       // document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
         currentSongId=0;
     }
 
         else
     {
 
-        document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+        //document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
         currentSongId=id
 
     }
@@ -184,7 +184,7 @@
         document.getElementById('playerImg').src = SongList[currentSongId].image
         document.getElementById('playerAudio').src = SongList[currentSongId].src
 
-        document.getElementById("song_"+currentSongId).style.backgroundColor = "#4c5262";
+       // document.getElementById("song_"+currentSongId).style.backgroundColor = "#4c5262";
 
         setStopIcon()
         setSliderValues()

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Livewire\PlaylistMenu;
+use App\Models\Playlist;
 use App\Models\Song;
 use Illuminate\Http\Request;
 
@@ -11,15 +13,10 @@ class SongController extends Controller
     {
         $songs = Song::all();
         $songs_json = $songs->toJson();
+        $playlists = Playlist::all();
 
-        return view('Center',['songs'=>$songs,'songs_json' =>$songs_json]);
+        return view('sidebars.Main',['songs'=>$songs,'songs_json' =>$songs_json,'playlists'=>$playlists]);
     }
 
-    public function test()
-    {
-        $songs = Song::all();
-        $songs_json = $songs->toJson();
 
-        return view('test',['songs'=>$songs,'songs_json' =>$songs_json]);
-    }
 }
