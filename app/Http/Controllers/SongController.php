@@ -12,6 +12,14 @@ class SongController extends Controller
         $songs = Song::all();
         $songs_json = $songs->toJson();
 
-        return view('welcome',['songs'=>$songs,'songs_json' =>$songs_json]);
+        return view('Center',['songs'=>$songs,'songs_json' =>$songs_json]);
+    }
+
+    public function test()
+    {
+        $songs = Song::all();
+        $songs_json = $songs->toJson();
+
+        return view('test',['songs'=>$songs,'songs_json' =>$songs_json]);
     }
 }

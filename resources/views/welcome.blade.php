@@ -9,9 +9,7 @@
 
         <link href="{{asset('css/App.css')}}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-
-
-
+        <script src="{{asset('js/App.js')}}" type="module"></script>
 
     </head>
     <body>
@@ -99,7 +97,7 @@
     </body>
 </html>
 
-<script src="{{asset('js/App.js')}}" type="module"></script>
+
 <script>
     let SongList = {!! $songs_json !!};
 </script>
