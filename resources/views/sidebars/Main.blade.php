@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <script src="{{asset('js/App.js')}}" type="module"></script>
 
+    @livewireStyles
+
+
+
 </head>
 <body>
 
@@ -20,6 +24,7 @@
     @include('sidebars.Player')
 </header>
 
+@livewireScripts
 <script>
     let SongList = {!! $songs_json !!};
 </script>
