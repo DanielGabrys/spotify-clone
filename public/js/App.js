@@ -1,5 +1,6 @@
 
 
+    let PlaylistTime =0
 
     let currentSongId = 0;
     let currentVolumeValue = 50;
@@ -21,15 +22,8 @@
     let volumeOff = "bi bi-volume-mute-fill"
     let volumeOn = "bi bi-volume-down-fill"
 
-    /*
-    let playerTitle = document.getElementById('playerTitle').innerText
-    let playerSubtitle= document.getElementById('playerSubtitle').innerText
-    let playerImg= document.getElementById('playerImg').src
-    let playerSrc = document.getElementById('playerAudio').src
 
-    */
-
-
+    setSongDurationValues()
     setInitialSong()
     setDurationTime()
     addSongListeners()
@@ -41,6 +35,7 @@
         let img = SongList[0].image;
         let src = SongList[0].src;
 
+
         document.getElementById('playerTitle').innerText=title
         document.getElementById('playerSubtitle').innerText=author
         document.getElementById('playerImg').src = img
@@ -51,6 +46,47 @@
         trackSlider.value=0
         volumeSlider.value=50
         speedSlider.value=0
+    }
+
+    function setSongDurationValues()
+    {
+        for(let i=0;i<SongList.length;i++)
+        {
+            let name="audio_"+i
+            let text ="song_time_"+i
+            let audio = document.getElementById(name)
+            audio.src = SongList[i].src
+            setSongsDurationTime(audio,text)
+        }
+    }
+
+    function setSongsDurationTime(aud,name)
+    {
+
+        let duration =0;
+        if (aud.readyState > 0)
+        {
+           duration= calculateTime(audio.duration)
+            document.getElementById(name).innerText= duration
+
+        }
+        else
+        {
+            aud.addEventListener('loadedmetadata', () =>
+            {
+                duration = calculateTime(aud.duration)
+                PlaylistTime +=aud.duration
+                document.getElementById(name).innerText= duration
+                setTotalPlaylistTime()
+            });
+        }
+
+    }
+
+    function setTotalPlaylistTime()
+    {
+        let time = calculateTime(PlaylistTime)
+        document.getElementById('totalTime').innerHTML = '<i class="bi bi-hourglass"></i>'+time
     }
 
     function setSliderValues()
@@ -93,23 +129,22 @@
         state = "stop"
     }
 
-
     function setDurationTime()
     {
 
         if (audio.readyState > 0)
-    {
-        duration.innerText = calculateTime(audio.duration)
-        setTrackSliderLength(audio.duration)
-    }
+        {
+            duration.innerText = calculateTime(audio.duration)
+            setTrackSliderLength(audio.duration)
+        }
         else
-    {
-        audio.addEventListener('loadedmetadata', () =>
-    {
+        {
+            audio.addEventListener('loadedmetadata', () =>
+        {
         duration.innerText = calculateTime(audio.duration)
         setTrackSliderLength(audio.duration)
-    });
-    }
+        });
+        }
 
     }
 
@@ -241,19 +276,23 @@
     volumeIcon.addEventListener("click",function ()
     {
         if(volumeIcon.className === volumeOn)
-    {
-        audio.volume = 0
-        volumeIcon.className = volumeOff
-        currentVolumeValue = document.getElementById('vol-slider').value
-        document.getElementById('vol-slider').value=0
+        {
+            audio.volume = 0
+            volumeIcon.className = volumeOff
+            currentVolumeValue = document.getElementById('vol-slider').value
+            document.getElementById('vol-slider').value=0
 
-    }
+        }
         else
-    {
-        audio.volume = currentVolumeValue/100
-        volumeIcon.className = volumeOn
-        document.getElementById('vol-slider').value= currentVolumeValue
-    }
+        {
+            audio.volume = currentVolumeValue/100
+            volumeIcon.className = volumeOn
+            document.getElementById('vol-slider').value= currentVolumeValue
+        }
+
+        document.getElementById("volume").innerText = parseInt(audio.volume*100)
+
+
     })
 
     volumeSlider.addEventListener('change',function ()
@@ -261,20 +300,21 @@
         let volume = document.getElementById('vol-slider')
         //console.log(volume.value)
         if(volume.value==0)
-    {
-        volumeIcon.className = volumeOff
-        audio.volume = volume.value =0
-    }
+        {
+            volumeIcon.className = volumeOff
+            audio.volume = volume.value =0
+        }
 
         else
-    {
-        if(volumeIcon.className === volumeOff)
-        volumeIcon.className = volumeOn
+        {
+            if(volumeIcon.className === volumeOff)
+            volumeIcon.className = volumeOn
 
-        currentVolumeValue = volume.value
-        audio.volume = volume.value/volume.max
+            currentVolumeValue = volume.value
+            audio.volume = volume.value/volume.max
+        }
 
-    }
+        document.getElementById("volume").innerText = parseInt(audio.volume*100)
     })
 
     speedSlider.addEventListener('change',function ()

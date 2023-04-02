@@ -4,7 +4,8 @@
         <div class="playlist">
             <h4 class="active"> <span></span> <i class="bi bi-music-note-beamed"></i> Playlist</h4>
             <h4> <span></span> <i class="bi bi bi-music-note-beamed"></i> dsdsdsds </h4>
-            <h4> <span></span> <i class="bi bi-music-note-beamed"></i> sdsdsdsd </h4>
+
+            <h4 id="totalTime" class="active">  <i class="bi bi-hourglass"></i>   </h4>
 
         </div>
 
@@ -18,6 +19,8 @@
                         <div class="song_title">{{$song->title}}</div>
                         <div class="subtitle">{{$song->author}}</div>
                     </div>
+                    <h6 id="song_time_{{$loop->index}}"> 0:00 </h6>
+                    <audio id ="audio_{{$loop->index}}" ></audio>
                     <input type="hidden" id="song__{{$song->id}}" value="{{$song->id}}">
 
                 </li>
