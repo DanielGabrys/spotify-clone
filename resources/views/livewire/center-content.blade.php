@@ -9,6 +9,30 @@
 
         <div class="menu_song">
 
+            <form class="form-inline">
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">WIERSZE</div>
+                    </div>
+                    <input type="number" class="form-control" id="x" placeholder="1-50" min="1" max="50">
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">COLUMNY</div>
+                    </div>
+                    <input type="number" class="form-control" id="y" placeholder="1-50" min="1" max="50">
+                </div>
+
+                <button type="button" class="btn btn-primary mb-2"
+                        onclick="
+                        createGrid.clearGrid();
+                        createGrid.addRow(document.getElementById('x').value,document.getElementById('y').value);
+
+               ">STWORZ SIATKE</button>
+            </form>
+
             <h4 class="active"> <span></span> <i class="bi bi-music-note-beamed"></i> Playlisty </h4>
             @foreach($playlists as $playlist)
 

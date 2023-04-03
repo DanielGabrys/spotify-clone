@@ -12,6 +12,7 @@
 
     <div class="menu_song">
 
+
         <h4 id="totalTime">  <i class="bi bi-hourglass"></i>   </h4>
         @foreach($songs as $song)
             <li class="songItem" id="song_{{$loop->index}}">

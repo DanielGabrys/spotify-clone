@@ -270,22 +270,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 50%;
+    width: 100%;
 }
 
 .AudioList .songs .song .section .songName .songSpan {
     margin-left: 0;
     font-size: 12px;
+    width: 200px;
 }
+
 
 .AudioList .songs .song .section .hits {
     display: flex;
-    margin-left: auto;
+    margin-left: 20px;
     align-items: center;
+    text-align: center;
 }
 
 .AudioList .songs .song .section .hits p {
-    margin: 0 20px;
+    margin-left:5px;
+    margin-right: 5px;
+    position: relative;
+    padding: 2px;
 }
 
 .AudioList .songs .song .section .hits p:nth-child(1) {
@@ -307,6 +313,16 @@
 .AudioList .songs:hover .song .imgBox img {
     transform: scale(1.2);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.add
+{
+    display: block;
+    padding: 5px;
+    background-color: #39aa24;
+    border-radius: 80%;
+    width: 60px;
+    text-align: center;
 }
 
 @media screen and (max-width: 550px) {

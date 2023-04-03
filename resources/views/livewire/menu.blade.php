@@ -1,5 +1,6 @@
 <div class="header">
 
+
     <div class="menu_side">
 
         <h1>Playlist</h1>
@@ -27,6 +28,8 @@
 
             @endforeach
         </div>
+
+
 
     </div>
 

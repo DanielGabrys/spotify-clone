@@ -9,12 +9,14 @@ use Livewire\Component;
 class CenterContent extends Component
 {
     public  $subView = "livewire.blank";
+    public $allSongs;
     public $songs;
     public $songs_json;
     public $playlists;
 
     public function mount()
     {
+        $this->allSongs = Song::all();
         $this->songs = Song::all();
         $this->songs_json = $this->songs->toJson();
         $this->playlists = Playlist::all();
@@ -31,8 +33,9 @@ class CenterContent extends Component
     {
         // $this->content = '<h4> vfsdcds </h4> </div>';
 
+        $this->allSongs = Song::all();
         $this->subView = "livewire.song-menu";
-        return $this->subView;
+
 
     }
 
@@ -40,8 +43,8 @@ class CenterContent extends Component
     {
         $this->songs = Playlist::find($id)->songs()->get();
 
-        $this->subView = "livewire.song-menu";
-        return $this->subView;
+        $this->subView = "livewire.playlist-details";
+
 
     }
 }
