@@ -4,11 +4,6 @@
     <h2 class="title">The list
         <span>{{$allSongs->count()}} songs</span>
     </h2>
-       <a  href="#">
-            <div class="add">
-                ADD
-            </div>
-        </a>
 
 
 

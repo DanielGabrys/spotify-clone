@@ -7,98 +7,47 @@
         <title>Laravel</title>
 
 
-        <link href="{{asset('css/App.css')}}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-        <script src="{{asset('js/App.js')}}" type="module"></script>
+
+        <!-- Bootstrap CSS -->
+        <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+        <!-- Bootstrap Bundle with Popper -->
+        <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 
     </head>
     <body>
 
-    <header>
-        <div class="menu_side">
+    <div class="container-fluid d-flex justify-content-center">
 
-            <h1>Playlist</h1>
-            <div class="playlist">
-                <h4 class="active"> <span></span> <i class="bi bi-music-note-beamed"></i> Playlist</h4>
-                <h4> <span></span> <i class="bi bi bi-music-note-beamed"></i> dsdsdsds </h4>
-                <h4> <span></span> <i class="bi bi-music-note-beamed"></i> sdsdsdsd </h4>
+        <form class="form-inline">
 
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">WIERSZE</div>
+                </div>
+                <input type="number" class="form-control" id="x" placeholder="1-50" min="1" max="50">
             </div>
 
-            <div class="menu_song">
-
-                @foreach($songs as $song)
-                <li class="songItem" id="song_{{$loop->index}}">
-                    <span> {{$loop->iteration}} </span>
-                    <img src="{{$song->image}}" alt="">
-                    <div class="song_info">
-                        <div class="song_title">{{$song->title}}</div>
-                        <div class="subtitle">{{$song->author}}</div>
-                    </div>
-                    <input type="hidden" id="song__{{$song->id}}" value="{{$song->id}}">
-
-
-                </li>
-
-                @endforeach
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">COLUMNY</div>
+                </div>
+                <input type="number" class="form-control" id="y" placeholder="1-50" min="1" max="50">
             </div>
 
-        </div>
+            <button type="button" class="btn btn-primary mb-2"
+                    onclick="
+                        createGrid.clearGrid();
+                        createGrid.addRow(document.getElementById('x').value,document.getElementById('y').value);
 
+               ">STWORZ SIATKE</button>
+        </form>
 
-        <div class="song_side"></div>
+    </div>
 
-
-        <div class="master_play">
-            <div class="wave" id="wave">
-                <div class="wave1"> </div>
-                <div class="wave1"> </div>
-                <div class="wave1"> </div>
-            </div>
-
-            <audio id="playerAudio" src=""> </audio>
-
-            <img src="" alt="" id="playerImg">
-            <div class="song_info">
-                <div id="playerTitle" class="song_title"></div>
-                <div id="playerSubtitle" class="subtitle"></div>
-            </div>
-
-            <div class="icon">
-                <i id="playPrev" class="bi bi-skip-start-fill"> </i>
-                <i id="playMusic" class="bi bi-play-fill"></i>
-                <i id="playNext" class="bi bi-skip-end-fill"></i>
-            </div>
-            <span id="current-time"> 0:00 </span>
-
-            <div class="bar">
-                <input type="range" id="seek-slider" min="0"; max="100"; value="0">
-            </div>
-
-            <span id="duration"> </span>
-
-            <div class="vol">
-                <i class="bi bi-volume-down-fill" id="vol-icon"></i>
-                <input type="range" id="vol-slider" min="0"; max="100"; value="50">
-            </div>
-
-            <span id="volume"> 50 </span>
-
-
-            <div class="vol">
-                <i class="bi bi-speedometer"></i>
-                <input type="range" id="speed-slider" min="-10"; max="10"; value="0">
-            </div>
-
-            <span id="speed"> 1.0 </span>
-
-
-        </div>
-        </header>
     </body>
 </html>
 
-
-<script>
-    let SongList = {!! $songs_json !!};
-</script>
