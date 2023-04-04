@@ -9,6 +9,9 @@
 
     <link href="{{asset('css/App.css')}}" rel="stylesheet" />
     <link href="{{asset('css/SongContainer.css')}}" rel="stylesheet" />
+    <link href="{{asset('css/DropDownMenu.css')}}" rel="stylesheet" />
+
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
@@ -21,9 +24,13 @@
     <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <!-- Bootstrap Dropdown menu -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-    <script src="{{asset('js/App.js')}}" type="module"></script>
-    <script src="{{asset('js/Player.js')}}" type="module"></script>
+
+    <script src="{{asset('js/Player.js')}}" ></script>
 
     @livewireStyles
 
@@ -34,19 +41,15 @@
 
 <div class="header">
 
+
     @include('sidebars.LeftMenu')
     @include('sidebars.Player')
 
 </div>
 
-    {{-- @livewire('menu',['songs' =>$songs, 'songs_json' =>$songs_json]) --}}
-
-
 
 @livewireScripts
-<script>
-    let SongList = {!! $songs_json !!};
-</script>
+
 
 
 

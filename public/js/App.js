@@ -89,6 +89,8 @@
         document.getElementById('totalTime').innerHTML = '<i class="bi bi-hourglass"></i>'+time
     }
 
+
+
     function setSliderValues()
     {
 

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Playlist;
+use App\Models\PlaylistSong;
 use App\Models\Song;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -15,6 +16,7 @@ class CenterContent extends Component
 
 
     public  $subView = "livewire.blank";
+
     public $allSongs;
     public $songs;
     public $songs_json;
@@ -52,10 +54,27 @@ class CenterContent extends Component
 
     public function addSong()
     {
-        // $this->content = '<h4> vfsdcds </h4> </div>';
 
         $this->subView = "livewire.add-song";
 
+    }
+
+    public function addSongToPlaylist($song_id,$playlist_id)
+    {
+        $playlist_song = new PlaylistSong();
+        $playlist_song->song_id = $song_id;
+        $playlist_song->playlist_id = $playlist_id;
+
+        $playlist_song->save();
+       // $this->playlist($playlist_id);
+
+
+    }
+
+    public function deleteSong($id)
+    {
+        Song::where('id',$id)->delete();
+        $this->songs();
     }
 
     public function addSongForm()
@@ -86,10 +105,30 @@ class CenterContent extends Component
         $song->image = $Img;
 
         $audio = new Mp3Info($src);
-        dd($audio);
+
+       // $song->duration = $this->calculateTime($audio->duration);
+        $song->duration = $audio->duration;
         $song->save();
 
+    }
 
+    public function calculateTime($sec)
+    {
+        $minutes = floor($sec / 60);
+        $seconds = floor($sec % 60);
+        $returnSec = $seconds < 10 ? '0'.$seconds:$seconds;
+        return $minutes.':'.$returnSec;
+    }
+
+    public function calculatePlaylistTime()
+    {
+        $time =0;
+        foreach ($this->songs as $song )
+        {
+            $time+= $song->duration;
+        }
+
+        return $this->calculateTime($time);
     }
 
 

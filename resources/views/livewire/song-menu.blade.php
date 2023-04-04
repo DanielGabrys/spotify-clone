@@ -15,37 +15,63 @@
                 <p>{{$loop->iteration}}</p>
             </div>
 
-            <div  x-data="{ init() {
-                                console.log(@js($song->src))}}"
-                  class="song">
+            <div class="song">
                 <audio id ="audio_{{$loop->index}}" ></audio>
-                <div class="imgBox">
-                    <img src="{{$song->image}}" alt="">
-                </div>
-                <div class="section">
-                    <p class="songName">
-                        <span class="songSpan" id="title">{{$song->title}}</span>
-                        <span class="songSpan" id="author">{{$song->author}}</span>
-                        <span class="songSpan"><i class="bi bi-clock-history" ></i>  03:00 </span>
-                        <span class="songSpan"> <i class="bi bi-suit-heart"></i> </span>
-                    </p>
 
 
-                    <div class="hits">
-                        <p class="hit"></p>
+                <div x-data @click="PlaySong(@js($loop->index))" class="section">
 
-                        <p class="hit">
-                            <i class="bi bi-three-dots"></i>
-                        </p>
+                    <div class="imgBox">
+                        <img src="{{$song->image}}" alt="">
                     </div>
 
+                    <p class="songName" >
+                        <span class="songSpan" id="title">{{$song->title}}</span>
+                        <span class="songSpan" id="author">{{$song->author}}</span>
+                        <span class="songSpan"><i class="bi bi-clock-history" ></i>  {{$this->calculateTime($song->duration)}} </span>
+                        <span class="songSpan">
+                           <span class="song_tag_item"> jive <i class="bi bi-x-square"></i> </span>
+                           <span class="song_tag_item"> jivesd <i class="bi bi-x-square"></i> </span>
+
+                        </span>
 
 
+                    </p>
                 </div>
+
+               <div class="section">
+
+                       <p class="songName">
+                           <i class="bi bi-suit-heart"> </i>
+                          <div class="dropdown">
+                       <i class=" bi bi-three-dots " id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       </i>
+                       <ul class="dropdown-menu multi-level" aria-labelledby="dLabel">
+                           <li class="dropdown-submenu">
+                               <a wire:click.prevent="deleteSong({{$song->id}})" href="#"> Usuń </a>
+                           </li>
+                           <li class="dropdown-submenu">
+                               <a href="#">Dodaj do Playlisty</a>
+                               <ul class="dropdown-menu">
+
+                                   @foreach($playlists as $playlist)
+                                       <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" href="#">{{$playlist->name}}</a></li>
+                                   @endforeach
+                               </ul>
+                           </li>
+                       </ul>
+                   </div>
+                       </p>
+
+               </div>
+
+
+
+
             </div>
 
         </div>
-
-
     @endforeach
+
 </div>
+

@@ -32,13 +32,13 @@
             </i>12.3M
             <span>Followers</span>
 
-        <h4 id="totalTime">  <i class="bi bi-hourglass"></i>   </h4>
+        <h4 id="totalTime">  <i class="bi bi-hourglass"></i> {{$this->calculatePlaylistTime()}}  </h4>
         </p>
     </div>
 
     <div class="AudioList">
         <h2 class="title">The list
-            <span>12 songs</span>
+            <span> {{$songs->count()}} songs</span>
 
 
         </h2>
@@ -47,35 +47,63 @@
 
             @foreach($songs as $song)
 
-                <div class="songs">
+
+                <div  class="songs">
                     <div class="count">
                         <p>{{$loop->iteration}}</p>
                     </div>
 
-                    <div  x-data="{ init() {
-                                console.log(@js($song->src))}}"
-                          class="song">
+                    <div class="song">
                         <audio id ="audio_{{$loop->index}}" ></audio>
-                        <div class="imgBox">
-                            <img src="{{$song->image}}" alt="">
-                        </div>
-                        <div class="section">
-                            <p class="songName"> {{$song->title}}
-                                <span class="songSpan">{{$song->author}}</span>
-                            </p>
-                            <div class="hits">
-                                <p class="hit"></p>
-                                <p class="duration">
-                                    <i id="song_time_{{$loop->index}}">
-                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"></path></svg>
-                                    </i>03:04</p>
-                                <div class="favourite">
-                                    <i>
-                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"></path></svg>
-                                    </i>
-                                </div>
+
+
+                        <div x-data @click="PlaySong(@js($loop->index))" class="section">
+
+                            <div class="imgBox">
+                                <img src="{{$song->image}}" alt="">
                             </div>
+
+                            <p class="songName" >
+                                <span class="songSpan" id="title">{{$song->title}}</span>
+                                <span class="songSpan" id="author">{{$song->author}}</span>
+                                <span class="songSpan"><i class="bi bi-clock-history" ></i>  {{$this->calculateTime($song->duration)}} </span>
+                                <span class="songSpan">
+                           <span class="song_tag_item"> jive <i class="bi bi-x-square"></i> </span>
+                           <span class="song_tag_item"> jivesd <i class="bi bi-x-square"></i> </span>
+
+                        </span>
+
+
+                            </p>
                         </div>
+
+                        <div class="section">
+
+                            <p class="songName">
+                                <i class="bi bi-suit-heart"> </i>
+                            <div class="dropdown">
+                                <i class=" bi bi-three-dots " id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </i>
+                                <ul class="dropdown-menu multi-level" aria-labelledby="dLabel">
+                                    <li class="dropdown-submenu">
+                                        <a wire:click.prevent="deleteSong({{$song->id}})" href="#"> Usuń z Playlisty </a>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a href="#">Dodaj do Playlisty</a>
+                                        <ul class="dropdown-menu">
+
+                                            @foreach($playlists as $playlist)
+                                                <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" href="#">{{$playlist->name}}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            </p>
+
+                        </div>
+
+
                     </div>
 
                 </div>
@@ -89,6 +117,4 @@
     </div>
 </div>
 
-<script>
 
-</script>

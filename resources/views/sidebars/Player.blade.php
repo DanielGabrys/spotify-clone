@@ -13,10 +13,10 @@
             <div id="playerSubtitle" class="subtitle"></div>
         </div>
 
-        <div class="icon">
-            <i id="playPrev" class="bi bi-skip-start-fill"> </i>
-            <i id="playMusic" class="bi bi-play-fill"></i>
-            <i id="playNext" class="bi bi-skip-end-fill"></i>
+        <div x-data class="icon">
+            <i @click="PlayPrevSong" id="playPrev" class="bi bi-skip-start-fill"> </i>
+            <i @click="handlePlayClick" id="playMusic" class="bi bi-play-fill"></i>
+            <i @click="PlayNextSong" id="playNext" class="bi bi-skip-end-fill"></i>
         </div>
         <span id="current-time"> 0:00 </span>
 
@@ -42,5 +42,64 @@
         <span id="speed"> 1.0 </span>
 
 
-    </div>
+</div>
+
+<script>
+
+    player.setSongList({!! $songs_json !!})
+    player.setPlayerProperties()
+    player.setInitialSong()
+
+    console.log(player)
+
+    player.audio.addEventListener('timeupdate', function ()
+    {
+        let curr_time = parseInt(player.audio.currentTime)
+        let duration = parseInt(player.audio.duration)
+
+
+        player.currentTime.innerText = player.calculateTime(curr_time)
+        player.trackSlider.value = curr_time
+
+        if(curr_time>=duration )
+            player.playNextSongInQueue()
+
+    })
+
+    player.trackSlider.addEventListener('change', function ()
+    {
+        player.audio.currentTime = player.trackSlider.value
+    })
+
+
+
+    function handlePlayClick()
+    {
+
+         player.playMusic()
+         player.waveAnimation()
+    }
+
+
+    function PlaySong(id)
+    {
+        console.log(id)
+       player.setTrack(id)
+       player.setStopIcon()
+       player.audio.play()
+    }
+
+    function PlayNextSong(id)
+    {
+        player.setTrack(player.currentSongId+1)
+    }
+
+    function PlayPrevSong(id)
+    {
+        player.setTrack(player.currentSongId+-1)
+    }
+
+
+
+</script>
 
