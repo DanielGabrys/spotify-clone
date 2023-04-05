@@ -180,6 +180,22 @@ class CenterContent extends Component
 
     }
 
+    public function removeSongFromPlaylist($song_id,$pos)
+    {
+
+        $song = PlaylistSong::where("playlist_id",$this->currentPlaylist)->where('song_id',$song_id)->where('position',$pos);
+        $song_position = $song->first()->position;
+        $song2 = PlaylistSong::where('position','>',$song_position);
+
+
+        $song2->update(['position' => DB::raw('position-1')]);
+        $song->delete();
+
+        $this->playlist($this->currentPlaylist);
+
+    }
+
+
     public function ActivateDraggableModule($state,$playlist_id)
     {
         if($state==true)
