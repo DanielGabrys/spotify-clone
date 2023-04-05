@@ -8,7 +8,7 @@
 }
 
 .Banner {
-    height: 300px;
+    height: 250px;
     position: relative;
 }
 
@@ -443,10 +443,13 @@
 .form-custom .form-custom-item .form-input
 {
     background-color: #2d3748;
+    border: 1px solid;
     border-radius: 10px;
     text-align: center;
+    color: white;
     padding: 2px;
     width: 100%;
+
 }
 
 #add-song-button
@@ -459,15 +462,23 @@
 {
     display: flex;
     align-items: center;
+    border: 1px solid;
+    border-radius: 10px;
 }
 
 .form-custom-item-file-label
 {
     background-color: #2d3748;
-    padding: 3px;
+    padding: 5px;
     margin-right: -2px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     text-transform: uppercase;
+}
+
+::placeholder
+{
+    color: white;
+    opacity: 1;
 }
 

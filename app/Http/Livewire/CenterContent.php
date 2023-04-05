@@ -5,10 +5,12 @@ namespace App\Http\Livewire;
 use App\Models\Playlist;
 use App\Models\PlaylistSong;
 use App\Models\Song;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use wapmorgan\Mp3Info\Mp3Info;
+use function PHPUnit\Framework\isEmpty;
 
 class CenterContent extends Component
 {
@@ -16,11 +18,15 @@ class CenterContent extends Component
 
 
     public  $subView = "livewire.blank";
+    public $dragableSubView ='livewire.play-undraggable-mode';
+
 
     public $allSongs;
     public $songs;
     public $songs_json;
     public $playlists;
+    public $currentPlaylist =0;
+    public $position;
 
     // addSongForm
     public $title;
@@ -51,6 +57,7 @@ class CenterContent extends Component
         $this->songs_json = $this->allSongs->toJson();
         $this->subView = "livewire.song-menu";
 
+
     }
 
     public function addSong()
@@ -64,6 +71,11 @@ class CenterContent extends Component
     {
         $playlist_song = new PlaylistSong();
         $playlist_song->song_id = $song_id;
+
+        $position = PlaylistSong::where("playlist_id",$playlist_id)->max('position');
+        $position = is_numeric($position) ? ++$position:1;
+        $playlist_song->position = $position;
+
         $playlist_song->playlist_id = $playlist_id;
 
         $playlist_song->save();
@@ -160,17 +172,41 @@ class CenterContent extends Component
 
     public function playlist($id)
     {
-        $this->songs = Playlist::find($id)->songs()->get();
+        $this->songs = Playlist::find($id)->songs()->orderBy('position')->get();
         $this->songs_json = $this->songs->toJson();
+        $this->currentPlaylist = $id;
         $this->subView = "livewire.playlist-details";
 
 
     }
 
-    public function removeSongFromPlaylist($song_id,$playlist_id)
+    public function ActivateDraggableModule($state,$playlist_id)
     {
-        PlaylistSong::where('song_id',$song_id)->where('playlist_id',$playlist_id)->delete();
+        if($state==true)
+        {
+            $this->dragableSubView ="livewire.playlist-draggable-mode";
+        }
+        else
+        {
+            $this->dragableSubView ="livewire.play-undraggable-mode";
+        }
 
-        $this->playlist($playlist_id);
+        $this->songs = Playlist::find($playlist_id)->songs()->orderBy('position')->get();
+        $this->songs_json = $this->songs->toJson();
+        $this->currentPlaylist = $playlist_id;
+
     }
+
+    public function updateSongsOrder($songs)
+    {
+
+        foreach ($songs as $song)
+        {
+         $item = PlaylistSong::where('id',intval($song['value']))->update(['position'=>$song['order']]);
+        }
+
+        $this->playlist($this->currentPlaylist);
+    }
+
+
 }

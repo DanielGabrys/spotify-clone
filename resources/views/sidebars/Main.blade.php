@@ -20,9 +20,11 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
 
 
 
@@ -64,6 +66,9 @@
 
 
 @livewireScripts
+<!-- Livewire sortable -->
+<script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
+
 
 
 

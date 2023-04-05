@@ -1,7 +1,7 @@
 <div class="header">
     <div class="menu_side">
 
-        <h1>Playlist</h1>
+        <h1>SPOTIFY BALLROOM <i class="bi bi-device-hdd-fill"></i> </h1>
         <div class="playlist">
             <h4 class="active"> <span></span> <i class="bi bi-music-note-list"></i> Utwórz playliste</h4>
             <a wire:click.prevent="songs()" >  <h4 class="active"> <span></span> <i class="bi bi-file-earmark-music-fill"></i> Piosenki </h4> </a>
@@ -11,10 +11,10 @@
 
         </div>
 
-        <div class="menu_song">
+        <h3 id="playlist-menu"> <i class="bi bi-music-note-list"></i> <span> Playlisty  </span> </h3>
 
+        <div class="menu_song" >
 
-            <h4 class="active"> <span></span> <i class="bi bi-music-note-list"></i> Playlisty </h4>
             @foreach($playlists as $playlist)
 
                 <a wire:click.prevent="playlist({{$playlist->id}})" >
@@ -32,6 +32,20 @@
 
             @endforeach
         </div>
+
+        <h3 id="playlist-menu"> <i class="bi bi-music-note-list"></i> <span> Tagi  </span> </h3>
+
+        <div class="menu_tag" >
+            <span class="song_tag_item"> jive <i class="bi bi-x-square"></i> </span>
+            <span class="song_tag_item"> wiedeński <i class="bi bi-x-square"></i> </span>
+            <span class="song_tag_item"> angielski <i class="bi bi-x-square"></i> </span>
+            <span class="song_tag_item"> pasadoble <i class="bi bi-x-square"></i> </span>
+            <span class="song_tag_item"> foxtrot <i class="bi bi-x-square"></i> </span>
+            <span class="song_tag_item"> quicstep <i class="bi bi-x-square"></i> </span>
+            <span class="song_tag_item"> disco <i class="bi bi-x-square"></i> </span>
+
+        </div>
+
 
     </div>
 
