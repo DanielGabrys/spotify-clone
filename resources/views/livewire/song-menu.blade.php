@@ -51,14 +51,14 @@
                        </i>
                        <ul class="dropdown-menu multi-level" >
                            <li class="dropdown-submenu">
-                               <a wire:click.prevent="deleteSong({{$song->id}})" href="#"> Usuń </a>
+                               <a wire:click.prevent="deleteSong({{$song->id}})" > Usuń </a>
                            </li>
                            <li class="dropdown-submenu">
-                               <a href="#">Dodaj do Playlisty</a>
+                               <a >Dodaj do Playlisty</a>
                                <ul class="dropdown-menu">
 
                                    @foreach($playlists as $playlist)
-                                       <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" href="#">{{$playlist->name}}</a></li>
+                                       <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" >{{$playlist->name}}</a></li>
                                    @endforeach
                                </ul>
                            </li>

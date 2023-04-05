@@ -317,6 +317,7 @@
         }
 
         document.getElementById("volume").innerText = parseInt(audio.volume*100)
+
     })
 
     speedSlider.addEventListener('change',function ()

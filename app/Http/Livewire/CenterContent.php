@@ -88,8 +88,6 @@ class CenterContent extends Component
 
     public function addSongForm()
     {
-        // $this->content = '<h4> vfsdcds </h4> </div>';
-
 
         $song = new Song();
         $song->title = $this->title;
@@ -167,5 +165,12 @@ class CenterContent extends Component
         $this->subView = "livewire.playlist-details";
 
 
+    }
+
+    public function removeSongFromPlaylist($song_id,$playlist_id)
+    {
+        PlaylistSong::where('song_id',$song_id)->where('playlist_id',$playlist_id)->delete();
+
+        $this->playlist($playlist_id);
     }
 }

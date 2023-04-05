@@ -20,26 +20,26 @@
         </div>
         <span id="current-time"> 0:00 </span>
 
-        <div class="bar">
-            <input type="range" id="seek-slider" min="0"; max="100"; value="0">
+        <div x-data class="bar">
+            <input @change="TrackSliderChange" type="range" id="seek-slider" min="0"; max="100"; value="0">
         </div>
-
         <span id="duration"> </span>
 
-        <div class="vol">
-            <i class="bi bi-volume-down-fill" id="vol-icon"></i>
-            <input type="range" id="vol-slider" min="0"; max="100"; value="50">
+
+        <div x-data class="vol">
+            <i @click="VolumeIconChange" class="bi bi-volume-down-fill" id="vol-icon"></i>
+            <input @change="VolumeChange" type="range" id="vol-slider" min="0"; max="100"; value="50">
+            <span id="volume"> 50 </span>
         </div>
 
-        <span id="volume"> 50 </span>
 
 
-        <div class="vol">
+        <div x-data class="vol">
             <i class="bi bi-speedometer"></i>
-            <input type="range" id="speed-slider" min="-10"; max="10"; value="0">
+            <input @change="SpeedChange" type="range" id="speed-slider" min="-10"; max="10"; value="0">
+            <span id="speed"> 1.0 </span>
         </div>
 
-        <span id="speed"> 1.0 </span>
 
 
 </div>
@@ -67,10 +67,6 @@
 
     })
 
-    player.trackSlider.addEventListener('change', function ()
-    {
-        player.audio.currentTime = player.trackSlider.value
-    })
 
 
 
@@ -104,6 +100,68 @@
     {
         player.setTrack(player.currentSongId+-1)
     }
+
+    function TrackSliderChange()
+    {
+        player.audio.currentTime = player.trackSlider.value
+    }
+
+
+    function VolumeIconChange()
+    {
+
+        if(player.volumeIcon.className === player.volumeOn)
+        {
+            player.audio.volume = 0
+            player.volumeIcon.className = player.volumeOff
+            player.currentVolumeValue = document.getElementById('vol-slider').value
+            document.getElementById('vol-slider').value=0
+
+        }
+        else
+        {
+            player.audio.volume = player.currentVolumeValue/100
+            player.volumeIcon.className = player.volumeOn
+            document.getElementById('vol-slider').value= player.currentVolumeValue
+        }
+
+        document.getElementById("volume").innerText = parseInt(player.audio.volume*100)
+
+    }
+
+    function VolumeChange()
+    {
+        let volume = document.getElementById('vol-slider')
+        //console.log(volume.value)
+        if(volume.value==0)
+        {
+            player.volumeIcon.className = player.volumeOff
+            player.audio.volume = volume.value =0
+        }
+
+        else
+        {
+            if(player.volumeIcon.className === player.volumeOff)
+                player.volumeIcon.className = player.volumeOn
+
+            player.currentVolumeValue = volume.value
+            player.audio.volume = volume.value/volume.max
+        }
+
+        document.getElementById("volume").innerText = parseInt(player.audio.volume*100)
+
+    }
+
+    function SpeedChange()
+    {
+        let volume = document.getElementById('speed-slider').value
+        let speed = player.calculateSpeed(volume)
+        document.getElementById("speed").innerText = speed.toString()
+        player.audio.playbackRate = speed
+        player.currentSpeedValue = speed
+        //console.log(audio.playbackRate,speed)
+    }
+
 
 
 

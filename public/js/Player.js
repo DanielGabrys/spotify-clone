@@ -5,7 +5,7 @@ class Player
 
     currentSongId = 0;
     currentVolumeValue = 50;
-    currentSpeedValue =0
+    currentSpeedValue =1
 
     audio
     playMusicButton
@@ -71,9 +71,6 @@ class Player
 
     setSliderValues()
     {
-
-
-        let vol=1
 
         this.audio.playbackRate = this.currentSpeedValue
 
@@ -178,7 +175,7 @@ class Player
 
         this.setStopIcon()
         this.setTrackSliderLength(duration)
-       // this.setSliderValues()
+        this.setSliderValues()
 
         this.audio.play()
         this.waveAnimation()

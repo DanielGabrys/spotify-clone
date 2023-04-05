@@ -4,9 +4,9 @@
         <h1>Playlist</h1>
         <div class="playlist">
             <h4 class="active"> <span></span> <i class="bi bi-music-note-list"></i> Utwórz playliste</h4>
-            <a wire:click.prevent="songs()" href="#">  <h4 class="active"> <span></span> <i class="bi bi-file-earmark-music-fill"></i> Piosenki </h4> </a>
-            <a wire:click.prevent="tags()" href="#">  <h4 class="active"> <span></span> <i class="bi bi-bookmark"></i> Tagi </h4> </a>
-            <a wire:click.prevent="generateTagPlaylist()" href="#">  <h4 class="active"> <span></span> <i class="bi bi-boxes"></i> Generuj tagowaną playlistę</h4> </a>
+            <a wire:click.prevent="songs()" >  <h4 class="active"> <span></span> <i class="bi bi-file-earmark-music-fill"></i> Piosenki </h4> </a>
+            <a wire:click.prevent="tags()" >  <h4 class="active"> <span></span> <i class="bi bi-bookmark"></i> Tagi </h4> </a>
+            <a wire:click.prevent="generateTagPlaylist()" >  <h4 class="active"> <span></span> <i class="bi bi-boxes"></i> Generuj tagowaną playlistę</h4> </a>
 
 
         </div>
@@ -17,7 +17,7 @@
             <h4 class="active"> <span></span> <i class="bi bi-music-note-list"></i> Playlisty </h4>
             @foreach($playlists as $playlist)
 
-                <a wire:click.prevent="playlist({{$playlist->id}})" href="#">
+                <a wire:click.prevent="playlist({{$playlist->id}})" >
                     <li class="songItem" id="song_{{$loop->index}}">
                         <span> {{$loop->iteration}} </span>
 
