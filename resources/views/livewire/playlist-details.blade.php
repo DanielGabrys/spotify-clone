@@ -1,7 +1,7 @@
 <div class="mainContainer">
 
 
-    <div class="Banner"><img src="http://127.0.0.1:8001/storage/images/songs/image1.png" alt="" class="bannerImg">
+    <div class="Banner"><img src="{{asset('storage/images/toFill/emptyPlaylist.png')}}" class="bannerImg">
         <div class="content">
             <div class="breadCrump">
                 <i class="bi bi-three-dots"></i>
@@ -57,7 +57,7 @@
                         <audio id ="audio_{{$loop->index}}" ></audio>
 
 
-                        <div x-data @click="PlaySong(@js($loop->index))" class="section">
+                        <div x-data @click="PlaySong(@js($songs_json),@js($loop->index))" class="section">
 
                             <div class="imgBox">
                                 <img src="{{$song->image}}" alt="">

@@ -44,6 +44,9 @@ class Player
 
     setInitialSong()
     {
+        if(this.SongList.length===0)
+            return 0;
+
         let title = this.SongList[0].title;
         let author = this.SongList[0].author;
         let img = this.SongList[0].image;
@@ -80,6 +83,13 @@ class Player
     }
     playMusic()
     {
+
+        console.log("elo")
+        if(this.SongList.length===0)
+        {
+            return alert("Playlista jest pusta")
+        }
+
 
         //this.setSliderValues()
         if(this.state==="pause")
@@ -135,6 +145,7 @@ class Player
     {
 
 
+        console.log(this.SongList)
         if(id>=this.SongList.length)
         {
             // document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";

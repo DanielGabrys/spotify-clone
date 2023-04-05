@@ -7,7 +7,7 @@
 
         <audio id="playerAudio" src=""> </audio>
 
-        <img src="" alt="" id="playerImg">
+        <img src="{{asset('storage/images/toFill/playlist.png')}}" alt="" id="playerImg">
         <div class="song_info">
             <div id="playerTitle" class="song_title"></div>
             <div id="playerSubtitle" class="subtitle"></div>
@@ -51,6 +51,7 @@
     player.setInitialSong()
 
     console.log(player)
+    console.log(player.SongList)
 
     player.audio.addEventListener('timeupdate', function ()
     {
@@ -81,12 +82,17 @@
     }
 
 
-    function PlaySong(id)
+    function PlaySong(songList,start_song_id)
     {
-        console.log(id)
-       player.setTrack(id)
+
+      let songs = JSON.parse(songList);
+       player.setSongList(songs)
+
+       player.setTrack(start_song_id)
        player.setStopIcon()
        player.audio.play()
+
+
     }
 
     function PlayNextSong(id)
@@ -98,6 +104,7 @@
     {
         player.setTrack(player.currentSongId+-1)
     }
+
 
 
 

@@ -48,6 +48,7 @@ class CenterContent extends Component
         // $this->content = '<h4> vfsdcds </h4> </div>';
 
         $this->allSongs = Song::all();
+        $this->songs_json = $this->allSongs->toJson();
         $this->subView = "livewire.song-menu";
 
     }
@@ -73,7 +74,15 @@ class CenterContent extends Component
 
     public function deleteSong($id)
     {
-        Song::where('id',$id)->delete();
+        $song = Song::where('id',$id);
+        $songData = $song->get()->first();
+
+
+        Storage::delete($songData->image);
+        Storage::delete($songData->src);
+
+        $song->delete();
+
         $this->songs();
     }
 
@@ -87,7 +96,7 @@ class CenterContent extends Component
         $song->author = $this->author;
 
         $path_music = 'public/music';
-        $path_image = 'public/images';
+        $path_image = 'public/images/songs';
 
 
 
@@ -109,6 +118,8 @@ class CenterContent extends Component
        // $song->duration = $this->calculateTime($audio->duration);
         $song->duration = $audio->duration;
         $song->save();
+
+        $this->songs();
 
     }
 
@@ -152,7 +163,7 @@ class CenterContent extends Component
     public function playlist($id)
     {
         $this->songs = Playlist::find($id)->songs()->get();
-
+        $this->songs_json = $this->songs->toJson();
         $this->subView = "livewire.playlist-details";
 
 

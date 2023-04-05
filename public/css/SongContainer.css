@@ -425,3 +425,49 @@
 
 
 }
+
+.form-custom
+{
+   display:flex;
+   align-items: center;
+   margin-left: -30px;
+}
+
+.form-custom .form-custom-item
+{
+  margin-left: 5px;
+  margin-bottom: 5px;
+
+}
+
+.form-custom .form-custom-item .form-input
+{
+    background-color: #2d3748;
+    border-radius: 10px;
+    text-align: center;
+    padding: 2px;
+    width: 100%;
+}
+
+#add-song-button
+{
+    margin-top: -5px;
+    margin-left: 5px;
+}
+
+.form-custom-item-file
+{
+    display: flex;
+    align-items: center;
+}
+
+.form-custom-item-file-label
+{
+    background-color: #2d3748;
+    padding: 3px;
+    margin-right: -2px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    text-transform: uppercase;
+}
+

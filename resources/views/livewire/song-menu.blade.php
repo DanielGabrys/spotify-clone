@@ -1,6 +1,9 @@
 <div class="AudioList">
 
 
+    @include('livewire.add-song')
+
+
     <h2 class="title">The list
         <span>{{$allSongs->count()}} songs</span>
     </h2>
@@ -19,15 +22,15 @@
                 <audio id ="audio_{{$loop->index}}" ></audio>
 
 
-                <div x-data @click="PlaySong(@js($loop->index))" class="section">
+                <div x-data @click="PlaySong(@js($songs_json),@js($loop->index))" class="section">
 
                     <div class="imgBox">
                         <img src="{{$song->image}}" alt="">
                     </div>
 
-                    <p class="songName" >
-                        <span class="songSpan" id="title">{{$song->title}}</span>
-                        <span class="songSpan" id="author">{{$song->author}}</span>
+                    <p class="songName">
+                        <span class="songSpan">{{$song->title}}</span>
+                        <span class="songSpan">{{$song->author}}</span>
                         <span class="songSpan"><i class="bi bi-clock-history" ></i>  {{$this->calculateTime($song->duration)}} </span>
                         <span class="songSpan">
                            <span class="song_tag_item"> jive <i class="bi bi-x-square"></i> </span>
@@ -44,9 +47,9 @@
                        <p class="songName">
                            <i class="bi bi-suit-heart"> </i>
                           <div class="dropdown">
-                       <i class=" bi bi-three-dots " id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       <i class=" bi bi-three-dots" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                        </i>
-                       <ul class="dropdown-menu multi-level" aria-labelledby="dLabel">
+                       <ul class="dropdown-menu multi-level" >
                            <li class="dropdown-submenu">
                                <a wire:click.prevent="deleteSong({{$song->id}})" href="#"> Usuń </a>
                            </li>

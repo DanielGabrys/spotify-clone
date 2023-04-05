@@ -1,41 +1,44 @@
 <div>
 
-    <form class="form-inline">
 
-        <div class="input-group mb-2 mr-sm-2">
-            <div class="input-group-prepend">
-                <div class="input-group-text">TYTUŁ</div>
+
+    <form class="form-custom">
+        <div class="form-custom-item">
+            <div class="">
+                <input type="text" wire:model="title" class="form-input" id="FormTitle" placeholder="tytuł">
             </div>
-            <input type="text" wire:model="title" class="form-control" id="title" >
         </div>
 
-        <div class="input-group mb-2 mr-sm-2">
-            <div class="input-group-prepend">
-                <div class="input-group-text">AUTOR</div>
+        <div class="form-custom-item">
+            <div class="">
+                <input type="text" wire:model="author" class="form-input" id="FormAuthor" placeholder="autor">
             </div>
-
-            <input type="text" wire:model="author" class="form-control" id="author" >
         </div>
 
-        <div class="input-group mb-2 mr-sm-2">
-            <div class="input-group-prepend">
-                <div class="input-group-text">ZDJECIE</div>
-            </div>
 
-            <input type="file" wire:model="img" class="form-control" id="img" >
+        <div class="form-custom-item">
+            <div class="form-custom-item-file">
+                <div class="form-custom-item-file-label"> zdjęcie </div>
+                <input type="file" wire:model="img" class="form-input" id="FormAuthor" >
+            </div>
         </div>
 
-        <div class="input-group mb-2 mr-sm-2">
-            <div class="input-group-prepend">
-                <div class="input-group-text">UTWÓR</div>
+        <div class="form-custom-item">
+            <div class="form-custom-item-file">
+                <div class="form-custom-item-file-label"> utwór </div>
+                <input type="file" wire:model="songSrc" class="form-input" id="FormAuthor" >
             </div>
-
-            <input type="file" wire:model="songSrc" class="form-control" id="img" >
         </div>
 
 
         <a wire:click.prevent="addSongForm()" href="#">
-            <button type="button" class="btn btn-primary mb-2" >DODAJ </button>
+            <button type="button" class="btn btn-primary" id="add-song-button">DODAJ </button>
         </a>
+
+
+
+
     </form>
+
+
 </div>
