@@ -19,7 +19,7 @@
                     <audio id ="audio_{{$loop->index}}" ></audio>
 
 
-                    <div x-data @auxclick="PlaySong(@js($songs_json),@js($loop->index))" class="section">
+                    <div x-data @click="PlaySong(@js($songs_json),@js($loop->index))" class="section">
 
                         <div
                             class="imgBox">

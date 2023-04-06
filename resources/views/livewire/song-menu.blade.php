@@ -1,13 +1,10 @@
 <div class="AudioList">
 
-
     @include('livewire.add-song')
-
 
     <h2 class="title">The list
         <span>{{$allSongs->count()}} songs</span>
     </h2>
-
 
 
 

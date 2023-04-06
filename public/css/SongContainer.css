@@ -19,7 +19,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: grayscale(100);
+
 }
 
 .Banner .bottom {
@@ -77,10 +77,31 @@
 .content .artist .left .name {
     display: flex;
     align-items: center;
+    background: #2d3748;
+    padding-left: 20px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-top-right-radius: 30px;
+    font-size: 18px;
+    min-width: 200px;
+    min-height: 50px;
+    max-width: 500px;
+}
+
+.content .artist .left .description {
+    display: flex;
+    align-items: center;
+    background: #2d3748;
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 11px;
+    max-width: 500px;
+
 }
 
 .content .artist .left .name h2 {
-    font-size: 50px;
+    font-size: 30px;
 }
 
 .content .artist .left .name img {
@@ -192,7 +213,6 @@
 
 .mainContainer p span {
     margin-left: 6px;
-    color: #848484;
 }
 
 .AudioList {
@@ -406,18 +426,25 @@
     }
 }
 
+.menu_tag
+{
+    margin-left: 20px;
+}
+
 .song_tag_item
 {
-    border-radius: 5px;
-    padding: 5px;
+    border-radius: 10px;
     text-align: center;
     margin-left: 2px;
     margin-right: 2px;
-    color: orange;
-    font-size: 16px;
+    color: #DAA520;
+    font-size: 14px;
     text-transform: uppercase;
+    white-space: nowrap;
+    font-family:courier, courier new, serif;
 
 }
+
 
 .song_tag_item i
 {
@@ -428,9 +455,10 @@
 
 .form-custom
 {
+
    display:flex;
    align-items: center;
-   margin-left: -30px;
+
 }
 
 .form-custom .form-custom-item
@@ -443,12 +471,26 @@
 .form-custom .form-custom-item .form-input
 {
     background-color: #2d3748;
-    border: 1px solid;
+    border: 2px solid;
     border-radius: 10px;
     text-align: center;
     color: white;
     padding: 2px;
     width: 100%;
+
+}
+
+.form-custom .form-custom-item .form-textarena
+{
+    background-color: #2d3748;
+    border: 2px solid;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    padding: 2px;
+    width: 100%;
+    margin-top: 2px;
+
 
 }
 
@@ -462,7 +504,7 @@
 {
     display: flex;
     align-items: center;
-    border: 1px solid;
+    border: 2px solid;
     border-radius: 10px;
 }
 
@@ -476,9 +518,17 @@
     text-transform: uppercase;
 }
 
+
+
 ::placeholder
 {
     color: white;
     opacity: 1;
+}
+
+.custom-chechbox
+{
+    margin-left: 10px;
+    margin-right: 10px;
 }
 

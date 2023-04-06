@@ -7,27 +7,35 @@
             <div class="">
                 <input type="text" wire:model="title" class="form-input" id="FormTitle" placeholder="tytuł">
             </div>
+            @error('title') <span class="text-red-500"> {{$message}} </span> @enderror
         </div>
 
         <div class="form-custom-item">
             <div class="">
                 <input type="text" wire:model="author" class="form-input" id="FormAuthor" placeholder="autor">
             </div>
+            @error('author') <span class="text-red-500"> {{$message}} </span> @enderror
         </div>
 
 
         <div class="form-custom-item">
             <div class="form-custom-item-file">
                 <div class="form-custom-item-file-label"> zdjęcie </div>
-                <input type="file" wire:model="img" class="form-input" id="FormAuthor" >
+                <input type="file" wire:model="img" class="custom-input-file" id="FormAuthor" >
             </div>
+
+            @error('img') <span class="text-red-500"> {{$message}} </span> @enderror
+
         </div>
 
         <div class="form-custom-item">
             <div class="form-custom-item-file">
                 <div class="form-custom-item-file-label"> utwór </div>
-                <input type="file" wire:model="songSrc" class="form-input" id="FormAuthor" >
+                <input type="file" wire:model="songSrc" class="custom-input-file"  id="FormAuthor" >
             </div>
+
+            @error('songSrc') <span class="text-red-500"> {{$message}} </span> @enderror
+
         </div>
 
 

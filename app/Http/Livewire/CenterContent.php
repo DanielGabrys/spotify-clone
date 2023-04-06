@@ -11,14 +11,17 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use wapmorgan\Mp3Info\Mp3Info;
 use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
 
 class CenterContent extends Component
 {
     use WithFileUploads;
 
 
-    public  $subView = "livewire.blank";
+    public  $subView = "livewire.song-menu";
     public $dragableSubView ='livewire.play-undraggable-mode';
+    public $emptyPlaylistImage = 'storage/images/toFill/emptyPlaylist.png';
+    public $emptySongImage = 'storage/images/toFill/playlist.png';
 
 
     public $allSongs;
@@ -34,13 +37,30 @@ class CenterContent extends Component
     public $img;
     public $songSrc;
 
+    // addPlaylistForm
+    public $playlist_name;
+    public $playlist_description;
+    public $playlist_img = 'storage/images/toFill/emptyPlaylist.png';
+    public $playlist_taggable=false;
+
+    // cumulated validation rules
+
+    protected $rules = [
+        'title' => ['required','min:2','max:255'],
+        'author' => ['min:2','max:255'],
+        'img' => 'nullable|image|mimes:jpeg,png',
+        'songSrc' => ['required','mimes:mp3','max:10000'],
+
+    ];
+
+
+
     public function mount()
     {
         $this->allSongs = Song::all();
         $this->songs = Song::all();
         $this->songs_json = $this->songs->toJson();
         $this->playlists = Playlist::all();
-
     }
 
 
@@ -49,6 +69,8 @@ class CenterContent extends Component
         return view('livewire.center-content');
     }
 
+
+    //songs
     public function songs()
     {
         // $this->content = '<h4> vfsdcds </h4> </div>';
@@ -94,34 +116,43 @@ class CenterContent extends Component
         Storage::delete($songData->src);
 
         $song->delete();
-
         $this->songs();
     }
 
     public function addSongForm()
     {
+        $this->validate($this->rules);
+
+
 
         $song = new Song();
         $song->title = $this->title;
         $song->author = $this->author;
+        $song->image =$this->emptySongImage;
 
         $path_music = 'public/music';
         $path_image = 'public/images/songs';
 
 
+        $Img ='';
+        if($this->img != null)
+        {
+
+            //song image
+            $img= $this->img->store($path_image);
+            $img = substr($img,6);
+            $Img= "storage".$img;
+
+            $song->image = $Img;
+        }
 
         //song track
-        $scr= $this->songSrc->store($path_music);
-        $scr = substr($scr,6);
-        $src= "storage".$scr;
-
-        //song image
-        $img= $this->img->store($path_image);
-        $img = substr($img,6);
-        $Img= "storage".$img;
+        $scr = $this->songSrc->store($path_music);
+        $scr = substr($scr, 6);
+        $src = "storage" . $scr;
 
         $song->src = $src;
-        $song->image = $Img;
+
 
         $audio = new Mp3Info($src);
 
@@ -129,16 +160,67 @@ class CenterContent extends Component
         $song->duration = $audio->duration;
         $song->save();
 
+       // $this->resetValidationData();
+
         $this->songs();
 
     }
 
-    public function calculateTime($sec)
+
+    // playlist
+
+    public function addPlaylistForm()
     {
-        $minutes = floor($sec / 60);
-        $seconds = floor($sec % 60);
-        $returnSec = $seconds < 10 ? '0'.$seconds:$seconds;
-        return $minutes.':'.$returnSec;
+        $playlist = new Playlist;
+        $playlist ->name = $this->playlist_name;
+        $playlist ->description = $this->playlist_description;
+        $playlist ->taggable = $this->playlist_taggable;
+        $playlist ->image =$this->emptyPlaylistImage;
+
+
+        if($this->emptyPlaylistImage!=$this->playlist_img)
+        {
+            $path_playlist = 'public/playlist/img';
+
+            //song image
+            $img = $this->playlist_img->store($path_playlist);
+            $img = substr($img, 6);
+            $Img = "storage" . $img;
+
+            $playlist->image = $Img;
+        }
+
+
+        $playlist->save();
+        $this->playlists = Playlist::all();
+
+
+
+    }
+
+    public function playlist($id)
+    {
+
+            $this->songs = Playlist::find($id)->songs()->orderBy('position')->get();
+            $this->songs_json = $this->songs->toJson();
+            $this->currentPlaylist = $id;
+
+            $this->subView = "livewire.playlist-details";
+    }
+
+    public function addPlaylist()
+    {
+        $this->subView = "livewire.add-playlist";
+    }
+
+    public function deletePlaylist($id)
+    {
+
+
+        Playlist::where('id',$id)->delete();
+        $this->playlists = Playlist::all();
+        $this->subView = "livewire.song-menu";
+
     }
 
     public function calculatePlaylistTime()
@@ -150,34 +232,6 @@ class CenterContent extends Component
         }
 
         return $this->calculateTime($time);
-    }
-
-
-    public function tags()
-    {
-        // $this->content = '<h4> vfsdcds </h4> </div>';
-
-        $this->subView = "livewire.add-song";
-
-    }
-
-    public function generateTagPlaylist()
-    {
-        // $this->content = '<h4> vfsdcds </h4> </div>';
-
-        $this->subView = "livewire.add-song";
-
-    }
-
-
-    public function playlist($id)
-    {
-        $this->songs = Playlist::find($id)->songs()->orderBy('position')->get();
-        $this->songs_json = $this->songs->toJson();
-        $this->currentPlaylist = $id;
-        $this->subView = "livewire.playlist-details";
-
-
     }
 
     public function removeSongFromPlaylist($song_id,$pos)
@@ -194,7 +248,6 @@ class CenterContent extends Component
         $this->playlist($this->currentPlaylist);
 
     }
-
 
     public function ActivateDraggableModule($state,$playlist_id)
     {
@@ -224,5 +277,44 @@ class CenterContent extends Component
         $this->playlist($this->currentPlaylist);
     }
 
+    //tags
+    public function tags()
+    {
+        // $this->content = '<h4> vfsdcds </h4> </div>';
+
+        $this->subView = "livewire.add-song";
+
+    }
+
+    public function generateTagPlaylist()
+    {
+        // $this->content = '<h4> vfsdcds </h4> </div>';
+
+        $this->subView = "livewire.add-song";
+
+    }
+
+    //functional
+    public function calculateTime($sec)
+    {
+        $minutes = floor($sec / 60);
+        $seconds = floor($sec % 60);
+        $returnSec = $seconds < 10 ? '0'.$seconds:$seconds;
+        return $minutes.':'.$returnSec;
+    }
+
+    public function resetValidationData()
+    {
+        // addSongForm
+        $this-> title ='';
+        $this-> author ='';
+        $this-> img = $this->emptySongImage;
+        $this-> songSrc = '';
+    }
+
+    public function updated($property)
+    {
+        $this->validateOnly($property);
+    }
 
 }

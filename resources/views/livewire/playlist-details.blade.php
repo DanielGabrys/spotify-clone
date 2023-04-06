@@ -1,6 +1,6 @@
 <div class="mainContainer">
 
-    <div class="Banner"><img src="{{asset('storage/images/toFill/emptyPlaylist.png')}}" class="bannerImg">
+    <div class="Banner"><img src="{{$playlists->find($currentPlaylist)->image}}" class="bannerImg">
         <div class="content">
             <div class="breadCrump">
                 <i class="bi bi-three-dots"></i>
@@ -9,11 +9,11 @@
             <div class="artist">
                 <div class="left">
                     <div class="name">
-                        <h2>{{$playlists->find($currentPlaylist)->name}}</h2>
+                        {{$playlists->find($currentPlaylist)->name}}
                     </div>
 
                     <div class="description">
-                        <h2>{{$playlists->find($currentPlaylist)->description}}</h2>
+                        {{$playlists->find($currentPlaylist)->description}}
                     </div>
                 </div>
 
