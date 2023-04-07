@@ -17,7 +17,14 @@ class CenterContent extends Component
 {
     use WithFileUploads;
 
-    public  $subView = "test";
+    public  $subView = "";
+    public  $MiddleViews = array(
+        'songMiddler' => 'livewireMiddlers.songMiddler',
+        'playlistMiddler' => 'livewireMiddlers.PlaylistMiddler',
+        'addPlaylistMiddler' => 'livewireMiddlers.AddPlaylistMiddler',
+    );
+
+
     public $dragableSubView ='livewire.play-undraggable-mode';
     public $emptyPlaylistImage = 'storage/images/toFill/emptyPlaylist.png';
 
@@ -40,6 +47,7 @@ class CenterContent extends Component
 
     public function mount()
     {
+        $this->subView = $this->MiddleViews['songMiddler'];
         $this->allSongs = Song::all();
         $this->songs = Song::all();
         $this->songs_json = $this->songs->toJson();
@@ -56,7 +64,7 @@ class CenterContent extends Component
     public function addSong()
     {
 
-        $this->subView = "test";
+        $this->subView = $this->MiddleViews['songMiddler'];
 
     }
 
@@ -192,7 +200,6 @@ class CenterContent extends Component
     //tags
     public function tags()
     {
-        // $this->content = '<h4> vfsdcds </h4> </div>';
 
         $this->subView = "livewire.add-song";
 
