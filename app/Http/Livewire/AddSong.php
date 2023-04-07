@@ -5,10 +5,13 @@ namespace App\Http\Livewire;
 use App\Models\Song;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use wapmorgan\Mp3Info\Mp3Info;
 
 class AddSong extends CenterContent
 {
+
+    use WithFileUploads;
 
     public $songs;
     public $songs_json;
@@ -122,5 +125,6 @@ class AddSong extends CenterContent
     {
         $this->validateOnly($property);
     }
+
 
 }

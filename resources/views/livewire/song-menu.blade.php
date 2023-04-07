@@ -49,12 +49,12 @@
     </div>
 
     <h2 class="title">The list
-        <span>{{$songs->count()}} songs</span>
+        <span>{{$Songs->count()}} songs</span>
     </h2>
 
 
 
-    @foreach($songs as $song)
+    @foreach($Songs as $song)
 
         <div class="songs">
             <div class="count">
@@ -100,7 +100,7 @@
                                 <a >Dodaj do Playlisty</a>
                                 <ul class="dropdown-menu">
 
-                                    @foreach($playlists as $playlist)
+                                    @foreach($Playlists as $playlist)
                                         <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" >{{$playlist->name}}</a></li>
                                     @endforeach
                                 </ul>

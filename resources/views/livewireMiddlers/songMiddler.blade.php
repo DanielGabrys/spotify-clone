@@ -1,6 +1,6 @@
 <div class="AudioList">
 
 
-    @livewire('song-menu',['songs'=>$songs,'songs_json'=>$songs_json])
+    @livewire('song-menu',['songs_json'=>$songs_json])
 
 </div>

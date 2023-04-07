@@ -4,9 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Playlist;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class AddPlaylist extends Component
 {
+
+    use WithFileUploads;
+
 
     public $playlists;
     public $emptyPlaylistImage = 'storage/images/toFill/emptyPlaylist.png';
@@ -14,8 +18,15 @@ class AddPlaylist extends Component
     // addPlaylistForm
     public $playlist_name;
     public $playlist_description;
-    public $playlist_img = 'storage/images/toFill/emptyPlaylist.png';
+    public $playlist_img;
     public $playlist_taggable=false;
+
+    protected $rules = [
+        'playlist_name' => ['required','min:2','max:255'],
+        'playlist_description' => ['nullable','max:255'],
+        'playlist_img' => 'nullable|image|mimes:jpeg,png',
+    ];
+
 
     public function render()
     {
@@ -24,6 +35,8 @@ class AddPlaylist extends Component
 
     public function addPlaylistForm()
     {
+        $this->validate($this->rules);
+
         $playlist = new Playlist;
         $playlist ->name = $this->playlist_name;
         $playlist ->description = $this->playlist_description;
@@ -31,7 +44,7 @@ class AddPlaylist extends Component
         $playlist ->image =$this->emptyPlaylistImage;
 
 
-        if($this->emptyPlaylistImage!=$this->playlist_img)
+        if($this->playlist_img != null)
         {
             $path_playlist = 'public/playlist/img';
 
@@ -48,6 +61,11 @@ class AddPlaylist extends Component
         $this->playlists = Playlist::all();
         $this->emit('refreshPlaylist');
 
+    }
+
+    public function updated($property)
+    {
+        $this->validateOnly($property);
     }
 
 }

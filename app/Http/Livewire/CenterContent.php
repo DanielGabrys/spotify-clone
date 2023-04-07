@@ -32,7 +32,7 @@ class CenterContent extends Component
     public $emptyPlaylistImage = 'storage/images/toFill/emptyPlaylist.png';
 
 
-    public $allSongs;
+    public $AllSongs;
     public $songs;
     public $songs_json;
     public $playlists;
@@ -40,18 +40,10 @@ class CenterContent extends Component
     public $position;
 
 
-    // addPlaylistForm
-    public $playlist_name;
-    public $playlist_description;
-    public $playlist_img = 'storage/images/toFill/emptyPlaylist.png';
-    public $playlist_taggable=false;
-
-
-
     public function mount()
     {
         $this->subView = $this->MiddleViews['songMiddler'];
-        $this->allSongs = Song::all();
+        $this->AllSongs = Song::all();
         $this->songs = Song::all();
         $this->songs_json = $this->songs->toJson();
         $this->playlists = Playlist::all();
@@ -64,9 +56,8 @@ class CenterContent extends Component
     }
 
 
-    public function addSong()
+    public function SongsMenu()
     {
-
         $this->subView = $this->MiddleViews['songMiddler'];
 
     }
@@ -100,9 +91,10 @@ class CenterContent extends Component
     public function playlist($id)
     {
 
-            $this->songs = Playlist::find($id)->songs()->orderBy('position')->get();
+            $this->currentPlaylist = Playlist::find($id);
+            $this->songs = $this->currentPlaylist->songs()->orderBy('position')->get();
             $this->songs_json = $this->songs->toJson();
-            $this->currentPlaylist = $id;
+            $this->currentPlaylist = $this->currentPlaylist->first();
 
             $this->subView = "livewire.playlist-details";
     }
@@ -137,7 +129,7 @@ class CenterContent extends Component
     public function removeSongFromPlaylist($song_id,$pos)
     {
 
-        $song = PlaylistSong::where("playlist_id",$this->currentPlaylist)->where('song_id',$song_id)->where('position',$pos);
+        $song = PlaylistSong::where("playlist_id",$this->currentPlaylist->id)->where('song_id',$song_id)->where('position',$pos);
         $song_position = $song->first()->position;
         $song2 = PlaylistSong::where('position','>',$song_position);
 
@@ -145,7 +137,7 @@ class CenterContent extends Component
         $song2->update(['position' => DB::raw('position-1')]);
         $song->delete();
 
-        $this->playlist($this->currentPlaylist);
+        $this->playlist($this->currentPlaylist->id);
 
     }
 
@@ -160,9 +152,10 @@ class CenterContent extends Component
             $this->dragableSubView ="livewire.play-undraggable-mode";
         }
 
-        $this->songs = Playlist::find($playlist_id)->songs()->orderBy('position')->get();
+        $temp_playlist = Playlist::find($playlist_id);
+        $this->songs = $temp_playlist->songs()->orderBy('position')->get();
         $this->songs_json = $this->songs->toJson();
-        $this->currentPlaylist = $playlist_id;
+        $this->currentPlaylist = $temp_playlist->first();
 
     }
 
@@ -174,7 +167,7 @@ class CenterContent extends Component
          $item = PlaylistSong::where('id',intval($song['value']))->update(['position'=>$song['order']]);
         }
 
-        $this->playlist($this->currentPlaylist);
+        $this->playlist($this->currentPlaylist->id);
     }
 
     //tags

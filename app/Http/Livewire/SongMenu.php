@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Playlist;
 use App\Models\Song;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -10,11 +11,12 @@ use wapmorgan\Mp3Info\Mp3Info;
 class SongMenu extends CenterContent
 {
 
-    public $songs;
+    public $Songs;
     public $songs_json;
 
     // addSongForm
     public $title;
+    public $Playlists;
     public $author;
     public $img;
     public $songSrc;
@@ -28,14 +30,20 @@ class SongMenu extends CenterContent
 
     ];
 
+    public function mount()
+    {
+        $this->Songs = Song::all();
+        $this->Playlists = Playlist::all();
+    }
+
 
     //songs
     public function songs()
     {
         // $this->content = '<h4> vfsdcds </h4> </div>';
 
-        $this->songs = Song::all();
-        $this->songs_json = $this->songs->toJson();
+        $this->Songs = Song::all();
+        $this->songs_json = $this->Songs->toJson();
         $this->subView = "livewire.song-menu";
 
 
@@ -107,7 +115,7 @@ class SongMenu extends CenterContent
         // addSongForm
         $this-> title ='';
         $this-> author ='';
-        $this-> img = $this->emptySongImage;
+        $this-> img = null;
         $this-> songSrc = '';
     }
 
