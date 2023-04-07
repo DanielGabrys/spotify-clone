@@ -17,6 +17,9 @@ class CenterContent extends Component
 {
     use WithFileUploads;
 
+
+    protected $listeners = ['refreshPlaylist'];
+
     public  $subView = "";
     public  $MiddleViews = array(
         'songMiddler' => 'livewireMiddlers.songMiddler',
@@ -89,33 +92,9 @@ class CenterContent extends Component
 
     // playlist
 
-    public function addPlaylistForm()
+    public function refreshPlaylist()
     {
-        $playlist = new Playlist;
-        $playlist ->name = $this->playlist_name;
-        $playlist ->description = $this->playlist_description;
-        $playlist ->taggable = $this->playlist_taggable;
-        $playlist ->image =$this->emptyPlaylistImage;
-
-
-        if($this->emptyPlaylistImage!=$this->playlist_img)
-        {
-            $path_playlist = 'public/playlist/img';
-
-            //song image
-            $img = $this->playlist_img->store($path_playlist);
-            $img = substr($img, 6);
-            $Img = "storage" . $img;
-
-            $playlist->image = $Img;
-        }
-
-
-        $playlist->save();
         $this->playlists = Playlist::all();
-
-
-
     }
 
     public function playlist($id)
@@ -130,7 +109,7 @@ class CenterContent extends Component
 
     public function addPlaylist()
     {
-        $this->subView = "livewire.add-playlist";
+        $this->subView = $this->MiddleViews['addPlaylistMiddler'];
     }
 
     public function deletePlaylist($id)
@@ -139,6 +118,7 @@ class CenterContent extends Component
 
         Playlist::where('id',$id)->delete();
         $this->playlists = Playlist::all();
+        $this->songs = Song::all();
         $this->subView = "livewire.song-menu";
 
     }
