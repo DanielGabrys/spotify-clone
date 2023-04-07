@@ -17,11 +17,9 @@ class CenterContent extends Component
 {
     use WithFileUploads;
 
-
-    public  $subView = "livewire.song-menu";
+    public  $subView = "test";
     public $dragableSubView ='livewire.play-undraggable-mode';
     public $emptyPlaylistImage = 'storage/images/toFill/emptyPlaylist.png';
-    public $emptySongImage = 'storage/images/toFill/playlist.png';
 
 
     public $allSongs;
@@ -31,27 +29,12 @@ class CenterContent extends Component
     public $currentPlaylist =0;
     public $position;
 
-    // addSongForm
-    public $title;
-    public $author;
-    public $img;
-    public $songSrc;
 
     // addPlaylistForm
     public $playlist_name;
     public $playlist_description;
     public $playlist_img = 'storage/images/toFill/emptyPlaylist.png';
     public $playlist_taggable=false;
-
-    // cumulated validation rules
-
-    protected $rules = [
-        'title' => ['required','min:2','max:255'],
-        'author' => ['min:2','max:255'],
-        'img' => 'nullable|image|mimes:jpeg,png',
-        'songSrc' => ['required','mimes:mp3','max:10000'],
-
-    ];
 
 
 
@@ -70,22 +53,10 @@ class CenterContent extends Component
     }
 
 
-    //songs
-    public function songs()
-    {
-        // $this->content = '<h4> vfsdcds </h4> </div>';
-
-        $this->allSongs = Song::all();
-        $this->songs_json = $this->allSongs->toJson();
-        $this->subView = "livewire.song-menu";
-
-
-    }
-
     public function addSong()
     {
 
-        $this->subView = "livewire.add-song";
+        $this->subView = "test";
 
     }
 
@@ -106,65 +77,6 @@ class CenterContent extends Component
 
     }
 
-    public function deleteSong($id)
-    {
-        $song = Song::where('id',$id);
-        $songData = $song->get()->first();
-
-
-        Storage::delete($songData->image);
-        Storage::delete($songData->src);
-
-        $song->delete();
-        $this->songs();
-    }
-
-    public function addSongForm()
-    {
-        $this->validate($this->rules);
-
-
-
-        $song = new Song();
-        $song->title = $this->title;
-        $song->author = $this->author;
-        $song->image =$this->emptySongImage;
-
-        $path_music = 'public/music';
-        $path_image = 'public/images/songs';
-
-
-        $Img ='';
-        if($this->img != null)
-        {
-
-            //song image
-            $img= $this->img->store($path_image);
-            $img = substr($img,6);
-            $Img= "storage".$img;
-
-            $song->image = $Img;
-        }
-
-        //song track
-        $scr = $this->songSrc->store($path_music);
-        $scr = substr($scr, 6);
-        $src = "storage" . $scr;
-
-        $song->src = $src;
-
-
-        $audio = new Mp3Info($src);
-
-       // $song->duration = $this->calculateTime($audio->duration);
-        $song->duration = $audio->duration;
-        $song->save();
-
-       // $this->resetValidationData();
-
-        $this->songs();
-
-    }
 
 
     // playlist
@@ -303,18 +215,5 @@ class CenterContent extends Component
         return $minutes.':'.$returnSec;
     }
 
-    public function resetValidationData()
-    {
-        // addSongForm
-        $this-> title ='';
-        $this-> author ='';
-        $this-> img = $this->emptySongImage;
-        $this-> songSrc = '';
-    }
-
-    public function updated($property)
-    {
-        $this->validateOnly($property);
-    }
 
 }
