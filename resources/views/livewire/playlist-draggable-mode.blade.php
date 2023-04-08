@@ -31,9 +31,10 @@
                             <span class="songSpan" >{{$song->author}}</span>
                             <span class="songSpan"><i class="bi bi-clock-history" ></i>  {{$this->calculateTime($song->duration)}} </span>
                             <span class="songSpan">
-                           <span class="song_tag_item"> jive <i class="bi bi-x-square"></i> </span>
-                           <span class="song_tag_item"> jivesd <i class="bi bi-x-square"></i> </span>
 
+                                 @foreach($this->getSongTags($song->id) as $tag)
+                                    <span class="song_tag_item"> {{$tag->name}}  <i class="bi bi-x-square"></i> </span>
+                                @endforeach
                         </span>
 
                         </p>

@@ -6,25 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Song extends Model
+class Tag extends Model
 {
     use HasFactory;
 
-    protected $table = 'song';
+    protected $table = 'tag';
 
     protected $fillable =
         [
-            'title',
-            'author',
+            'name',
         ];
-
-    public function playlists(): BelongsToMany
-    {
-        return $this->belongsToMany(Playlist::class)->withPivot('id','position');
-    }
 
     public function songsTags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Song::class);
     }
 }

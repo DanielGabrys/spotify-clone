@@ -30,10 +30,6 @@
                             <span class="songSpan" >{{$song->title}}</span>
                             <span class="songSpan" >{{$song->author}}</span>
                             <span class="songSpan"><i class="bi bi-clock-history" ></i>  {{$this->calculateTime($song->duration)}} </span>
-                            <span class="songSpan">
-                           <span class="song_tag_item"> jive <i class="bi bi-x-square"></i> </span>
-                           <span class="song_tag_item"> jivesd <i class="bi bi-x-square"></i> </span>
-
                         </span>
 
 
@@ -43,7 +39,19 @@
                     <div class="section">
 
                         <p class="songName">
+
+                              <span class="songSpan">
+
+                                 @foreach($this->getSongTags($song->id) as $tag)
+
+                                      <span class="song_tag_item"> {{$tag->name}}
+                                          <i wire:click.prevent="deleteTagFromSong({{$song->id}},{{$tag->id}})" class="bi bi-x-square"></i>
+                                      </span>
+                                  @endforeach
+                              </span>
+
                             <i class="bi bi-suit-heart"> </i>
+
                         <div class="dropdown">
                             <i class=" bi bi-three-dots " id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             </i>

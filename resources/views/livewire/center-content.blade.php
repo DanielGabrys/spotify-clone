@@ -55,16 +55,7 @@
 
         <h3 id="playlist-menu"> <i class="bi bi-music-note-list"></i> <span> Tagi  </span> </h3>
 
-        <div class="menu_tag" >
-            <span class="song_tag_item"> jive <i class="bi bi-x-square"></i> </span>
-            <span class="song_tag_item"> wiedeński <i class="bi bi-x-square"></i> </span>
-            <span class="song_tag_item"> angielski <i class="bi bi-x-square"></i> </span>
-            <span class="song_tag_item"> pasadoble <i class="bi bi-x-square"></i> </span>
-            <span class="song_tag_item"> foxtrot <i class="bi bi-x-square"></i> </span>
-            <span class="song_tag_item"> quicstep <i class="bi bi-x-square"></i> </span>
-            <span class="song_tag_item"> disco <i class="bi bi-x-square"></i> </span>
-
-        </div>
+        @livewire('tags')
 
 
     </div>

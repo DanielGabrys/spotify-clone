@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Playlist;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -22,10 +24,11 @@ class AddPlaylist extends Component
     public $playlist_taggable=false;
 
     protected $rules = [
-        'playlist_name' => ['required','min:2','max:255'],
+        'playlist_name' => ['required','min:2','max:255',"unique:playlist,name"],
         'playlist_description' => ['nullable','max:255'],
         'playlist_img' => 'nullable|image|mimes:jpeg,png',
     ];
+
 
 
     public function render()
@@ -59,8 +62,17 @@ class AddPlaylist extends Component
 
         $playlist->save();
         $this->playlists = Playlist::all();
+        $this->resetValidationData();
         $this->emit('refreshPlaylist');
 
+    }
+
+    public function resetValidationData()
+    {
+        // addSongForm
+        $this-> playlist_name ='';
+        $this-> playlist_img = null;
+        $this-> playlist_description = '';
     }
 
     public function updated($property)

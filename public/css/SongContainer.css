@@ -480,6 +480,23 @@
 
 }
 
+.form-custom .form-custom-item-tag .form-input
+{
+    background-color: #2d3748;
+    border-radius: 10px;
+    text-align: center;
+    margin: 1px;
+}
+
+#add-tag-button
+{
+    background-color: #2b2f32;
+    border-radius: 10px;
+    text-align: center;
+    margin: 1px;
+    margin-left: 5px;
+}
+
 .form-custom .form-custom-item .form-textarena
 {
     background-color: #2d3748;

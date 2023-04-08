@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use App\Models\Playlist;
 use App\Models\PlaylistSong;
 use App\Models\Song;
+use App\Models\SongTag;
+use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -18,7 +20,7 @@ class CenterContent extends Component
     use WithFileUploads;
 
 
-    protected $listeners = ['refreshPlaylist'];
+    protected $listeners = ['refreshPlaylist','refreshTag'];
 
     public  $subView = "";
     public  $MiddleViews = array(
@@ -38,6 +40,7 @@ class CenterContent extends Component
     public $playlists;
     public $currentPlaylist =0;
     public $position;
+    public $tags;
 
 
     public function mount()
@@ -47,8 +50,27 @@ class CenterContent extends Component
         $this->songs = Song::all();
         $this->songs_json = $this->songs->toJson();
         $this->playlists = Playlist::all();
+        $this->tags = Tag::all();
     }
 
+    function getSongTags($id)
+    {
+        $song = Song::find($id);
+        $tags = $song->songsTags()->whereNot('name','-')->get();
+
+        return $tags;
+    }
+
+
+    public function deleteTagFromSong($song_id,$tag_id)
+    {
+
+        if(Tag::find($tag_id)->name!="-")
+
+            $this->tags = SongTag::where('song_id',$song_id)->
+            where('tag_id',$tag_id)->
+            delete();
+    }
 
     public function render()
     {
@@ -84,6 +106,11 @@ class CenterContent extends Component
     public function refreshPlaylist()
     {
         $this->playlists = Playlist::all();
+    }
+
+    public function refreshTag()
+    {
+        $this->tags = Tag::all();
     }
 
     public function playlist($id)

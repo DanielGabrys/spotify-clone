@@ -4,12 +4,14 @@ namespace App\Http\Livewire;
 
 use App\Models\Playlist;
 use App\Models\Song;
+use App\Models\SongTag;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use wapmorgan\Mp3Info\Mp3Info;
 
 class SongMenu extends CenterContent
 {
+
 
     public $Songs;
     public $songs_json;
@@ -90,9 +92,20 @@ class SongMenu extends CenterContent
         $song->duration = $audio->duration;
         $song->save();
 
-         $this->resetValidationData();
+        $this->resetValidationData();
+
+        //tag
+
+        $songTag = new SongTag();
+        $songTag -> song_id = $song->id;
+        $songTag -> tag_id = 1;
+
+        $songTag->save();
+
 
         $this->songs();
+
+
 
     }
 
@@ -122,5 +135,10 @@ class SongMenu extends CenterContent
     public function render()
     {
         return view('livewire.song-menu');
+    }
+
+    public function updated($property)
+    {
+        $this->validateOnly($property);
     }
 }
