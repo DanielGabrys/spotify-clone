@@ -79,8 +79,6 @@ class CenterContent extends Component
 
     }
 
-
-
     // playlist
 
     public function refreshPlaylist()
