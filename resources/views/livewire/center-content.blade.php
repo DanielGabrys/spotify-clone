@@ -60,13 +60,14 @@
 
     </div>
 
+
     <div class="song_side">
+
         @include($subView)
+
     </div>
 
-    <script>
-
-    </script>
-
 </div>
+
+
 

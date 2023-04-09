@@ -220,15 +220,18 @@
 }
 
 .AudioList .title {
+    display: block;
     font-size: 18px;
     color: #f1f1f1;
+    margin-bottom: 10px;
+    padding: 10px;
 }
 
 .AudioList .title span {
     margin-left: 5px;
     color: #848484;
     font-size: 14px;
-    font-weight: 200;
+    padding-bottom: 10px;
 }
 
 .AudioList .songsContainer {
@@ -284,6 +287,8 @@
 .AudioList .songs .song .section {
     display: flex;
     width: 100%;
+    margin-top: -20px;
+
 }
 
 .AudioList .songs .song .section .songName {
@@ -293,8 +298,15 @@
     width: 100%;
 }
 
+.AudioList .songs .song .section .songTools {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .AudioList .songs .song .section .songName .songSpan {
-    margin-left: 0;
+    margin-left: 10px;
     font-size: 12px;
     width: 200px;
 }
@@ -431,27 +443,6 @@
     margin-left: 20px;
 }
 
-.song_tag_item
-{
-    border-radius: 10px;
-    text-align: center;
-    margin-left: 2px;
-    margin-right: 2px;
-    color: #DAA520;
-    font-size: 14px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    font-family:courier, courier new, serif;
-
-}
-
-
-.song_tag_item i
-{
-   color: white;
-
-
-}
 
 .form-custom
 {
@@ -549,3 +540,64 @@
     margin-right: 10px;
 }
 
+.song_tag_item
+{
+    padding: 2px;
+    margin-left: 5px;
+}
+
+
+
+
+#outer-dropzone {
+    height: 140px;
+}
+
+#inner-dropzone {
+    height: 50%;
+    width: 200px;
+    font-size: 12px;
+}
+
+.dropzone {
+    background-color: #bfe4ff;
+    border: dashed 4px transparent;
+    border-radius: 4px;
+
+    padding: 10px;
+
+    transition: background-color 0.3s;
+}
+
+.drop-active {
+    border-color: #aaa;
+}
+
+.drop-target {
+    background-color: #29e;
+    border-color: #fff;
+    border-style: solid;
+}
+
+.drag-drop {
+    display: inline-block;
+    min-width: 20px;
+    padding: 5px;
+    margin: 5px ;
+    text-align: center;
+    text-transform: uppercase;
+
+    color: #fff;
+    background-color: #29e;
+    border: solid 2px #fff;
+
+    touch-action: none;
+    transform: translate(0px, 0px);
+
+    transition: background-color 0.3s;
+}
+
+.drag-drop.can-drop {
+    color: #000;
+    background-color: #4e4;
+}

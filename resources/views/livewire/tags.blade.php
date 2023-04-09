@@ -1,7 +1,7 @@
 <div class="menu_tag" >
 
     @foreach($tags as $tag)
-        <span class="song_tag_item"> {{$tag->name}} <i wire:click.prevent="deleteTag({{$tag->id}})" class="bi bi-x" style="cursor: pointer;"> </i> </span>
+        <span id="yes-drop" class="drag-drop"> {{$tag->name}} <i wire:click.prevent="deleteTag({{$tag->id}})" class="bi bi-x" style="cursor: pointer;"> </i> </span>
     @endforeach
 
         <form class="form-custom">
@@ -22,6 +22,8 @@
         </form>
 
         @error('tag_name') <span class="text-red-500"> {{$message}} </span> @enderror
+
+
 
 
 </div>

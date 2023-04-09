@@ -75,23 +75,32 @@
                         <span class="songSpan">{{$song->title}}</span>
                         <span class="songSpan">{{$song->author}}</span>
                         <span class="songSpan"><i class="bi bi-clock-history" ></i>  {{$this->calculateTime($song->duration)}} </span>
-                        <span class="songSpan">
-
-                            @foreach($this->getSongTags($song->id) as $tag)
-                                 <span class="song_tag_item"> {{$tag->name}}  <i class="bi bi-x-square"></i> </span>
-                            @endforeach
-                        </span>
-
-
                     </p>
                 </div>
 
                 <div class="section">
 
-                    <p class="songName">
-                        <i class="bi bi-suit-heart"> </i>
+                    <div id="inner-dropzone" class="dropzone">#drop tag here </div>
+
+                    <div class="songTools">
+                         <span class="songSpan">
+
+                             @forelse($this->getSongTags($song->id) as $tag)
+
+                                 <span class="song_tag_item"> {{$tag->name}}
+                                          <i wire:click.prevent="deleteTagFromSong({{$song->id}},{{$tag->id}})" class="bi bi-x-square"></i>
+                                 </span>
+
+                             @empty
+                                 <span class="song_tag_item"> - </span>
+                             @endforelse
+
+                         </span>
+
+                    <i class="bi bi-suit-heart"> </i>
+
                     <div class="dropdown">
-                        <i class=" bi bi-three-dots" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-three-dots" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </i>
                         <ul class="dropdown-menu multi-level" >
                             <li class="dropdown-submenu">
@@ -108,7 +117,8 @@
                             </li>
                         </ul>
                     </div>
-                    </p>
+
+                    </div>
 
                 </div>
 
