@@ -15,12 +15,13 @@ use wapmorgan\Mp3Info\Mp3Info;
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
-class CenterContent extends Component
+class CenterContent extends GlobalMethods
 {
+
     use WithFileUploads;
 
 
-    protected $listeners = ['refreshPlaylist','refreshTag'];
+    protected $listeners = ['refreshPlaylist','refreshTag','refreshSongTag'];
 
     public  $subView = "";
     public  $MiddleViews = array(
@@ -38,7 +39,7 @@ class CenterContent extends Component
     public $songs;
     public $songs_json;
     public $playlists;
-    public $currentPlaylist =0;
+    public $currentPlaylist;
     public $position;
     public $tags;
 
@@ -50,27 +51,10 @@ class CenterContent extends Component
         $this->songs = Song::all();
         $this->songs_json = $this->songs->toJson();
         $this->playlists = Playlist::all();
-        $this->tags = Tag::all();
+        $this->tags=$this->setTags();
+
     }
 
-    function getSongTags($id)
-    {
-        $song = Song::find($id);
-        $tags = $song->songsTags()->whereNot('name','-')->get();
-
-        return $tags;
-    }
-
-
-    public function deleteTagFromSong($song_id,$tag_id)
-    {
-
-        if(Tag::find($tag_id)->name!="-")
-
-            $this->tags = SongTag::where('song_id',$song_id)->
-            where('tag_id',$tag_id)->
-            delete();
-    }
 
     public function render()
     {
@@ -103,6 +87,8 @@ class CenterContent extends Component
 
     // playlist
 
+
+    //emit calls
     public function refreshPlaylist()
     {
         $this->playlists = Playlist::all();
@@ -113,13 +99,18 @@ class CenterContent extends Component
         $this->tags = Tag::all();
     }
 
+    public function refreshSongTags()
+    {
+        $this->tags = [];
+        $this->refreshSongTags();
+    }
+
     public function playlist($id)
     {
 
             $this->currentPlaylist = Playlist::find($id);
             $this->songs = $this->currentPlaylist->songs()->orderBy('position')->get();
             $this->songs_json = $this->songs->toJson();
-            $this->currentPlaylist = $this->currentPlaylist->first();
 
             $this->subView = "livewire.playlist-details";
     }
@@ -133,10 +124,12 @@ class CenterContent extends Component
     {
 
 
-        Playlist::where('id',$id)->delete();
-        $this->playlists = Playlist::all();
-        $this->songs = Song::all();
         $this->subView = "livewire.song-menu";
+        Playlist::where('id',$id)->delete();
+        $this->songs = Song::all();
+        $this->playlists = Playlist::all();
+        $this->currentPlaylist = Playlist::first();
+
 
     }
 
@@ -218,6 +211,8 @@ class CenterContent extends Component
         $seconds = floor($sec % 60);
         $returnSec = $seconds < 10 ? '0'.$seconds:$seconds;
         return $minutes.':'.$returnSec;
+
+
     }
 
 

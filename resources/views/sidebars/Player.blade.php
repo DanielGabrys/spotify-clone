@@ -162,7 +162,11 @@
         //console.log(audio.playbackRate,speed)
     }
 
-
+    function updateTrack(songList)
+    {
+        player.setSongList(JSON.parse(songList))
+        console.log(player.SongList)
+    }
 
 
 

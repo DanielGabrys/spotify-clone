@@ -9,16 +9,19 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use wapmorgan\Mp3Info\Mp3Info;
 
-class SongMenu extends CenterContent
+class SongMenu extends GlobalMethods
 {
 
+    protected $listeners = ['refreshSongTags'=>'refreshTags'];
 
-    public $Songs;
-    public $songs_json;
+
+    public $tags;
+    public $songs;
+    public $playlists;
 
     // addSongForm
     public $title;
-    public $Playlists;
+
     public $author;
     public $img;
     public $songSrc;
@@ -34,19 +37,27 @@ class SongMenu extends CenterContent
 
     public function mount()
     {
-        $this->Songs = Song::all();
-        $this->Playlists = Playlist::all();
+        $this->songs = Song::all();
+        $this->songs_json = $this->songs->toJson();
+        $this->playlists = Playlist::all();
+        $this->tags = $this->setTags();
+
+    }
+
+    public function refreshTags()
+    {
+        $this->tags=$this->setTags();
     }
 
 
     //songs
     public function songs()
     {
-        // $this->content = '<h4> vfsdcds </h4> </div>';
 
-        $this->Songs = Song::all();
-        $this->songs_json = $this->Songs->toJson();
+        $this->songs = Song::all();
+        $this->songs_json = $this->songs->toJson();
         $this->subView = "livewire.song-menu";
+
 
 
     }
@@ -104,6 +115,7 @@ class SongMenu extends CenterContent
 
 
         $this->songs();
+        $this->setTags();
 
 
 
@@ -141,4 +153,5 @@ class SongMenu extends CenterContent
     {
         $this->validateOnly($property);
     }
+
 }

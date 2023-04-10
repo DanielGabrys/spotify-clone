@@ -9,7 +9,6 @@
 
         @foreach($songs as $song)
 
-
             <div class="songs">
                 <div class="count">
                     <p>{{$loop->iteration}}</p>
@@ -21,66 +20,68 @@
 
                     <div x-data @click="PlaySong(@js($songs_json),@js($loop->index))" class="section">
 
-                        <div
-                            class="imgBox">
+                        <div class="imgBox">
                             <img src="{{$song->image}}" alt="">
                         </div>
 
-                        <p class="songName" >
-                            <span class="songSpan" >{{$song->title}}</span>
-                            <span class="songSpan" >{{$song->author}}</span>
-                            <span class="songSpan"><i class="bi bi-clock-history" ></i>  {{$this->calculateTime($song->duration)}} </span>
-                        </span>
-
-
+                        <p class="songName">
+                            <span class="titleSpan">{{$song->title}}</span>
+                            <span class="authorSpan">{{$song->author}}</span>
+                            <span class="durationSpan"><i class="bi bi-clock-history" style="width: 80px;" ></i>  {{$this->calculateTime($song->duration)}} </span>
                         </p>
                     </div>
 
                     <div class="section">
 
-                        <p class="songName">
+                        <div id="{{$song->id}}"
+                             class="dropzone"
+                        >Tagi </div>
 
-                              <span class="songSpan">
+                        <div class="TagTools">
 
-                                 @foreach($this->getSongTags($song->id) as $tag)
+                            @foreach($this->getSongTags($song->id) as $tag)
 
-                                      <span class="song_tag_item"> {{$tag->name}}
+                                <span class="song_tag_item"> {{$tag->name}}
                                           <i wire:click.prevent="deleteTagFromSong({{$song->id}},{{$tag->id}})" class="bi bi-x-square"></i>
                                       </span>
-                                  @endforeach
-                              </span>
+                            @endforeach
 
+                        </div>
+
+                        <div class="songTools">
                             <i class="bi bi-suit-heart"> </i>
 
-                        <div class="dropdown">
-                            <i class=" bi bi-three-dots " id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </i>
-                            <ul class="dropdown-menu multi-level" aria-labelledby="dLabel">
-                                <li class="dropdown-submenu">
-                                    <a wire:click.prevent="removeSongFromPlaylist({{$song->id}},{{$loop->iteration}})" > Usuń z Playlisty </a>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a >Dodaj do Playlisty</a>
-                                    <ul class="dropdown-menu">
+                            <div class="dropdown">
+                                <i class="bi bi-three-dots" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </i>
+                                <ul class="dropdown-menu multi-level" >
+                                    <li class="dropdown-submenu">
+                                        <a wire:click.prevent="deleteSong({{$song->id}})" > Usuń </a>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a >Dodaj do Playlisty</a>
+                                        <ul class="dropdown-menu">
 
-                                        @foreach($playlists as $playlist)
-                                            <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" >{{$playlist->name}}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            </ul>
+                                            @foreach($playlists as $playlist)
+                                                <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" >{{$playlist->name}}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </div>
-                        </p>
 
                     </div>
+
+
 
 
                 </div>
 
             </div>
-
-
         @endforeach
+
 
     </div>
 

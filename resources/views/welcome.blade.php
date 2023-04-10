@@ -17,6 +17,8 @@
         <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 
         <script src="{{asset('js/Player.js')}}" ></script>
         <link href="{{asset('css/App.css')}}" rel="stylesheet" />
@@ -42,49 +44,50 @@
     </head>
     <body>
 
-    <div class="container-fluid d-flex justify-content-center">
-
-        <form class="form-inline">
-
-            <div class="input-group mb-2 mr-sm-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">WIERSZE</div>
-                </div>
-                <input type="number" class="form-control" id="x" placeholder="1-50" min="1" max="50">
+    <div class="example-parent">
+        <h1>To-do list</h1>
+        <div class="example-origin">
+            To-do
+            <div
+                id="draggable-1"
+                class="example-draggable"
+                draggable="true"
+                ondragstart="onDragStart(event);"
+            >
+                thing 1
             </div>
-
-            <div class="input-group mb-2 mr-sm-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">COLUMNY</div>
-                </div>
-                <input type="number" class="form-control" id="y" placeholder="1-50" min="1" max="50">
+            <div
+                id="draggable-2"
+                class="example-draggable"
+                draggable="true"
+                ondragstart="onDragStart(event);"
+            >
+                thing 2
             </div>
+            <div
+                id="draggable-3"
+                class="example-draggable"
+                draggable="true"
+                ondragstart="onDragStart(event);"
+            >
+                thing 3
+            </div>
+            <div
+                id="draggable-4"
+                class="example-draggable"
+                draggable="true"
+                ondragstart="onDragStart(event);"
+            >
+                thing 4
+            </div>
+        </div>
 
-            <button type="button" class="btn btn-primary mb-2"
-                    onclick="
-                        createGrid.clearGrid();
-                        createGrid.addRow(document.getElementById('x').value,document.getElementById('y').value);
-
-               ">STWORZ SIATKE</button>
-        </form>
-
-    </div>
-
-
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
-    </button>
-
-    <div class="song_side">
-        <div id="no-drop" class="drag-drop"> #no-drop </div>
-
-        <div id="yes-drop" class="drag-drop"> #yes-drop </div>
-
-        <div id="outer-dropzone" class="dropzone">
-            #outer-dropzone
-            <div id="inner-dropzone" class="dropzone">#inner-dropzone</div>
+        <div
+            class="example-dropzone"
+            ondragover="onDragOver(event);"
+            ondrop="onDrop(event);"
+        >
+            Done
         </div>
     </div>
 
@@ -92,135 +95,67 @@
     </body>
 </html>
 
-<script type="module">
-
-    import 'https://cdn.interactjs.io/v1.9.20/auto-start/index.js'
-    import 'https://cdn.interactjs.io/v1.9.20/actions/drag/index.js'
-    import 'https://cdn.interactjs.io/v1.9.20/actions/resize/index.js'
-    import 'https://cdn.interactjs.io/v1.9.20/modifiers/index.js'
-    import 'https://cdn.interactjs.io/v1.9.20/dev-tools/index.js'
-    import interact from 'https://cdn.interactjs.io/v1.9.20/interactjs/index.js'
-
-    interact('.dropzone').dropzone({
-        // only accept elements matching this CSS selector
-        accept: '#yes-drop',
-        // Require a 75% element overlap for a drop to be possible
-        overlap: 0.75,
-
-        // listen for drop related events:
-
-        ondropactivate: function (event) {
-            // add active dropzone feedback
-            event.target.classList.add('drop-active')
-        },
-        ondragenter: function (event) {
-            var draggableElement = event.relatedTarget
-            var dropzoneElement = event.target
-
-            // feedback the possibility of a drop
-            dropzoneElement.classList.add('drop-target')
-            draggableElement.classList.add('can-drop')
-            draggableElement.textContent = 'Dragged in'
-        },
-        ondragleave: function (event) {
-            // remove the drop feedback style
-            event.target.classList.remove('drop-target')
-            event.relatedTarget.classList.remove('can-drop')
-            event.relatedTarget.textContent = 'Dragged out'
-        },
-        ondrop: function (event) {
-            event.relatedTarget.textContent = 'Dropped'
-            console.log("drooped")
-        },
-        ondropdeactivate: function (event) {
-            // remove active dropzone feedback
-            event.target.classList.remove('drop-active')
-            event.target.classList.remove('drop-target')
-        }
-    })
-
-    interact('.drag-drop')
-        .draggable({
-            inertia: true,
-            modifiers: [
-                interact.modifiers.restrictRect({
-                    restriction: 'parent',
-                    endOnly: true
-                })
-            ],
-            autoScroll: true,
-            // dragMoveListener from the dragging demo above
-            listeners: { move: dragMoveListener }
-        })
-
-    function dragMoveListener (event) {
-        var target = event.target
-        // keep the dragged position in the data-x/data-y attributes
-        var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-        var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
-        // translate the element
-        target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
-
-        // update the posiion attributes
-        target.setAttribute('data-x', x)
-        target.setAttribute('data-y', y)
-        console.log(x,y)
-    }
-
-</script>
-
 
 
 <style>
-    #outer-dropzone {
-        height: 140px;
+    .example-parent {
+        border: 2px solid #DFA612;
+        color: black;
+        display: flex;
+        font-family: sans-serif;
+        font-weight: bold;
     }
 
-    #inner-dropzone {
-        height: 80px;
-    }
-
-    .dropzone {
-        background-color: #bfe4ff;
-        border: dashed 4px transparent;
-        border-radius: 4px;
-        margin: 10px auto 30px;
+    .example-origin {
+        flex-basis: 100%;
+        flex-grow: 1;
         padding: 10px;
-        width: 80%;
-        transition: background-color 0.3s;
     }
 
-    .drop-active {
-        border-color: #aaa;
+    .example-draggable {
+        background-color: #4AAE9B;
+        font-weight: normal;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 10px;
     }
 
-    .drop-target {
-        background-color: #29e;
-        border-color: #fff;
-        border-style: solid;
-    }
-
-    .drag-drop {
-        display: inline-block;
-        min-width: 40px;
-        padding: 2em 0.5em;
-        margin: 1rem 0 0 1rem;
-
-        color: #fff;
-        background-color: #29e;
-        border: solid 2px #fff;
-
-        touch-action: none;
-        transform: translate(0px, 0px);
-
-        transition: background-color 0.3s;
-    }
-
-    .drag-drop.can-drop {
-        color: #000;
-        background-color: #4e4;
+    .example-dropzone {
+        background-color: #6DB65B;
+        flex-basis: 100%;
+        flex-grow: 1;
+        padding: 10px;
     }
 </style>
 
+<script>
 
+
+    function onDragStart(event) {
+        event
+            .dataTransfer
+            .setData('text/plain', event.target.id);
+
+        event
+            .currentTarget
+            .style
+            .backgroundColor = 'yellow';
+    }
+
+    function onDragOver(event) {
+        event.preventDefault();
+        console.log("test")
+    }
+
+    function onDrop(event) {
+
+        const id = event
+            .dataTransfer
+            .getData('text');
+
+        const draggableElement = document.getElementById(id);
+
+        console.log(draggableElement.innerText)
+
+    }
+</script>

@@ -223,7 +223,7 @@
     display: block;
     font-size: 18px;
     color: #f1f1f1;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     padding: 10px;
 }
 
@@ -245,7 +245,7 @@
     font-size: 14px;
     font-weight: 600;
     color: #848484;
-    width: 90%;
+    width: 95%;
     margin: 10px 0;
     padding: 5px;
     padding-bottom: 5px;
@@ -299,18 +299,53 @@
 }
 
 .AudioList .songs .song .section .songTools {
-    width: 100%;
+    width: 20%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.AudioList .songs .song .section .songName .songSpan {
+.AudioList .songs .song .section .TagTools {
+    width: 100%;
+    text-align: left;
+
+}
+
+.song_tag_item
+{
+    padding: 2px;
+    margin-left: 5px;
+    justify-content: space-between;
+}
+
+.song_tag_item i
+{
+    padding: 2px;
+    margin-left: 5px;
+    justify-content: space-between;
+}
+
+
+
+.AudioList .songs .song .section .songName {
     margin-left: 10px;
     font-size: 12px;
+
+}
+
+.titleSpan
+{
     width: 200px;
 }
 
+.authorSpan
+{
+    width: 200px;
+}
+.durationSpan
+{
+    width: 50px;
+}
 
 .AudioList .songs .song .section .hits {
     display: flex;
@@ -540,27 +575,16 @@
     margin-right: 10px;
 }
 
-.song_tag_item
-{
-    padding: 2px;
-    margin-left: 5px;
-}
 
-
-
-
-#outer-dropzone {
-    height: 140px;
-}
-
-#inner-dropzone {
-    height: 50%;
-    width: 200px;
-    font-size: 12px;
-}
 
 .dropzone {
-    background-color: #bfe4ff;
+
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 50%;
+    width: 120px;
+    font-size: 10px;
+    background-color: #373b3e;
     border: dashed 4px transparent;
     border-radius: 4px;
 
@@ -586,8 +610,9 @@
     margin: 5px ;
     text-align: center;
     text-transform: uppercase;
+    color: black;
+    font-weight: 500;
 
-    color: #fff;
     background-color: #29e;
     border: solid 2px #fff;
 
@@ -597,7 +622,3 @@
     transition: background-color 0.3s;
 }
 
-.drag-drop.can-drop {
-    color: #000;
-    background-color: #4e4;
-}

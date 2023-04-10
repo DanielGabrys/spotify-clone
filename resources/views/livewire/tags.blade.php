@@ -1,7 +1,13 @@
 <div class="menu_tag" >
 
     @foreach($tags as $tag)
-        <span id="yes-drop" class="drag-drop"> {{$tag->name}} <i wire:click.prevent="deleteTag({{$tag->id}})" class="bi bi-x" style="cursor: pointer;"> </i> </span>
+        <span id="tag_{{$tag->name}}"
+              class="drag-drop"
+              draggable="true"
+
+              x-data @dragstart="onDragStart(event)"
+
+        > {{$tag->name}} <i wire:click.prevent="deleteTag({{$tag->id}})" class="bi bi-x" style="cursor: pointer;"> </i> </span>
     @endforeach
 
         <form class="form-custom">
