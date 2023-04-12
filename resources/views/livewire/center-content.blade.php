@@ -5,7 +5,6 @@
         <div class="playlist">
             <a wire:click.prevent="addPlaylist" > <h4 class="active"> <span></span> <i class="bi bi-music-note-list"></i> Utwórz playliste</h4> </a>
             <a wire:click.prevent="SongsMenu()" >  <h4 class="active"> <span></span> <i class="bi bi-file-earmark-music-fill"></i> Piosenki </h4> </a>
-            <a wire:click.prevent="tags()" >  <h4 class="active"> <span></span> <i class="bi bi-bookmark"></i> Tagi </h4> </a>
             <a wire:click.prevent="generateTagPlaylist()" >  <h4 class="active"> <span></span> <i class="bi bi-boxes"></i> Generuj tagowaną playlistę</h4> </a>
 
 

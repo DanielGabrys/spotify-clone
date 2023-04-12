@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use wapmorgan\Mp3Info\Mp3Info;
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
@@ -19,6 +20,7 @@ class CenterContent extends GlobalMethods
 {
 
     use WithFileUploads;
+    use WithPagination;
 
 
     protected $listeners = ['refreshPlaylist','refreshTag','refreshSongTag'];
@@ -50,7 +52,7 @@ class CenterContent extends GlobalMethods
         $this->AllSongs = Song::all();
         $this->songs = Song::all();
         $this->songs_json = $this->songs->toJson();
-        $this->playlists = Playlist::all();
+        $this->playlists = Playlist::all()->sortBy('name');
         $this->tags=$this->setTags();
 
     }
@@ -68,22 +70,7 @@ class CenterContent extends GlobalMethods
 
     }
 
-    public function addSongToPlaylist($song_id,$playlist_id)
-    {
-        $playlist_song = new PlaylistSong();
-        $playlist_song->song_id = $song_id;
 
-        $position = PlaylistSong::where("playlist_id",$playlist_id)->max('position');
-        $position = is_numeric($position) ? ++$position:1;
-        $playlist_song->position = $position;
-
-        $playlist_song->playlist_id = $playlist_id;
-
-        $playlist_song->save();
-       // $this->playlist($playlist_id);
-
-
-    }
 
     // playlist
 
@@ -91,7 +78,7 @@ class CenterContent extends GlobalMethods
     //emit calls
     public function refreshPlaylist()
     {
-        $this->playlists = Playlist::all();
+        $this->playlists = Playlist::all()->sortBy('name');
     }
 
     public function refreshTag()
@@ -112,6 +99,7 @@ class CenterContent extends GlobalMethods
             $this->songs = $this->currentPlaylist->songs()->orderBy('position')->get();
             $this->songs_json = $this->songs->toJson();
 
+            $this->dragableSubView ="livewire.play-undraggable-mode";
             $this->subView = "livewire.playlist-details";
     }
 
@@ -127,7 +115,7 @@ class CenterContent extends GlobalMethods
         $this->subView = "livewire.song-menu";
         Playlist::where('id',$id)->delete();
         $this->songs = Song::all();
-        $this->playlists = Playlist::all();
+        $this->playlists = Playlist::all()->sortBy('name');
         $this->currentPlaylist = Playlist::first();
 
 
@@ -173,7 +161,8 @@ class CenterContent extends GlobalMethods
         $temp_playlist = Playlist::find($playlist_id);
         $this->songs = $temp_playlist->songs()->orderBy('position')->get();
         $this->songs_json = $this->songs->toJson();
-        $this->currentPlaylist = $temp_playlist->first();
+        $this->currentPlaylist = $temp_playlist;
+
 
     }
 
@@ -188,32 +177,22 @@ class CenterContent extends GlobalMethods
         $this->playlist($this->currentPlaylist->id);
     }
 
+
+
+
+
     //tags
     public function tags()
     {
-
         $this->subView = "livewire.add-song";
-
     }
 
     public function generateTagPlaylist()
     {
-        // $this->content = '<h4> vfsdcds </h4> </div>';
 
         $this->subView = "livewire.add-song";
-
     }
 
-    //functional
-    public function calculateTime($sec)
-    {
-        $minutes = floor($sec / 60);
-        $seconds = floor($sec % 60);
-        $returnSec = $seconds < 10 ? '0'.$seconds:$seconds;
-        return $minutes.':'.$returnSec;
-
-
-    }
 
 
 }

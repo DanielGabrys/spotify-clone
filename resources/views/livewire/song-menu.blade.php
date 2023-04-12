@@ -52,6 +52,7 @@
         <span>{{$songs->count()}} songs</span>
     </h2>
 
+    <div class="songsContainer_SongMenu">
 
 
     @foreach($songs as $song)
@@ -134,6 +135,7 @@
     @endforeach
 
 
+    </div>
 
 </div>
 

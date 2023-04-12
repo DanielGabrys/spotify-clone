@@ -7,11 +7,15 @@ use App\Models\Song;
 use App\Models\SongTag;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use wapmorgan\Mp3Info\Mp3Info;
 
 class SongMenu extends GlobalMethods
 {
 
+    use WithFileUploads;
+    use WithPagination;
     protected $listeners = ['refreshSongTags'=>'refreshTags'];
 
 
@@ -31,7 +35,7 @@ class SongMenu extends GlobalMethods
         'title' => ['required','min:2','max:255'],
         'author' => ['min:2','max:255'],
         'img' => 'nullable|image|mimes:jpeg,png',
-        'songSrc' => ['required','mimes:mp3','max:10000'],
+        'songSrc' => ['required','mimes:mp3','max:14000'],
 
     ];
 
@@ -115,7 +119,7 @@ class SongMenu extends GlobalMethods
 
 
         $this->songs();
-        $this->setTags();
+        $this->tags=$this->setTags();
 
 
 
@@ -146,7 +150,8 @@ class SongMenu extends GlobalMethods
 
     public function render()
     {
-        return view('livewire.song-menu');
+        return view('livewire.song-menu',[
+        'songs' => Song::paginate(5)] );
     }
 
     public function updated($property)

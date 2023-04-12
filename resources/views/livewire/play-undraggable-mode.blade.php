@@ -39,10 +39,10 @@
 
                         <div class="TagTools">
 
-                            @foreach($this->getSongTags($song->id) as $tag)
+                            @foreach($tags[$song->id] as $tag)
 
-                                <span class="song_tag_item"> {{$tag->name}}
-                                          <i wire:click.prevent="deleteTagFromSong({{$song->id}},{{$tag->id}})" class="bi bi-x-square"></i>
+                                <span class="song_tag_item"> {{$tag->name ?? $tag['name']}}
+                                          <i wire:click.prevent="deleteTagFromSong({{$tag->id ?? $tag['id']}})" class="bi bi-x-square"></i>
                                       </span>
                             @endforeach
 
@@ -56,7 +56,7 @@
                                 </i>
                                 <ul class="dropdown-menu multi-level" >
                                     <li class="dropdown-submenu">
-                                        <a wire:click.prevent="deleteSong({{$song->id}})" > Usuń </a>
+                                        <a wire:click.prevent="removeSongFromPlaylist({{$song->id}},{{$loop->iteration}})" > Usuń </a>
                                     </li>
                                     <li class="dropdown-submenu">
                                         <a >Dodaj do Playlisty</a>

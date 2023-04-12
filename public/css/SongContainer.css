@@ -217,6 +217,7 @@
 
 .AudioList {
     padding: 10px 30px;
+    width: 100%;
 }
 
 .AudioList .title {
@@ -236,6 +237,20 @@
 
 .AudioList .songsContainer {
     height: 300px;
+    width: 100%;
+    overflow-y: scroll;
+
+}
+
+.AudioList .songsContainer_SongMenu::-webkit-scrollbar {
+
+
+
+}
+
+
+.AudioList .songsContainer_SongMenu {
+    height: 500px;
     overflow-y: scroll;
 }
 

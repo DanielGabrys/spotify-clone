@@ -3,15 +3,24 @@
 }
 
 .dropdown-submenu .dropdown-menu {
-    left: 100%;
     /* -6px gives dropdown-menu's padding+border */
     top: -10px;
     left:-80%;
+
 
 }
 
 .dropdown-submenu:hover > .dropdown-menu, .dropdown-submenu > a:focus + .dropdown-menu {
     /* :focus support is incomplete - pressing Tab sets focus to submenu, but that immediately hides submenu */
     display: block;
+
+}
+
+.dropdown
+{
+
+    margin-right: 50px;
+    margin-left: 5px;
+    z-index: auto;
 
 }
