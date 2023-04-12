@@ -20,10 +20,9 @@ class GlobalMethods extends Component
     public function setTags()
     {
 
-
         $tags = [];
 
-        foreach ($this->songs as $song)
+        foreach (Song::all() as $song)
         {
 
             $tag = $this->getSongTags($song->id);

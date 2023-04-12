@@ -16,12 +16,11 @@ class SongMenu extends GlobalMethods
 
     use WithFileUploads;
     use WithPagination;
-    protected $listeners = ['refreshSongTags'=>'refreshTags'];
+    protected $listeners = [
+        'refreshSongTags'=>'refreshTags',
+        ];
 
 
-    public $tags;
-    public $songs;
-    public $playlists;
 
     // addSongForm
     public $title;
@@ -39,14 +38,7 @@ class SongMenu extends GlobalMethods
 
     ];
 
-    public function mount()
-    {
-        $this->songs = Song::all();
-        $this->songs_json = $this->songs->toJson();
-        $this->playlists = Playlist::all();
-        $this->tags = $this->setTags();
 
-    }
 
     public function refreshTags()
     {
@@ -118,9 +110,9 @@ class SongMenu extends GlobalMethods
         $songTag->save();
 
 
-        $this->songs();
-        $this->tags=$this->setTags();
-
+        $this->tags = $this->setTags();
+        //dd($this->songs())
+;
 
 
     }
@@ -135,7 +127,7 @@ class SongMenu extends GlobalMethods
         Storage::delete($songData->src);
 
         $song->delete();
-        $this->songs();
+        $this->render();
     }
 
 
@@ -151,7 +143,11 @@ class SongMenu extends GlobalMethods
     public function render()
     {
         return view('livewire.song-menu',[
-        'songs' => Song::paginate(5)] );
+        'songs' => Song::orderBy('title')->paginate(8),
+        'songs_json' => Song::orderBy('title')->get()->toJson(),
+        'playlists' => Playlist::all(),
+        'tags' => $this->setTags(),
+        ] );
     }
 
     public function updated($property)

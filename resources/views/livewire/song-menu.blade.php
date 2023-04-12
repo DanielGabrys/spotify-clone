@@ -59,14 +59,14 @@
 
         <div class="songs">
             <div class="count">
-                <p>{{$loop->iteration}}</p>
+                <p>{{$loop->iteration + $songs->firstItem() - 1}}</p>
             </div>
 
             <div class="song">
-                <audio id ="audio_{{$loop->index}}" ></audio>
+                <audio id ="audio_{{$loop->iteration + $songs->firstItem() - 2}}" ></audio>
 
 
-                <div x-data @click="PlaySong(@js($songs_json),@js($loop->index))" class="section">
+                <div x-data @click="PlaySong(@js($songs_json),@js($loop->iteration + $songs->firstItem() - 2))" class="section">
 
                     <div class="imgBox">
                         <img src="{{$song->image}}" alt="">
@@ -114,6 +114,7 @@
                                     <a >Dodaj do Playlisty</a>
                                     <ul class="dropdown-menu">
 
+
                                         @foreach($playlists as $playlist)
                                             <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" >{{$playlist->name}}</a></li>
                                         @endforeach
@@ -134,8 +135,9 @@
         </div>
     @endforeach
 
-
     </div>
+
+    {{$songs->links()}}
 
 </div>
 
