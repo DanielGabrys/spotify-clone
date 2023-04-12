@@ -20,7 +20,7 @@ class SongMenu extends GlobalMethods
         'refreshSongTags'=>'refreshTags',
         ];
 
-
+    protected $paginationTheme = 'bootstrap';
 
     // addSongForm
     public $title;
