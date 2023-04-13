@@ -280,7 +280,6 @@
     align-items: center;
     width: 100%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 5px;
 }
 
 .AudioList .songs .song .imgBox {
@@ -290,6 +289,7 @@
     border-radius: 0.5em;
     background-color: #848484;
     margin-right: 10px;
+    margin-top: 20px;
     overflow: hidden;
 }
 
@@ -596,6 +596,7 @@
 
     margin-left: 10px;
     margin-right: 10px;
+    margin-top: 5px;
     height: 50%;
     width: 120px;
     font-size: 10px;
@@ -603,7 +604,7 @@
     border: dashed 4px transparent;
     border-radius: 4px;
 
-    padding: 10px;
+    padding: 5px;
 
     transition: background-color 0.3s;
 }

@@ -9,7 +9,7 @@
 
         @foreach($songs as $song)
 
-            <div class="songs">
+            <div class="songs" id="Playlist_song_{{$loop->index}}" >
                 <div class="count">
                     <p>{{$loop->iteration}}</p>
                 </div>
@@ -42,7 +42,7 @@
                             @foreach($tags[$song->id] as $tag)
 
                                 <span class="song_tag_item"> {{$tag->name ?? $tag['name']}}
-                                          <i wire:click.prevent="deleteTagFromSong({{$tag->id ?? $tag['id']}})" class="bi bi-x-square"></i>
+
                                       </span>
                             @endforeach
 

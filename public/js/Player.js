@@ -60,7 +60,7 @@ class Player
         document.getElementById('playerAudio').src = src
         document.getElementById('duration').innerText = this.calculateTime(duration)
 
-        // document.getElementById("song_"+currentSongId).style.backgroundColor = "#4c5262";
+       // this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
 
        this.trackSlider.value=0
        this.volumeSlider.value=50
@@ -81,14 +81,12 @@ class Player
     playMusic()
     {
 
-        console.log("elo")
+
         if(this.SongList.length===0)
         {
             return alert("Playlista jest pusta")
         }
 
-
-        //this.setSliderValues()
         if(this.state==="pause")
         {
             this.audio.play()
@@ -142,24 +140,29 @@ class Player
     {
 
 
-        console.log(this.SongList)
         if(id>=this.SongList.length)
         {
-            // document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+            console.log(this.currentSongId)
+            this.unMarkCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
             this.currentSongId=0;
+            this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
         }
 
         else if(id<=0)
         {
-            // document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+
+            this.unMarkCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
             this.currentSongId=0;
+            this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
         }
 
         else
         {
 
-            //document.getElementById("song_"+(currentSongId)).style.backgroundColor = "#111727";
+            this.unMarkCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
+
             this.currentSongId=id
+            this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
 
         }
 
@@ -171,7 +174,6 @@ class Player
         document.getElementById('playerAudio').src = this.SongList[this.currentSongId].src
         document.getElementById('duration').innerText = this.calculateTime(duration)
 
-        // document.getElementById("song_"+currentSongId).style.backgroundColor = "#4c5262";
 
         this.setStopIcon()
         this.setTrackSliderLength(duration)
@@ -184,7 +186,6 @@ class Player
 
     playNextSongInQueue()
     {
-
         this.setTrack(this.currentSongId+1)
         this.audio.play()
     }
@@ -202,6 +203,23 @@ class Player
 
 
         return 1+up
+
+    }
+
+    markCurrentlyPlayed(pos)
+    {
+        let song = document.getElementById(pos)
+        if(song!=null)
+            song.style.backgroundColor='#373b3e';
+
+    }
+
+    unMarkCurrentlyPlayed(pos)
+    {
+
+        let song = document.getElementById(pos)
+        if(song!=null)
+           song.style.backgroundColor='rgba(34, 34, 34, 0.6)';
 
     }
 

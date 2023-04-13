@@ -50,15 +50,6 @@ class GlobalMethods extends Component
 
     }
 
-    public function deleteTagFromSong($song_id,$tag_id)
-    {
-
-        if(Tag::find($tag_id)->name!="-")
-        {
-            SongTag::where('song_id', $song_id)->where('tag_id', $tag_id)->delete();
-            $this->tags = $this->setTags();
-        }
-    }
 
     public function addSongToPlaylist($song_id,$playlist_id)
     {

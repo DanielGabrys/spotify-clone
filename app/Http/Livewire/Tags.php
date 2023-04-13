@@ -50,7 +50,9 @@ class Tags extends Component
         Tag::find($id)->delete();
         $this->tags= Tag::all()->whereNotIn('name','-');
         $this->emit('refreshTag');
+
     }
+
 
     public function addSongTag($tag_name,$song_id)
     {
@@ -67,6 +69,7 @@ class Tags extends Component
 
             $songTag->save();
             $this->emit("refreshSongTags");
+            $this->emit("refreshSongTagsCenter");
         }
     }
 

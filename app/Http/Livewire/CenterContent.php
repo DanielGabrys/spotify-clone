@@ -23,7 +23,8 @@ class CenterContent extends GlobalMethods
     use WithPagination;
 
 
-    protected $listeners = ['refreshPlaylist','refreshTag','refreshSongTag'];
+    protected $listeners = ['refreshPlaylist','refreshTag',
+        'refreshSongTagsCenter' => 'refreshSongTags'];
 
     public  $subView = "";
     public  $MiddleViews = array(
@@ -72,9 +73,6 @@ class CenterContent extends GlobalMethods
 
 
 
-    // playlist
-
-
     //emit calls
     public function refreshPlaylist()
     {
@@ -83,15 +81,19 @@ class CenterContent extends GlobalMethods
 
     public function refreshTag()
     {
-        $this->tags = Tag::all();
+        $this->tags = $this->setTags();
     }
 
     public function refreshSongTags()
     {
-        $this->tags = [];
-        $this->refreshSongTags();
+        $this->tags = $this->setTags();
     }
 
+
+
+
+
+    //playlist
     public function playlist($id)
     {
 
@@ -99,7 +101,7 @@ class CenterContent extends GlobalMethods
             $this->songs = $this->currentPlaylist->songs()->orderBy('position')->get();
             $this->songs_json = $this->songs->toJson();
 
-            $this->dragableSubView ="livewire.play-undraggable-mode";
+           // $this->dragableSubView ="livewire.play-undraggable-mode";
             $this->subView = "livewire.playlist-details";
     }
 
@@ -112,9 +114,9 @@ class CenterContent extends GlobalMethods
     {
 
 
-        $this->subView = "livewire.song-menu";
+        $this->subView = $this->MiddleViews['addPlaylistMiddler'];
         Playlist::where('id',$id)->delete();
-        $this->songs = Song::all();
+        $this->songs = $this->currentPlaylist->songs()->orderBy('position')->get();
         $this->playlists = Playlist::all()->sortBy('name');
         $this->currentPlaylist = Playlist::first();
 
@@ -136,8 +138,7 @@ class CenterContent extends GlobalMethods
     {
 
         $song = PlaylistSong::where("playlist_id",$this->currentPlaylist->id)->where('song_id',$song_id)->where('position',$pos);
-        $song_position = $song->first()->position;
-        $song2 = PlaylistSong::where('position','>',$song_position);
+        $song2 = PlaylistSong::where('position','>',$pos);
 
 
         $song2->update(['position' => DB::raw('position-1')]);

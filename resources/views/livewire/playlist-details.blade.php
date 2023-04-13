@@ -36,7 +36,7 @@
              x-data @click="updateTrack(@js($songs_json))"
              class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Drag and Drop module</label>
+            <label class="form-check-label" for="flexSwitchCheckDefault">Drag & Drop</label>
         </div>
 
     </div>
