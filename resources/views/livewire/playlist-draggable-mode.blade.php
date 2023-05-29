@@ -39,12 +39,13 @@
                         >Tagi </div>
 
                         <div class="TagTools">
+                            
+                            @foreach($song->songsTags as $tag )
 
-                            @foreach($tags[$song->id] as $tag)
+                                <span class="song_tag_item"> {{$tag->name }}
+                                          <i wire:click.prevent="deleteTagFromSong({{$song->id}},{{$tag->id }})" class="bi bi-x-square"></i>
+                                 </span>
 
-                                <span class="song_tag_item"> {{$tag->name ?? $tag['name']}}
-                                          <i class="bi bi-x-square"></i>
-                                      </span>
                             @endforeach
 
                         </div>

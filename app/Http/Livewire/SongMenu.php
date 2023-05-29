@@ -61,9 +61,12 @@ class SongMenu extends GlobalMethods
     public function songs()
     {
 
+        /*
         $this->songs = Song::all();
+        dd($this->$this->songs);
         $this->songs_json = $this->songs->toJson();
         $this->subView = "livewire.song-menu";
+        */
 
 
 
@@ -122,7 +125,9 @@ class SongMenu extends GlobalMethods
 
 
         $this->tags = $this->setTags();
-        //dd($this->songs())
+
+
+           // dd($this->tags);
 ;
 
 

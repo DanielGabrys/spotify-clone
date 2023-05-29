@@ -51,7 +51,7 @@ class CenterContent extends GlobalMethods
     {
         $this->subView = $this->MiddleViews['songMiddler'];
         $this->AllSongs = Song::all();
-        $this->songs = Song::all();
+        $this->songs = Song::with('songsTags')->get();
         $this->songs_json = $this->songs->toJson();
         $this->playlists = Playlist::all()->sortBy('name');
         $this->tags=$this->setTags();
@@ -191,7 +191,7 @@ class CenterContent extends GlobalMethods
     public function generateTagPlaylist()
     {
 
-        $this->subView = "livewire.add-song";
+        $this->subView = "livewire.blank";
     }
 
 
