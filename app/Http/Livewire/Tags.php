@@ -19,6 +19,7 @@ class Tags extends Component
 
     protected $rules = [
         'tag_name' => ['required','min:1','max:20',"unique:tag,name"],
+
     ];
 
     public function mount()

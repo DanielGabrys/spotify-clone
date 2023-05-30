@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('track_template', function (Blueprint $table) {
+        Schema::create('template', function (Blueprint $table) {
             $table->id();
             $table->String("name");
             $table->String('loop_number');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('track_template');
+        Schema::dropIfExists('template');
     }
 };

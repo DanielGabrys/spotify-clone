@@ -5,27 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Tag extends Model
+class Template extends Model
 {
     use HasFactory;
 
-    protected $table = 'tag';
+    protected $table = 'template';
 
     protected $fillable =
         [
             'name',
+            'loop_number',
+            'max_time'
         ];
-
-    public function songsTags(): BelongsToMany
-    {
-        return $this->belongsToMany(Song::class);
-    }
 
     public function templateTags(): BelongsToMany
     {
-        return $this->belongsToMany(Template::class);
+        return $this->belongsToMany(Tag::class,'tag_template',);
     }
-
-
 }
+

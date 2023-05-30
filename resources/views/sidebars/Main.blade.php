@@ -38,6 +38,7 @@
     <link href="{{asset('css/App.css')}}" rel="stylesheet" />
     <link href="{{asset('css/SongContainer.css')}}" rel="stylesheet" />
     <link href="{{asset('css/DropDownMenu.css')}}" rel="stylesheet" />
+    <link href="{{asset('css/trackTemplate.css')}}" rel="stylesheet" />
 
 
     <!-- Bootstrap CSS -->
@@ -97,6 +98,20 @@
         console.log(draggableElement,draggable_id)
 
         Livewire.emit('addSongTag',draggableElement,draggable_id);
+
+    }
+
+    function onDropTemplate(event) {
+
+
+        const id = event
+            .dataTransfer
+            .getData('text');
+
+        const draggableElement = document.getElementById(id).innerText;
+        const draggable_id = event.target.id
+
+        Livewire.emit('addTemplateTag',draggableElement);
 
     }
 

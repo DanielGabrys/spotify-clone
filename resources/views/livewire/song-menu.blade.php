@@ -117,7 +117,9 @@
 
 
                                         @foreach($playlists as $playlist)
-                                            <li><a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" >{{$playlist->name}}</a></li>
+                                            <li>
+                                                <a wire:click.prevent="addSongToPlaylist({{$song->id}},{{$playlist->id}})" >{{$playlist->name}}</a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </li>

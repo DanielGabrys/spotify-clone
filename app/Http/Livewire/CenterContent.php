@@ -31,6 +31,7 @@ class CenterContent extends GlobalMethods
         'songMiddler' => 'livewireMiddlers.songMiddler',
         'playlistMiddler' => 'livewireMiddlers.PlaylistMiddler',
         'addPlaylistMiddler' => 'livewireMiddlers.AddPlaylistMiddler',
+        'templateMiddler' => 'livewireMiddlers.TemplateMiddler',
     );
 
 
@@ -191,7 +192,7 @@ class CenterContent extends GlobalMethods
     public function generateTagPlaylist()
     {
 
-        $this->subView = "livewire.blank";
+        $this->subView = $this->MiddleViews['templateMiddler'];
     }
 
 

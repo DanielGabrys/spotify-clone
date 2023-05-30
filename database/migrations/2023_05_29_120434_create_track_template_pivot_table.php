@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('track_template_pivot', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger("track_id")->unsigned();
+            $table->bigInteger("template_id")->unsigned();
             $table->bigInteger("tag_id")->unsigned();
 
-            $table->foreign('track_id')->references('id')->on('track_template')->onDelete('cascade');
+            $table->foreign('template_id')->references('id')->on('template')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tag')->onDelete('cascade');
 
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('track_template_pivot');
+        Schema::dropIfExists('tag_template');
     }
 };
