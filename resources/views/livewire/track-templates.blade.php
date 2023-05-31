@@ -4,10 +4,11 @@
 
         <form class="form-custom">
 
+            @csrf
 
             <div class="form-custom-item">
                 <div class="">
-                    <input type="text" wire:model="template_name" class="form-input" id="template_name" placeholder="nazwa">
+                    <input type="text" wire:model="template_name" class="form-input" id="template_name" placeholder="nazwa" >
                 </div>
 
                 @error('template_name') <span class="text-red-500"> {{$message}} </span> @enderror
@@ -24,7 +25,7 @@
 
             <div class="form-custom-item">
                 <div class="">
-                    <input type="checkbox" wire:model="template_loops" class="form-input" id="template_loops" placeholder="zapętlaj">
+                    <input type="checkbox" wire:model="template_loops" class="form-input" id="template_loops_edit" placeholder="zapętlaj">
                 </div>
                 <label class="form-check-label" for="flexCheckDefault"> zapetlaj
                 </label>
@@ -32,7 +33,7 @@
             </div>
 
             <div class="form-custom-item">
-                <a wire:click.prevent="createtemplate" href="#">
+                <a wire:click.prevent="createTemplate" href="#">
                     <button type="button" class="btn btn-secondary" id="add-tag-button">DODAJ </button>
                 </a>
             </div>
@@ -47,6 +48,8 @@
                 <th scope="col">NAZWA</th>
                 <th scope="col">CZAS [hh:mm:ss]</th>
                 <th scope="col">PIOSENKI</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -63,6 +66,12 @@
                             <button type="button" class="btn btn-secondary">Taguj </button>
                         </a>
                     </td>
+
+                    <td>
+                        <a wire:click.prevent="deleteTemplate({{$template->id}})">
+                            <i class="bi bi-trash3-fill" style="cursor: pointer"></i>
+                        </a>
+                    </td>
                 </tr>
 
             @endforeach
@@ -73,18 +82,19 @@
 
     </div>
 
-
     <div class="menu_template_track">
 
         @if($templates->count()>0)
 
-        <div id=""
+        <div id="dropzone"
              class="track_template_dropzone"
              x-data @dragover="onDragOver(event)" @drop="onDropTemplate(event)"> Upuść Tag
 
 
             <div class="TagTools">
 
+
+                @if($template_tags)
 
                 @forelse($template_tags as $track )
 
@@ -101,9 +111,47 @@
 
                 @endforelse
 
+                @endif
             </div>
 
         </div>
+
+        <div class="edit_template_track">
+
+                <form class="form-custom">
+
+
+                    <div class="form-custom-item">
+                            <input type="text" wire:model="template_name_edit"  class="form-input" id="template_name_edit" value="{{$selected_template->name}}">
+                        @error('template_name_edit') <span class="text-red-500"> {{$message}} </span> @enderror
+                    </div>
+
+
+                    <div class="form-custom-item">
+                            <input type="number" min="1" wire:model="template_time_edit" class="form-input" id="template_time_edit" value="{{$selected_template->max_time}}">
+
+                        @error('template_time_edit') <span class="text-red-500"> {{$message}} </span> @enderror
+                    </div>
+
+
+                    <div class="form-custom-item">
+
+                            <input type="checkbox" wire:model="template_loops_edit" class="form-input" id="template_loops_edit" value="{{$selected_template->loop}}"  >
+
+                         <label class="form-check-label" for="flexCheckDefault"> zapetlaj
+                        </label>
+                        @error('template_loops_edit') <span class="text-red-500"> {{$message}} </span> @enderror
+                    </div>
+
+                    <div class="form-custom-item">
+                        <a wire:click.prevent="editTemplate" href="#">
+                            <button type="button" class="btn btn-secondary" id="add-tag-button">AKTUALIZUJ </button>
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
 
         @endif
 
