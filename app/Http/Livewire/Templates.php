@@ -157,6 +157,14 @@ class Templates extends GlobalMethods
 
     }
 
+    public function deleteTemplateTag($id)
+    {
+
+        TagTemplate::find($id)->delete();
+        $this->template_tags = $this->selected_template->templateTags()->get();
+
+    }
+
     public function deleteTemplate($id)
     {
 

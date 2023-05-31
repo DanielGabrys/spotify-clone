@@ -22,7 +22,7 @@ class Template extends Model
 
     public function templateTags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class,'tag_template',);
+        return $this->belongsToMany(Tag::class,'tag_template',)->withPivot('id');
     }
 }
 

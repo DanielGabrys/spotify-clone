@@ -100,7 +100,10 @@
 
 
                     <span class="song_tag_item"> {{$track->name }}
-                    <i class="bi bi-x-square"></i>
+
+                    <a wire:click.prevent="deleteTemplateTag({{$track->pivot->id}})">
+                        <i class="bi bi-x-square" style="cursor: pointer"></i>
+                    </a>
                     <i class="bi bi-arrow-right"></i>
                 </span>
 
