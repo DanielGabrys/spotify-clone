@@ -70,7 +70,6 @@ class Tags extends Component
 
             $songTag->save();
             $this->emit("refreshSongTags");
-            $this->emit("refreshSongTagsCenter");
         }
     }
 

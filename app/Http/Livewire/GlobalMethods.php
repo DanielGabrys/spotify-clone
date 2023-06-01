@@ -11,34 +11,10 @@ use Livewire\Component;
 class GlobalMethods extends Component
 {
 
-    public $tags;
+
     public function render()
     {
         return view('livewire.global-methods');
-    }
-
-    public function setTags()
-    {
-
-        $tags = [];
-
-        foreach (Song::all() as $song)
-        {
-
-            $tag = $this->getSongTags($song->id);
-            $tags += [$song->id => $tag];
-
-        }
-
-        return $tags;
-    }
-
-    function getSongTags($id)
-    {
-        $song = Song::find($id);
-        $tags = $song->songsTags()->whereNot('name','-')->get();
-
-        return $tags;
     }
 
     public function calculateTime($sec)
@@ -49,7 +25,6 @@ class GlobalMethods extends Component
         return $minutes.':'.$returnSec;
 
     }
-
 
     public function addSongToPlaylist($song_id,$playlist_id)
     {

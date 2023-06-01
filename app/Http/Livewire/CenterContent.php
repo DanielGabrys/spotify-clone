@@ -23,8 +23,7 @@ class CenterContent extends GlobalMethods
     use WithPagination;
 
 
-    protected $listeners = ['refreshPlaylist','refreshTag',
-        'refreshSongTagsCenter' => 'refreshSongTags'];
+    protected $listeners = ['refreshPlaylist'];
 
     public  $subView = "";
     public  $MiddleViews = array(
@@ -39,7 +38,6 @@ class CenterContent extends GlobalMethods
     public $emptyPlaylistImage = 'storage/images/toFill/emptyPlaylist.png';
 
 
-    public $AllSongs;
     public $songs;
     public $songs_json;
     public $playlists;
@@ -51,12 +49,9 @@ class CenterContent extends GlobalMethods
     public function mount()
     {
         $this->subView = $this->MiddleViews['songMiddler'];
-        $this->AllSongs = Song::all();
         $this->songs = Song::with('songsTags')->get();
         $this->songs_json = $this->songs->toJson();
         $this->playlists = Playlist::all()->sortBy('name');
-        $this->tags=$this->setTags();
-
     }
 
 
@@ -73,25 +68,11 @@ class CenterContent extends GlobalMethods
     }
 
 
-
     //emit calls
     public function refreshPlaylist()
     {
         $this->playlists = Playlist::all()->sortBy('name');
     }
-
-    public function refreshTag()
-    {
-        $this->tags = $this->setTags();
-    }
-
-    public function refreshSongTags()
-    {
-        $this->tags = $this->setTags();
-    }
-
-
-
 
 
     //playlist
@@ -99,7 +80,7 @@ class CenterContent extends GlobalMethods
     {
 
             $this->currentPlaylist = Playlist::find($id);
-            $this->songs = $this->currentPlaylist->songs()->orderBy('position')->get();
+            $this->songs = $this->currentPlaylist->songs()->with('songsTags')->orderBy('position')->get();
             $this->songs_json = $this->songs->toJson();
 
            // $this->dragableSubView ="livewire.play-undraggable-mode";

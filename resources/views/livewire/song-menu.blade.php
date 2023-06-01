@@ -91,9 +91,11 @@
 
                              @foreach($song->songsTags as $tag )
 
+                                 @if($tag->name!='-')
                                  <span class="song_tag_item"> {{$tag->name }}
                                           <i wire:click.prevent="deleteTagFromSong({{$song->id}},{{$tag->id }})" class="bi bi-x-square"></i>
                                  </span>
+                                 @endif
 
                              @endforeach
 

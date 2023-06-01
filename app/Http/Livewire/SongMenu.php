@@ -17,6 +17,7 @@ class SongMenu extends GlobalMethods
 
     use WithFileUploads;
     use WithPagination;
+
     protected $listeners = [
         'refreshSongTags'=>'refreshTags',
         ];
@@ -45,7 +46,6 @@ class SongMenu extends GlobalMethods
         if(Tag::find($tag_id)->name!="-")
         {
             SongTag::where('song_id', $song_id)->where('tag_id', $tag_id)->delete();
-            $this->tags = $this->setTags();
             $this->emit('refreshSongTagsCenter');
         }
     }
@@ -53,29 +53,15 @@ class SongMenu extends GlobalMethods
 
     public function refreshTags()
     {
-        $this->tags=$this->setTags();
+
     }
 
 
     //songs
-    public function songs()
-    {
-
-        /*
-        $this->songs = Song::all();
-        dd($this->$this->songs);
-        $this->songs_json = $this->songs->toJson();
-        $this->subView = "livewire.song-menu";
-        */
-
-
-
-    }
 
     public function addSongForm()
     {
         $this->validate($this->rules);
-
 
 
         $song = new Song();
@@ -116,20 +102,11 @@ class SongMenu extends GlobalMethods
         $this->resetValidationData();
 
         //tag
-
         $songTag = new SongTag();
         $songTag -> song_id = $song->id;
         $songTag -> tag_id = 1;
 
         $songTag->save();
-
-
-        $this->tags = $this->setTags();
-
-
-           // dd($this->tags);
-;
-
 
     }
 
@@ -159,10 +136,9 @@ class SongMenu extends GlobalMethods
     public function render()
     {
         return view('livewire.song-menu',[
-        'songs' => Song::orderBy('title')->paginate(8),
+        'songs' => Song::with('songsTags')->orderBy('title')->paginate(8),
         'songs_json' => Song::orderBy('title')->get()->toJson(),
         'playlists' => Playlist::all(),
-        'tags' => $this->setTags(),
         ] );
     }
 
