@@ -119,9 +119,8 @@ class CenterContent extends GlobalMethods
     public function removeSongFromPlaylist($song_id,$pos)
     {
 
-        $song = PlaylistSong::where("playlist_id",$this->currentPlaylist->id)->where('song_id',$song_id)->where('position',$pos);
+        $song = PlaylistSong::where("playlist_id",$this->currentPlaylist->id)->where('song_id',$song_id);
         $song2 = PlaylistSong::where('position','>',$pos);
-
 
         $song2->update(['position' => DB::raw('position-1')]);
         $song->delete();
