@@ -58,3 +58,13 @@
     transition: background-color 0.3s;
 }
 
+.generate_template_playlist
+{
+    margin-left: 20px;
+    width: 90%;
+    height: 5%;
+    min-height: 20px;
+    background: grey;
+    padding: 2px;
+}
+

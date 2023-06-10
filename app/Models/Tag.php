@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Tag extends Model
 {
@@ -19,12 +20,17 @@ class Tag extends Model
 
     public function songsTags(): BelongsToMany
     {
-        return $this->belongsToMany(Song::class);
+        return $this->belongsToMany(Song::class)->withPivot('id');
     }
 
     public function templateTags(): BelongsToMany
     {
         return $this->belongsToMany(Template::class);
+    }
+
+    public function songsTemplate() : HasManyThrough
+    {
+        return $this->hasManyThrough(Song::class,Template::class);
     }
 
 

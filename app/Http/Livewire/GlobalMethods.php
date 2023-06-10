@@ -28,6 +28,8 @@ class GlobalMethods extends Component
 
     public function addSongToPlaylist($song_id,$playlist_id)
     {
+
+
         $playlist_song = new PlaylistSong();
         $playlist_song->song_id = $song_id;
 
@@ -38,6 +40,7 @@ class GlobalMethods extends Component
         $playlist_song->playlist_id = $playlist_id;
 
         $playlist_song->save();
+
         // $this->playlist($playlist_id);
 
 

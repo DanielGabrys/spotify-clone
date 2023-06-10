@@ -46,8 +46,9 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">NAZWA</th>
-                <th scope="col">CZAS [hh:mm:ss]</th>
-                <th scope="col">PIOSENKI</th>
+                <th scope="col"> <span style="font-size: 12px"> <i class="bi bi-hourglass"></i> [mm] </span></th>
+                <th scope="col"> <span style="font-size: 12px"> <i class="bi bi-arrow-repeat"></i> </span></th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -61,6 +62,11 @@
                     <th scope="row">{{$loop->iteration}}</th>
                     <td>{{$template->name}}</td>
                     <td>{{$template->max_time}}</td>
+                    <td>
+
+                        @if($template->loop)
+                        <i class="bi bi-check-lg"></i></td>
+                         @endif
                     <td>
                         <a wire:click.prevent="showTrackTemplate({{$template->id}})">
                             <button type="button" class="btn btn-secondary">Taguj </button>
@@ -101,7 +107,7 @@
 
                     <span class="song_tag_item"> {{$track->name }}
 
-                    <a wire:click.prevent="deleteTemplateTag({{$track->pivot->id}})">
+                    <a wire:click.prevent="deleteTemplateTag({{$track->pivot->id ?? null}})">
                         <i class="bi bi-x-square" style="cursor: pointer"></i>
                     </a>
                     <i class="bi bi-arrow-right"></i>
@@ -118,6 +124,26 @@
             </div>
 
         </div>
+
+        <div class="generate_template_playlist">
+
+                <form class="form-custom">
+
+
+                    <div class="form-custom-item">
+                        <input type="text" wire:model="template_playlist_name"  class="form-input" id="template_playlist_name" placeholder="playlista">
+                        @error('template_playlist_name') <span class="text-red-500"> {{$message}} </span> @enderror
+                    </div>
+
+                    <div class="form-custom-item">
+                        <a wire:click.prevent="generateTemplatePlaylist" href="#">
+                            <button type="button" class="btn btn-secondary" id="add-tag-button">Generuj </button>
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
 
         <div class="edit_template_track">
 
@@ -139,7 +165,7 @@
 
                     <div class="form-custom-item">
 
-                            <input type="checkbox" wire:model="template_loops_edit" class="form-input" id="template_loops_edit" value="{{$selected_template->loop}}"  >
+                            <input type="checkbox" wire:model="template_loops_edit" class="form-input" id="template_loops_edit"   >
 
                          <label class="form-check-label" for="flexCheckDefault"> zapetlaj
                         </label>
