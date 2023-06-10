@@ -13,7 +13,8 @@
         "laravel/ui": "^4.2",
         "livewire/livewire": "^2.12",
         "twbs/bootstrap-icons": "^1.10",
-        "wapmorgan/mp3info": "^0.0.8"
+        "wapmorgan/mp3info": "^0.0.8",
+      "ext-curl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
