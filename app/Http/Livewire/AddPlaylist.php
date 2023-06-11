@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Aerni\Spotify\Spotify;
 use App\Models\Playlist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -28,6 +29,14 @@ class AddPlaylist extends Component
         'playlist_description' => ['nullable','max:255'],
         'playlist_img' => 'nullable|image|mimes:jpeg,png',
     ];
+
+    public function mount()
+    {
+        $test = new Spotify();
+        $data = $test->userPlaylists('user_id')->get();
+        dd($data);
+
+    }
 
 
 

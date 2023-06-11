@@ -6,15 +6,17 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-curl": "*",
+        "aerni/laravel-spotify": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
+        "jwilsson/spotify-web-api-php": "^5.6",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "livewire/livewire": "^2.12",
         "twbs/bootstrap-icons": "^1.10",
-        "wapmorgan/mp3info": "^0.0.8",
-      "ext-curl": "*"
+        "wapmorgan/mp3info": "^0.0.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

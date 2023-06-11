@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Aerni\Spotify\Spotify;
+
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +21,8 @@ class SpotifyApi extends Model
     public $client_id;
     public $playlists;
 
+    private $user_id = '316pmo3dmirxms5w24evb6qxudzi';
+
     //$track = "https://api.spotify.com/v1/" . $name;
 
 
@@ -26,7 +31,7 @@ class SpotifyApi extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->playlists = 'https://api.spotify.com/v1/users/'.$this->client_id.'/playlists';
+       // $this->playlists = 'https://api.spotify.com/v1/users/'.$this->client_id.'/playlists';
 
     }
 
@@ -40,25 +45,27 @@ class SpotifyApi extends Model
         curl_setopt($curl, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . base64_encode($this->api_client_id . ':' . $this->client_secret)));
 
-        $response = curl_exec($curl);
+        $response = curl_exec($curl);;
         $token = json_decode($response)->access_token;
         $err = curl_error($curl);
         curl_close($curl);
 
-        if (!$err) {
+
+        if (!$err)
+        {
+            echo $token;
             $this->token = $token;
         }
 
-        $this->setClientId();
+       // $this->setClientId();
     }
 
     function getSpotifyEndPoint($url)
     {
 
-        $this->getSpotifyToken();
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.spotify.com/v1/".$url,
+            CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_ENCODING => "",
@@ -71,6 +78,7 @@ class SpotifyApi extends Model
         ));
 
         $response = curl_exec($curl);
+        echo $response;
         $err = curl_error($curl);
         curl_close($curl);
 
@@ -78,6 +86,7 @@ class SpotifyApi extends Model
         {
             return $response;
         }
+
 
     }
 
@@ -89,7 +98,11 @@ class SpotifyApi extends Model
     public function setClientId()
     {
         $me = $this->getSpotifyEndPoint('me');
-        dd($me);
+    }
+
+    public function getUserId()
+    {
+        return $this->user_id;
     }
 
 

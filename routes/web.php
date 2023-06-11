@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\SongController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[SongController::class,'ShowSongs'])->name('songs');
 
-Route::get('/wl', function ()
-{
-    return view('welcome');
-});
+Route::get('/welcome',[SpotifyController::class,'authorizeSpotify'])->name('authorizeSpotify');
