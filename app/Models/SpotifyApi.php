@@ -21,7 +21,7 @@ class SpotifyApi extends Model
     public $client_id;
     public $playlists;
 
-    private $user_id = '316pmo3dmirxms5w24evb6qxudzi';
+    private $user_id = '316pmo3dmirxms5w24e6qvbxudzi';
 
     //$track = "https://api.spotify.com/v1/" . $name;
 
