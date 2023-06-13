@@ -49,7 +49,7 @@ body
     background: #2d3748;
 }
 
-.header .menu_side h1
+.header .menu_side h2
 {
     font-size: 20px;
     margin: 15px 0px 0px 20px;
@@ -466,4 +466,60 @@ body
     margin-left: 5px;
     margin-bottom: 2.5px;
 }
+
+
+
+.header .menu_side h1
+{
+    font-size: 20px;
+    margin: 15px 0px 0px 20px;
+    font-weight: 500;
+}
+
+
+
+.header .menu_side .user_info
+{
+    display: flex;
+    align-items: center;
+
+}
+
+a:link
+{
+    text-decoration: none;
+}
+
+.header .menu_side .user_info a:hover
+{
+    background: #5c636a;
+
+}
+
+.header .menu_side .user_info span
+{
+    font-size: 25px;
+    margin: 15px 0px 0px 20px;
+    font-weight: 800;
+    color: green;
+
+}
+
+.header .menu_side .user_info i
+{
+    font-size: 25px;
+    margin: 15px 0px 0px 20px;
+    font-weight: 800;
+    color: green;
+
+}
+
+.header .menu_side .user_info .user_img
+{
+    margin: 10px 0px 0px 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+}
+
 

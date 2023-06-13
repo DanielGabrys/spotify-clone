@@ -1,12 +1,23 @@
 <div class="header">
     <div class="menu_side">
 
+        <a href="{{$user['spotify_profile']}}" target="blank" >
+            <div class="user_info">
+
+                <i class="bi bi-spotify"></i>
+                <span>{{$user['name']}}</span>
+                <img class="user_img" src="{{$user['image']}} " >
+
+            </div>
+        </a>
         <h1>SPOTIFY BALLROOM <i class="bi bi-device-hdd-fill"></i> </h1>
+
+
+
         <div class="playlist">
-            <a wire:click.prevent="addPlaylist" > <h4 class="active"> <span></span> <i class="bi bi-music-note-list"></i> Utwórz playliste</h4> </a>
+            <a wire:click.prevent="addPlaylist()" > <h4 class="active"> <span></span> <i class="bi bi-music-note-list"></i> Utwórz playliste</h4> </a>
             <a wire:click.prevent="SongsMenu()" >  <h4 class="active"> <span></span> <i class="bi bi-file-earmark-music-fill"></i> Piosenki </h4> </a>
             <a wire:click.prevent="generateTagPlaylist()" >  <h4 class="active"> <span></span> <i class="bi bi-boxes"></i> Generuj tagowaną playlistę</h4> </a>
-
 
         </div>
 

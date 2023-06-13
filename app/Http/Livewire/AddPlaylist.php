@@ -32,9 +32,7 @@ class AddPlaylist extends Component
 
     public function mount()
     {
-        $test = new Spotify();
-        $data = $test->userPlaylists('user_id')->get();
-        dd($data);
+        $this->playlists = Playlist::all();
 
     }
 

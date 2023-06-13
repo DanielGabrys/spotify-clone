@@ -6,6 +6,7 @@ use App\Models\Playlist;
 use App\Models\PlaylistSong;
 use App\Models\Song;
 use App\Models\SongTag;
+use App\Models\SpotifyApi\SpotifyUser;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -45,6 +46,8 @@ class CenterContent extends GlobalMethods
     public $position;
     public $tags;
 
+    public $user;
+
 
     public function mount()
     {
@@ -57,6 +60,7 @@ class CenterContent extends GlobalMethods
 
     public function render()
     {
+
         return view('livewire.center-content');
     }
 

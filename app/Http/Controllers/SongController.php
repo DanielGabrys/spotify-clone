@@ -11,18 +11,5 @@ use Illuminate\Http\Request;
 
 class SongController extends Controller
 {
-    public function showSongs()
-    {
-        $songs = Song::with("songsTags");
-        $songs_json = $songs->get()->toJson();
-        $playlists = Playlist::with('songs');
-
-
-        return view('sidebars.Main',['songs'=>$songs,
-            'songs_json' =>$songs_json,
-            'playlists'=>$playlists,
-            ]);
-    }
-
 
 }

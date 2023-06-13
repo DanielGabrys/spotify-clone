@@ -42,15 +42,6 @@
     </form>
 
 
-    <?php
-    $spotifyApi = new \App\Models\SpotifyApi();
-    $endpoint ='users/'.$spotifyApi->getClientId().'/playlists';
-   // $spotifyApi->getSpotifyEndPoint($endpoint);
-    $spotifyApi->getSpotifyToken();
-    $spotifyApi->getSpotifyEndPoint('https://api.spotify.com/v1/users/'.$spotifyApi->getUserId().'/playlists')
-
-    ?>
-
 
 
 

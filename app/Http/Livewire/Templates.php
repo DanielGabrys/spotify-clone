@@ -84,7 +84,6 @@ class Templates extends GlobalMethods
 
         $this->setTemplateEditFormValues();
 
-
     }
 
     public function setTemplateEditFormValues()
