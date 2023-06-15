@@ -4,12 +4,13 @@ namespace App\Http\Livewire;
 
 use Aerni\Spotify\Spotify;
 use App\Models\Playlist;
+use App\Models\SpotifyApi\SpotifyApi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class AddPlaylist extends Component
+class AddPlaylist extends GlobalMethods
 {
 
     use WithFileUploads;
@@ -44,12 +45,15 @@ class AddPlaylist extends Component
 
     public function addPlaylistForm()
     {
+
         $this->validate($this->rules);
 
         $playlist = new Playlist;
         $playlist ->name = $this->playlist_name;
         $playlist ->description = $this->playlist_description;
         $playlist ->image =$this->emptyPlaylistImage;
+        $playlist->spotify_user_id = $this->user['user_id'];
+
 
 
         if($this->playlist_img != null)
@@ -65,8 +69,9 @@ class AddPlaylist extends Component
         }
 
 
+
         $playlist->save();
-        $this->playlists = Playlist::all();
+        $this->playlists = $this->getPlaylist();
         $this->resetValidationData();
         $this->emit('refreshPlaylist');
 

@@ -4,20 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Models\Playlist;
 use App\Models\PlaylistSong;
-use App\Models\Song;
-use App\Models\SongTag;
-use App\Models\SpotifyApi\SpotifyApi;
-use App\Models\SpotifyApi\SpotifyPlaylist;
+use App\Models\SpotifyApi\Song;
 use App\Models\SpotifyApi\SpotifyUser;
-use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
-use wapmorgan\Mp3Info\Mp3Info;
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
 
 class CenterContent extends GlobalMethods
 {
@@ -48,8 +39,6 @@ class CenterContent extends GlobalMethods
     public $position;
     public $tags;
 
-    public $user;
-
 
     public function mount()
     {
@@ -58,7 +47,7 @@ class CenterContent extends GlobalMethods
         $this->songs_json = $this->songs->toJson();
         $this->user = json_decode(json_encode(new SpotifyUser($this->user)),true);
 
-        $this->playlists = Playlist::where('spotify_user_id',$this->user['user_id'])->orderBy('name')->get();
+        $this->playlists = $this->getPlaylist();
 
     }
 
@@ -88,22 +77,12 @@ class CenterContent extends GlobalMethods
     public function playlist($id)
     {
 
-           SpotifyApi::getBaseSpotifyToken();
-           $result = SpotifyApi::getPlaylistItems($id);
+            $this->currentPlaylist = Playlist::find($id);
+            $this->songs = $this->currentPlaylist->songs()->with('songsTags')->orderBy('position')->get();
+            $this->songs_json = $this->songs->toJson();
 
-           $this->songs= $result;
-
-       // dd($result);
-
-
-
-           // $this->currentPlaylist = Playlist::find($id);
-            //$this->songs = $this->currentPlaylist->songs()->with('songsTags')->orderBy('position')->get();
-            //$this->songs_json = $this->songs->toJson();
-
-           // $this->dragableSubView ="livewire.play-undraggable-mode";
+            $this->dragableSubView ="livewire.play-undraggable-mode";
             $this->subView = "livewire.playlist-details";
-
     }
 
     public function addPlaylist()
@@ -118,7 +97,7 @@ class CenterContent extends GlobalMethods
         $this->subView = $this->MiddleViews['addPlaylistMiddler'];
         Playlist::where('id',$id)->delete();
         $this->songs = $this->currentPlaylist->songs()->orderBy('position')->get();
-        $this->playlists = Playlist::all()->sortBy('name');
+        $this->playlists = $this->getPlaylist();
         $this->currentPlaylist = Playlist::first();
 
 

@@ -1,1 +1,1 @@
-@livewire('track-templates',['playlists'=>$playlists])
+@livewire('track-templates',['playlists'=>$playlists,'user'=>$user])

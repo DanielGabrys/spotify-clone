@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Song;
 use App\Models\SongTag;
 use App\Models\Tag;
 use Livewire\Component;

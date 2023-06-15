@@ -119,7 +119,7 @@ class SpotifyApi extends Model
 
     public static function getUserPlaylists($id)
     {
-        $endpoint = 'https://api.spotify.com/v1/users/'.$id.'/playlists';
+        $endpoint = 'https://api.spotify.com/v1/users/'.$id.'/playlists?limit=50';
         $result = SpotifyApi::getSpotifyEnpoint($endpoint);
         SpotifyPlaylist::playlistToCollection($result);
 
@@ -128,9 +128,19 @@ class SpotifyApi extends Model
 
     public static function getPlaylistItems($id)
     {
+
         $endpoint = 'https://api.spotify.com/v1/playlists/'.$id.'/tracks';
         $result = SpotifyApi::getSpotifyEnpoint($endpoint);
 
+        return $result;
+    }
+
+    public static function getUserTracks()
+    {
+        $endpoint = 'https://api.spotify.com/v1/me/tracks';
+        $result = SpotifyApi::getSpotifyEnpoint($endpoint);
+
+        dd($result);
         return $result;
     }
 

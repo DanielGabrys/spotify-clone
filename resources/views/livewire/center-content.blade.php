@@ -27,7 +27,7 @@
 
             @foreach($playlists as $playlist)
 
-                <a wire:click.prevent="playlist({{$playlist->name}})" >
+                <a wire:click.prevent="playlist({{$playlist->id}})" >
                     <li class="songItem" id="song_{{$loop->index}}">
                         <span> {{$loop->iteration}} </span>
 

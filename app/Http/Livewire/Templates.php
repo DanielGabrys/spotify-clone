@@ -4,19 +4,11 @@ namespace App\Http\Livewire;
 
 
 use App\Models\Playlist;
-use App\Models\PlaylistSong;
-use App\Models\Song;
-use App\Models\SongTag;
 use App\Models\Tag;
-
-use App\Models\Template;
 use App\Models\TagTemplate;
+use App\Models\Template;
 use Carbon\Carbon;
-use Carbon\Traits\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
-use Livewire\Component;
-
 
 
 class Templates extends GlobalMethods
@@ -275,8 +267,8 @@ class Templates extends GlobalMethods
                 $playlist = new Playlist;
                 $playlist ->name = $this->template_playlist_name;
                 $playlist ->description = Carbon::now()->toDateString();
-                $playlist ->taggable = 0;
                 $playlist ->image =$this->emptyPlaylistImage;
+                $playlist->spotify_user_id = $this->user['user_id'];
 
                 $playlist->save();
 

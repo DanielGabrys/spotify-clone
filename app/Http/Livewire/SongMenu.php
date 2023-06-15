@@ -3,11 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Models\Playlist;
-use App\Models\Song;
 use App\Models\SongTag;
+use App\Models\SpotifyApi\Song;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use wapmorgan\Mp3Info\Mp3Info;

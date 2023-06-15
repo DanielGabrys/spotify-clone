@@ -1,2 +1,2 @@
 
-@livewire('add-playlist')
+@livewire('add-playlist',['user'=>$user])

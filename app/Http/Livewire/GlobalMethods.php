@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Playlist;
 use App\Models\PlaylistSong;
-use App\Models\Song;
-use App\Models\SongTag;
-use App\Models\Tag;
 use Livewire\Component;
 
 class GlobalMethods extends Component
 {
 
+    public $user;
 
     public function render()
     {
@@ -41,8 +40,12 @@ class GlobalMethods extends Component
 
         $playlist_song->save();
 
-        // $this->playlist($playlist_id);
 
+    }
+
+    public function getPlaylist()
+    {
+        return Playlist::where('spotify_user_id',$this->user['user_id'])->orderBy('name')->get();
     }
 
 
