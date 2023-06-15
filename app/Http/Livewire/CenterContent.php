@@ -6,6 +6,8 @@ use App\Models\Playlist;
 use App\Models\PlaylistSong;
 use App\Models\Song;
 use App\Models\SongTag;
+use App\Models\SpotifyApi\SpotifyApi;
+use App\Models\SpotifyApi\SpotifyPlaylist;
 use App\Models\SpotifyApi\SpotifyUser;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +56,10 @@ class CenterContent extends GlobalMethods
         $this->subView = $this->MiddleViews['songMiddler'];
         $this->songs = Song::with('songsTags')->get();
         $this->songs_json = $this->songs->toJson();
-        $this->playlists = Playlist::all()->sortBy('name');
+        $this->user = json_decode(json_encode(new SpotifyUser($this->user)),true);
+
+        $this->playlists = Playlist::where('spotify_user_id',$this->user['user_id'])->orderBy('name')->get();
+
     }
 
 
@@ -83,12 +88,22 @@ class CenterContent extends GlobalMethods
     public function playlist($id)
     {
 
-            $this->currentPlaylist = Playlist::find($id);
-            $this->songs = $this->currentPlaylist->songs()->with('songsTags')->orderBy('position')->get();
-            $this->songs_json = $this->songs->toJson();
+           SpotifyApi::getBaseSpotifyToken();
+           $result = SpotifyApi::getPlaylistItems($id);
+
+           $this->songs= $result;
+
+       // dd($result);
+
+
+
+           // $this->currentPlaylist = Playlist::find($id);
+            //$this->songs = $this->currentPlaylist->songs()->with('songsTags')->orderBy('position')->get();
+            //$this->songs_json = $this->songs->toJson();
 
            // $this->dragableSubView ="livewire.play-undraggable-mode";
             $this->subView = "livewire.playlist-details";
+
     }
 
     public function addPlaylist()

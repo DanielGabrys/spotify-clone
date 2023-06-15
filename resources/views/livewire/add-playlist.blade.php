@@ -26,13 +26,6 @@
             @error('playlist_img') <span class="text-red-500"> {{$message}} </span> @enderror
         </div>
 
-        <div class="form-check custom-chechbox">
-            <input wire:model="playlist_taggable" class="form-check-input" type="checkbox" name="taggable" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault"> tagowalna
-            </label>
-        </div>
-
-
         <a wire:click.prevent="addPlaylistForm()" href="#">
             <button type="button" class="btn btn-primary" id="add-song-button">DODAJ </button>
         </a>

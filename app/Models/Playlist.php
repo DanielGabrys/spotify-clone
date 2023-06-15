@@ -18,6 +18,8 @@ class Playlist extends Model
             'description',
         ];
 
+    public static $image = 'storage/images/toFill/emptyPlaylist.png';
+
     public function songs(): BelongsToMany
     {
         return $this->belongsToMany(Song::class)->withPivot('id','position');

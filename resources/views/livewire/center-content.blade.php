@@ -27,7 +27,7 @@
 
             @foreach($playlists as $playlist)
 
-                <a wire:click.prevent="playlist({{$playlist->id}})" >
+                <a wire:click.prevent="playlist({{$playlist->name}})" >
                     <li class="songItem" id="song_{{$loop->index}}">
                         <span> {{$loop->iteration}} </span>
 
@@ -46,7 +46,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="PlaylistModalLabel_{{$playlist->id}}" style="color: black;">Usunąć playliste "{{$playlist->name}}" ?</h1>
+                                <h1 class="modal-title fs-5" id="PlaylistModalLabel_{{$playlist->id}}" style="color: black;">Usunąć playliste "{{$playlist->id}}" ?</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body" style="background: #0b5ed7;">

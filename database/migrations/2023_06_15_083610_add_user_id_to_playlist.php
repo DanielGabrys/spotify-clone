@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('playlist', function (Blueprint $table) {
-            $table->boolean('repeatable')->default(false);
-            $table->boolean('taggable')->default(false);
-            $table->string('image')->nullable();
+            $table->string('spotify_user_id')->nullable(false);
+
+
         });
     }
 
@@ -24,9 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('playlist', function (Blueprint $table) {
-            $table->dropColumn('repeatable');
-            $table->dropColumn('taggable');
-            $table->dropColumn('image');
+            $table->dropColumn('spotify_user_id');
         });
     }
 };

@@ -22,7 +22,6 @@ class AddPlaylist extends Component
     public $playlist_name;
     public $playlist_description;
     public $playlist_img;
-    public $playlist_taggable=false;
 
     protected $rules = [
         'playlist_name' => ['required','min:2','max:255',"unique:playlist,name"],
@@ -50,7 +49,6 @@ class AddPlaylist extends Component
         $playlist = new Playlist;
         $playlist ->name = $this->playlist_name;
         $playlist ->description = $this->playlist_description;
-        $playlist ->taggable = $this->playlist_taggable;
         $playlist ->image =$this->emptyPlaylistImage;
 
 
