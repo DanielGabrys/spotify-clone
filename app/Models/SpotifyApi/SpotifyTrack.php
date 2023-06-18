@@ -22,7 +22,7 @@ class SpotifyTrack extends Model
         $this->title = $track['name'];
         $this->author = $track['artists'][0]['name'];
         $this->image = $track['album']['images'][0]["url"] ?? null;
-        $this->src = "-";
+        $this->src = "spotify:track:".$track['id'];
         $this->duration=$track['duration_ms']/1000;
     }
 

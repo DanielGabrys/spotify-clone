@@ -5,6 +5,7 @@
             <div class="wave1"> </div>
         </div>
 
+
         <audio id="playerAudio" src=""> </audio>
 
         <img src="{{asset('storage/images/toFill/playlist.png')}}" alt="" id="playerImg">
@@ -42,9 +43,14 @@
 
 
 
+
 </div>
 
 <script>
+
+
+
+    player.setToken('@php echo \App\Models\SpotifyApi\SpotifyApi::$token @endphp')
 
     player.setSongList({!! $songs_json !!})
     player.setPlayerProperties()
@@ -81,12 +87,13 @@
     function PlaySong(songList,start_song_id)
     {
 
+
       let songs = JSON.parse(songList);
        player.setSongList(songs)
 
        player.setTrack(start_song_id)
-       player.setStopIcon()
-       player.audio.play()
+      // player.playSelectedMusic()
+      // player.audio.play()
 
 
     }

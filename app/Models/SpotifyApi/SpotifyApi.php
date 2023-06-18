@@ -44,7 +44,7 @@ class SpotifyApi extends Model
         $token = json_decode($response);
         $err = curl_error($curl);
 
-        if (!isset($token->error))
+        if (!isset($token->error) && isset($token))
         {
             self::$token = $token->access_token;
             return $token->access_token;
@@ -72,7 +72,7 @@ class SpotifyApi extends Model
         $token = json_decode($response);
         $err = curl_error($curl);
 
-        if (!isset($token->error))
+        if (!isset($token->error) && isset($token))
         {
             self::$token = $token->access_token;
             return $token->access_token;

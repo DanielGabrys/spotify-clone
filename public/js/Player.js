@@ -1,11 +1,14 @@
 class Player
 {
 
+    token;
     SongList
 
     currentSongId = 0;
     currentVolumeValue = 50;
     currentSpeedValue =1
+
+    currentSRC
 
     audio
     playMusicButton
@@ -37,8 +40,14 @@ class Player
         this.next = document.getElementById('playNext');
     }
 
+    setToken(token)
+    {
+        this.token=token;
+    }
+
     setSongList(SongList)
     {
+        console.log(SongList);
         this.SongList = SongList
     }
 
@@ -57,7 +66,7 @@ class Player
         document.getElementById('playerTitle').innerText=title
         document.getElementById('playerSubtitle').innerText=author
         document.getElementById('playerImg').src = img
-        document.getElementById('playerAudio').src = src
+        this.currentSRC = src
         document.getElementById('duration').innerText = this.calculateTime(duration)
 
        // this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
@@ -78,8 +87,9 @@ class Player
             this.audio.volume = this.currentVolumeValue / this.volumeSlider.max
 
     }
-    playMusic()
+     playMusic()
     {
+
 
 
         if(this.SongList.length===0)
@@ -87,20 +97,84 @@ class Player
             return alert("Playlista jest pusta")
         }
 
+
         if(this.state==="pause")
         {
-            this.audio.play()
-            this.setStopIcon()
             this.state = "play"
-        }
-        else
-        {
-            this.audio.pause()
-            this.setStartIcon()
-            this.state = "pause"
+            console.log(this.state)
+          //  await this.startTrack()
+            this.setStopIcon()
+
         }
 
+        else if (this.state==="play")
+        {
+
+            this.state = "pause"
+            console.log(this.state)
+          //  await this.stopTrack()
+            //await this.updateState();
+            this.setStartIcon()
+
+        }
+
+
+
+
     }
+
+    async stopTrack()
+    {
+        let request_answer = await fetch(
+            "https://api.spotify.com/v1/me/player/pause",
+            {
+                method: "PUT",
+                body: JSON.stringify({
+                    uris: [this.currentSRC],
+                }),
+                headers: new Headers({
+                    Authorization: "Bearer " + token,
+                }),
+            }
+        ).then(
+            (data) => console.log("")
+        );
+    }
+
+    async startTrack()
+    {
+        let request_answer = await fetch(
+            "https://api.spotify.com/v1/me/player/play",
+            {
+                method: "PUT",
+                body: JSON.stringify({
+                    uris: [this.currentSRC],
+                }),
+                headers: new Headers({
+                    Authorization: "Bearer " + token,
+                }),
+            }
+        ).then(
+            (data) => console.log("")
+        );
+    }
+
+   async updateState()
+    {
+        let state = await fetch("https://api.spotify.com/v1/me/player",
+            {
+            method: "GET",
+            headers: new Headers({
+                Authorization: "Bearer " + token,
+            }),
+        })
+        const jsonData = await state.json();
+        this.currentTime = jsonData.progress_ms/1000;
+        console.log(this.currentTime)
+
+    }
+
+
 
     setStopIcon()
     {
@@ -142,7 +216,6 @@ class Player
 
         if(id>=this.SongList.length)
         {
-            console.log(this.currentSongId)
             this.unMarkCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
             this.currentSongId=0;
             this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
@@ -171,15 +244,13 @@ class Player
         document.getElementById('playerTitle').innerText = this.SongList[this.currentSongId].title
         document.getElementById('playerSubtitle').innerText = this.SongList[this.currentSongId].author
         document.getElementById('playerImg').src = this.SongList[this.currentSongId].image
-        document.getElementById('playerAudio').src = this.SongList[this.currentSongId].src
+       // document.getElementById('playerAudio').src = this.SongList[this.currentSongId].src
+        this.currentSRC = this.SongList[this.currentSongId].src
         document.getElementById('duration').innerText = this.calculateTime(duration)
 
-
-        this.setStopIcon()
         this.setTrackSliderLength(duration)
         this.setSliderValues()
 
-        this.audio.play()
         this.waveAnimation()
 
     }
@@ -187,7 +258,7 @@ class Player
     playNextSongInQueue()
     {
         this.setTrack(this.currentSongId+1)
-        this.audio.play()
+     //   this.audio.play()
     }
 
     calculateSpeed(val)

@@ -48,7 +48,12 @@
     <!-- icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
 
+    <script>
+        const Token = '@php echo \App\Models\SpotifyApi\SpotifyApi::$token @endphp';
+    </script>
+    <script src="{{asset('js/web_playback.js')}}" ></script>
 
 
     @livewireStyles
@@ -67,7 +72,6 @@
 </div>
 
 <script>
-
 
     function onDragStart(event) {
         event
