@@ -3,12 +3,14 @@ class Player
 
     token;
     SongList
-
     currentSongId = 0;
     currentVolumeValue = 50;
     currentSpeedValue =1
-
     currentSRC
+    currentTime
+    currentTimeLabel
+
+    interval
 
     audio
     playMusicButton
@@ -17,7 +19,6 @@ class Player
     volumeIcon
     speedSlider
     duration
-    currentTime
     prev
     next
     state = "pause";
@@ -35,7 +36,8 @@ class Player
         this.volumeIcon = document.getElementById('vol-icon')
         this.speedSlider = document.getElementById('speed-slider')
         this.duration = document.getElementById("duration")
-        this.currentTime = document.getElementById("current-time")
+        this.currentTimeLabel = document.getElementById("current-time")
+        this.currentTime = 0;
         this.prev = document.getElementById('playPrev');
         this.next = document.getElementById('playNext');
     }
@@ -87,94 +89,33 @@ class Player
             this.audio.volume = this.currentVolumeValue / this.volumeSlider.max
 
     }
-     playMusic()
-    {
+     async playMusic() {
 
 
+         console.log("state:" + this.state)
 
-        if(this.SongList.length===0)
-        {
-            return alert("Playlista jest pusta")
-        }
-
-
-        if(this.state==="pause")
-        {
-            this.state = "play"
-            console.log(this.state)
-          //  await this.startTrack()
-            this.setStopIcon()
-
-        }
-
-        else if (this.state==="play")
-        {
-
-            this.state = "pause"
-            console.log(this.state)
-          //  await this.stopTrack()
-            //await this.updateState();
-            this.setStartIcon()
-
-        }
+         if (this.SongList.length === 0) {
+             return alert("Playlista jest pusta")
+         }
 
 
+         if (this.state == "pause") {
+             await this.startTrack()
+
+             this.interval = setInterval(updateState,1000,player)
+             this.setStopIcon()
+             this.state = "play"
+
+         } else if (this.state == "play") {
+
+             await this.stopTrack()
+             this.setStartIcon()
+             this.state = "pause"
+
+         }
 
 
-    }
-
-    async stopTrack()
-    {
-        let request_answer = await fetch(
-            "https://api.spotify.com/v1/me/player/pause",
-            {
-                method: "PUT",
-                body: JSON.stringify({
-                    uris: [this.currentSRC],
-                }),
-                headers: new Headers({
-                    Authorization: "Bearer " + token,
-                }),
-            }
-        ).then(
-            (data) => console.log("")
-        );
-    }
-
-    async startTrack()
-    {
-        let request_answer = await fetch(
-            "https://api.spotify.com/v1/me/player/play",
-            {
-                method: "PUT",
-                body: JSON.stringify({
-                    uris: [this.currentSRC],
-                }),
-                headers: new Headers({
-                    Authorization: "Bearer " + token,
-                }),
-            }
-        ).then(
-            (data) => console.log("")
-        );
-    }
-
-   async updateState()
-    {
-        let state = await fetch("https://api.spotify.com/v1/me/player",
-            {
-            method: "GET",
-            headers: new Headers({
-                Authorization: "Bearer " + token,
-            }),
-        })
-        const jsonData = await state.json();
-        this.currentTime = jsonData.progress_ms/1000;
-        console.log(this.currentTime)
-
-    }
-
-
+     }
 
     setStopIcon()
     {
@@ -210,32 +151,25 @@ class Player
         return `${returnMin}:${returnSec}`;
     }
 
-    setTrack(id)
-    {
+    async setTrack(id) {
 
 
-        if(id>=this.SongList.length)
-        {
-            this.unMarkCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
-            this.currentSongId=0;
-            this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
-        }
+        this.currentTime=0;
+        if (id >= this.SongList.length) {
+            this.unMarkCurrentlyPlayed("Playlist_song_" + (this.currentSongId))
+            this.currentSongId = 0;
+            this.markCurrentlyPlayed("Playlist_song_" + (this.currentSongId))
+        } else if (id <= 0) {
 
-        else if(id<=0)
-        {
+            this.unMarkCurrentlyPlayed("Playlist_song_" + (this.currentSongId))
+            this.currentSongId = 0;
+            this.markCurrentlyPlayed("Playlist_song_" + (this.currentSongId))
+        } else {
 
-            this.unMarkCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
-            this.currentSongId=0;
-            this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
-        }
+            this.unMarkCurrentlyPlayed("Playlist_song_" + (this.currentSongId))
 
-        else
-        {
-
-            this.unMarkCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
-
-            this.currentSongId=id
-            this.markCurrentlyPlayed("Playlist_song_"+(this.currentSongId))
+            this.currentSongId = id
+            this.markCurrentlyPlayed("Playlist_song_" + (this.currentSongId))
 
         }
 
@@ -244,20 +178,24 @@ class Player
         document.getElementById('playerTitle').innerText = this.SongList[this.currentSongId].title
         document.getElementById('playerSubtitle').innerText = this.SongList[this.currentSongId].author
         document.getElementById('playerImg').src = this.SongList[this.currentSongId].image
-       // document.getElementById('playerAudio').src = this.SongList[this.currentSongId].src
+        // document.getElementById('playerAudio').src = this.SongList[this.currentSongId].src
         this.currentSRC = this.SongList[this.currentSongId].src
         document.getElementById('duration').innerText = this.calculateTime(duration)
 
         this.setTrackSliderLength(duration)
-        this.setSliderValues()
+        await this.startTrack()
+        this.setStopIcon()
+        this.state = "play"
+        // this.setSliderValues()
 
-        this.waveAnimation()
+        //this.waveAnimation()
 
     }
 
     playNextSongInQueue()
     {
         this.setTrack(this.currentSongId+1)
+        this.currentTime=0;
      //   this.audio.play()
     }
 
@@ -295,9 +233,90 @@ class Player
     }
 
 
+    async stopTrack()
+    {
+        let request_answer = await fetch(
+            "https://api.spotify.com/v1/me/player/pause",
+            {
+                method: "PUT",
+                body: JSON.stringify({
+                    uris: [this.currentSRC],
+                }),
+                headers: new Headers({
+                    Authorization: "Bearer " + token,
+                }),
+            }
+        ).then(
+            (data) => console.log("")
+        );
+
+        clearInterval(this.interval)
+    }
+
+    async startTrack()
+    {
+        console.log(this.currentTime)
+        let request_answer = await fetch(
+            "https://api.spotify.com/v1/me/player/play",
+            {
+                method: "PUT",
+                body: JSON.stringify({
+                    uris: [this.currentSRC],
+                    position_ms: this.currentTime*1000
+                }),
+                headers: new Headers({
+                    Authorization: "Bearer " + token,
+                }),
+            }
+        )
+    }
+
+    async seekTrack()
+    {
+
+        let request_answer = await fetch(
+            "https://api.spotify.com/v1/me/player/seek",
+            {
+                method: "PUT",
+                body: JSON.stringify({
+                    position_ms: parseInt(this.trackSlider.value)*1000
+                }),
+                headers: new Headers({
+                    Authorization: "Bearer " + token,
+                }),
+            }
+        )
+    }
+
+
+
 
 
 }
+
+async function updateState(object)
+{
+
+    let state = await fetch("https://api.spotify.com/v1/me/player",
+        {
+            method: "GET",
+            headers: new Headers({
+                Authorization: "Bearer " + token,
+            }),
+        })
+
+    const jsonData = await state.json();
+    object.currentTime = jsonData.progress_ms/1000;
+
+
+    object.currentTimeLabel.innerText = object.calculateTime(object.currentTime)
+    object.trackSlider.value=player.currentTime
+
+    if(object.currentTime>=this.duration )
+        object.playNextSongInQueue()
+
+}
+
 
 player = new Player()
 

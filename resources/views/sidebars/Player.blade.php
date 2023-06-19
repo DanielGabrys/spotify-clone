@@ -59,20 +59,6 @@
     console.log(player)
     console.log(player.SongList)
 
-    player.audio.addEventListener('timeupdate', function ()
-    {
-        let curr_time = parseInt(player.audio.currentTime)
-        let duration = parseInt(player.audio.duration)
-
-
-        player.currentTime.innerText = player.calculateTime(curr_time)
-        player.trackSlider.value = curr_time
-
-        if(curr_time>=duration )
-            player.playNextSongInQueue()
-
-    })
-
 
 
 
@@ -92,7 +78,7 @@
        player.setSongList(songs)
 
        player.setTrack(start_song_id)
-      // player.playSelectedMusic()
+       player.playMusic()
       // player.audio.play()
 
 
