@@ -35,14 +35,6 @@
 
 
 
-        <div x-data class="vol">
-            <i class="bi bi-speedometer"></i>
-            <input @change="SpeedChange" type="range" id="speed-slider" min="-10"; max="10"; value="0">
-            <span id="speed"> 1.0 </span>
-        </div>
-
-
-
 
 </div>
 

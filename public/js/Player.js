@@ -11,6 +11,7 @@ class Player
     currentTimeLabel
 
     interval
+    interval_time
 
     audio
     playMusicButton
@@ -76,7 +77,7 @@ class Player
 
        this.trackSlider.value=0
        this.volumeSlider.value=50
-       this.speedSlider.value=0
+       this.interval_time=0
 
         this.setTrackSliderLength(duration)
     }
@@ -103,13 +104,14 @@ class Player
          if (this.state == "pause") {
              await this.startTrack()
 
-             this.interval = setInterval(updateState,1000,player)
+             this.interval = setInterval(updateTrackState,1000,player)
              this.setStopIcon()
              this.state = "play"
 
          } else if (this.state == "play") {
 
              await this.stopTrack()
+             updateState(player)
              this.setStartIcon()
              this.state = "pause"
 
@@ -122,7 +124,7 @@ class Player
     {
 
             await this.startTrack()
-            this.interval = setInterval(updateState,1000,player)
+            this.interval = setInterval(updateTrackState,1000,player)
             this.setStopIcon()
             this.state = "play"
 
@@ -167,6 +169,9 @@ class Player
 
 
         this.currentTime=0;
+        this.interval_time=0;
+        clearInterval(this.interval);
+
         if (id >= this.SongList.length) {
             this.unMarkCurrentlyPlayed("Playlist_song_" + (this.currentSongId))
             this.currentSongId = 0;
@@ -288,6 +293,7 @@ class Player
 
 
         this.currentTime = parseInt(this.trackSlider.value)
+        this.interval_time= this.currentTime
         let time = this.trackSlider.value*1000
         let uri = 'https://api.spotify.com/v1/me/player/seek?position_ms='+time
         let request_answer = await fetch(
@@ -311,6 +317,7 @@ class Player
 async function updateState(object)
 {
 
+
     let state = await fetch("https://api.spotify.com/v1/me/player",
         {
             method: "GET",
@@ -321,12 +328,22 @@ async function updateState(object)
 
     const jsonData = await state.json();
     object.currentTime = jsonData.progress_ms/1000;
+    clearInterval(object.interval);
+
+}
+
+function updateTrackState(object)
+{
 
 
+    //console.log(object.interval_time)
+    object.currentTime = object.interval_time
     object.currentTimeLabel.innerText = object.calculateTime(object.currentTime)
     object.trackSlider.value=player.currentTime
+    object.interval_time++;
 
-    if(object.currentTime==0)
+    console.log(object.currentTime,object.duration_s)
+    if(object.currentTime>=object.duration_s)
     {
         object.playNextSongInQueue()
     }
