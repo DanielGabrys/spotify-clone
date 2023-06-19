@@ -19,6 +19,7 @@ class Player
     volumeIcon
     speedSlider
     duration
+    duration_s
     prev
     next
     state = "pause";
@@ -117,6 +118,17 @@ class Player
 
      }
 
+    async playMusicTrack()
+    {
+
+            await this.startTrack()
+            this.interval = setInterval(updateState,1000,player)
+            this.setStopIcon()
+            this.state = "play"
+
+    }
+
+
     setStopIcon()
     {
         this.playMusicButton.className=this.stopClassIcon
@@ -181,12 +193,13 @@ class Player
         // document.getElementById('playerAudio').src = this.SongList[this.currentSongId].src
         this.currentSRC = this.SongList[this.currentSongId].src
         document.getElementById('duration').innerText = this.calculateTime(duration)
+        this.duration_s = duration
 
         this.setTrackSliderLength(duration)
-        await this.startTrack()
-        this.setStopIcon()
-        this.state = "play"
-        // this.setSliderValues()
+
+        await this.playMusicTrack()
+
+
 
         //this.waveAnimation()
 
@@ -195,7 +208,6 @@ class Player
     playNextSongInQueue()
     {
         this.setTrack(this.currentSongId+1)
-        this.currentTime=0;
      //   this.audio.play()
     }
 
@@ -274,22 +286,24 @@ class Player
     async seekTrack()
     {
 
+
+        this.currentTime = parseInt(this.trackSlider.value)
+        let time = this.trackSlider.value*1000
+        let uri = 'https://api.spotify.com/v1/me/player/seek?position_ms='+time
         let request_answer = await fetch(
-            "https://api.spotify.com/v1/me/player/seek",
+            uri,
             {
                 method: "PUT",
                 body: JSON.stringify({
-                    position_ms: parseInt(this.trackSlider.value)*1000
                 }),
                 headers: new Headers({
                     Authorization: "Bearer " + token,
                 }),
             }
         )
+
+
     }
-
-
-
 
 
 }
@@ -312,8 +326,10 @@ async function updateState(object)
     object.currentTimeLabel.innerText = object.calculateTime(object.currentTime)
     object.trackSlider.value=player.currentTime
 
-    if(object.currentTime>=this.duration )
+    if(object.currentTime==0)
+    {
         object.playNextSongInQueue()
+    }
 
 }
 

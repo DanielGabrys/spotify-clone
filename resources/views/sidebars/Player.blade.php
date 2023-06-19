@@ -76,9 +76,10 @@
 
       let songs = JSON.parse(songList);
        player.setSongList(songs)
+     //  player.resetTrackVariables()
 
        player.setTrack(start_song_id)
-       player.playMusic()
+     //  player.playMusic()
       // player.audio.play()
 
 
@@ -96,7 +97,7 @@
 
     function TrackSliderChange()
     {
-        player.audio.currentTime = player.trackSlider.value
+        player.seekTrack()
     }
 
 
