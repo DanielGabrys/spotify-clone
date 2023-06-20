@@ -9,8 +9,10 @@ class Player
     currentSRC
     currentTime
     currentTimeLabel
+    tags
 
     interval
+    intervals =[]
     interval_time
 
     audio
@@ -82,6 +84,32 @@ class Player
         this.setTrackSliderLength(duration)
     }
 
+    setTagsInfo()
+    {
+
+        this.unsetTagsInfo();
+        const parent = document.getElementById('played_menu_tag')
+
+        this.tags =  this.SongList.find(x => x.src === this.currentSRC);
+
+
+        for(let i=1;i<this.tags.songs_tags.length;i++)
+        {
+            let div = document.createElement("div");
+            div.innerHTML = '<span>' + this.tags.songs_tags[i].name + '</span>'
+            div.classList.add('played_tag')
+            parent.appendChild(div);
+        }
+
+    }
+
+    unsetTagsInfo()
+    {
+        const parent = document.getElementById('played_menu_tag')
+        parent.replaceChildren();
+    }
+
+
     setSliderValues()
     {
 
@@ -105,8 +133,10 @@ class Player
              await this.startTrack()
 
              this.interval = setInterval(updateTrackState,1000,player)
+             this.intervals.push(this.interval)
              this.setStopIcon()
              this.state = "play"
+             //this.waveAnimation()
 
          } else if (this.state == "play") {
 
@@ -123,11 +153,14 @@ class Player
     async playMusicTrack()
     {
 
+            this.clearIntervals(this.intervals)
+
             await this.startTrack()
-            this.interval = setInterval(updateTrackState,1000,player)
             this.setStopIcon()
             this.state = "play"
-
+            this.interval = setInterval(updateTrackState,1000,player)
+        this.intervals.push(this.interval)
+            this.waveAnimation()
     }
 
 
@@ -170,7 +203,7 @@ class Player
 
         this.currentTime=0;
         this.interval_time=0;
-        clearInterval(this.interval);
+
 
         if (id >= this.SongList.length) {
             this.unMarkCurrentlyPlayed("Playlist_song_" + (this.currentSongId))
@@ -201,12 +234,12 @@ class Player
         this.duration_s = duration
 
         this.setTrackSliderLength(duration)
+        this.setTagsInfo()
 
+        this.clearIntervals(this.intervals);
         await this.playMusicTrack()
 
 
-
-        //this.waveAnimation()
 
     }
 
@@ -267,7 +300,9 @@ class Player
             (data) => console.log("")
         );
 
-        clearInterval(this.interval)
+        console.log(this.interval,"up")
+        this.clearIntervals(this.intervals)
+        console.log(this.interval,"cleaned")
     }
 
     async startTrack()
@@ -312,12 +347,23 @@ class Player
     }
 
 
+    clearIntervals()
+    {
+        for(let i=0;i<this.intervals.length;i++)
+        {
+            clearInterval(this.intervals[i])
+        }
+        this.intervals=[];
+    }
+
+
 }
 
 async function updateState(object)
 {
 
 
+    object.clearIntervals(object.intervals);
     let state = await fetch("https://api.spotify.com/v1/me/player",
         {
             method: "GET",
@@ -328,7 +374,7 @@ async function updateState(object)
 
     const jsonData = await state.json();
     object.currentTime = jsonData.progress_ms/1000;
-    clearInterval(object.interval);
+
 
 }
 
@@ -342,11 +388,11 @@ function updateTrackState(object)
     object.trackSlider.value=player.currentTime
     object.interval_time++;
 
-    console.log(object.currentTime,object.duration_s)
     if(object.currentTime>=object.duration_s)
     {
         object.playNextSongInQueue()
     }
+
 
 }
 

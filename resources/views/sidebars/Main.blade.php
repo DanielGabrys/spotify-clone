@@ -34,7 +34,7 @@
 
 
 
-    <script src="{{asset('js/Player.js')}}" ></script>
+    <script src="{{asset('js/Player.js')}}"></script>
 
     <link href="{{asset('css/App.css')}}" rel="stylesheet" />
     <link href="{{asset('css/SongContainer.css')}}" rel="stylesheet" />

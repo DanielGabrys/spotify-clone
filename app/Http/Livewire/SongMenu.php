@@ -136,7 +136,7 @@ class SongMenu extends GlobalMethods
     {
         return view('livewire.song-menu',[
         'songs' => Song::with('songsTags')->orderBy('title')->paginate(8),
-        'songs_json' => Song::orderBy('title')->get()->toJson(),
+        'songs_json' => Song::with('songsTags')->orderBy('title')->get()->toJson(),
         'playlists' => Playlist::all(),
         ] );
     }

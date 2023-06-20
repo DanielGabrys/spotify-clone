@@ -34,6 +34,10 @@
         </div>
 
 
+    <div id="played_menu_tag" class="played_menu_tag" >
+    </div>
+
+
 
 
 </div>
@@ -153,6 +157,8 @@
         player.setSongList(JSON.parse(songList))
         console.log(player.SongList)
     }
+
+
 
 
 

@@ -44,7 +44,7 @@ class CenterContent extends GlobalMethods
     {
         $this->subView = $this->MiddleViews['songMiddler'];
         $this->songs = Song::with('songsTags')->get();
-        $this->songs_json = $this->songs->toJson();
+       // $this->songs_json = $this->songs->toJson();
         $this->user = json_decode(json_encode(new SpotifyUser($this->user)),true);
 
         $this->playlists = $this->getPlaylist();
@@ -80,6 +80,7 @@ class CenterContent extends GlobalMethods
             $this->currentPlaylist = Playlist::find($id);
             $this->songs = $this->currentPlaylist->songs()->with('songsTags')->orderBy('position')->get();
             $this->songs_json = $this->songs->toJson();
+          //  dd($this->songs_json);
 
             $this->dragableSubView ="livewire.play-undraggable-mode";
             $this->subView = "livewire.playlist-details";

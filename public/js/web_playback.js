@@ -1,11 +1,5 @@
-//
-// This is Music Utopia - JavaScript
-// This is an implementation of the Spotify Web Playback SDK
-//
-// Code by Gilberto Cortez
-//
 
-let interval;
+
 let token=Token
 
 console.log(Token)
@@ -13,7 +7,7 @@ console.log(Token)
 // Wait for player to be ready
 window.onSpotifyWebPlaybackSDKReady = () => {
     const player = new Spotify.Player({
-        name: "Music Utopia Player",
+        name: "Ballroom Spotify",
         getOAuthToken: (cb) => {
             cb(token);
         },
@@ -64,27 +58,6 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         }
     });
 
-
-
-};
-
-// Play selected song
-const play_song = async (uri) => {
-    clearInterval(interval);
-    let request_answer = await fetch(
-        "https://api.spotify.com/v1/me/player/play",
-        {
-            method: "PUT",
-            body: JSON.stringify({
-                uris: [uri],
-            }),
-            headers: new Headers({
-                Authorization: "Bearer " + token,
-            }),
-        }
-    ).then(
-        (data) => interval = setInterval(function () {console.log("Hello")}, 1000)
-    );
 
 
 };

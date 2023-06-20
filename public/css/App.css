@@ -268,8 +268,8 @@ body
 }
 
 .header .master_play img{
-    width: 35px ;
-    height: 35px;
+    width: 70px ;
+    height: 70px;
 }
 
 .header .master_play .song_info{
@@ -280,7 +280,7 @@ body
     overflow: hidden;
     text-overflow:ellipsis ;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: 15px;
 
 }
 
@@ -522,4 +522,26 @@ a:link
     border-radius: 5px;
 }
 
+.played_menu_tag
+{
+    width: 70%;
+    max-width: 500px;
+    height: 100%;
 
+    display: flex;
+    align-items: center;
+}
+
+.played_menu_tag .played_tag
+{
+
+    padding: 10px;
+    margin: 10px 15px 10px 15px ;
+    background: #36e2ec;
+}
+.played_menu_tag .played_tag span
+{
+    font-size: 20px;
+    color: black;
+    text-transform: uppercase;
+}
