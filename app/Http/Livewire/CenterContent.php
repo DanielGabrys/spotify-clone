@@ -66,7 +66,7 @@ class CenterContent extends GlobalMethods
     //emit calls
     public function refreshPlaylist()
     {
-        $this->playlists = Playlist::all()->sortBy('name');
+        $this->playlists = $this->getPlaylist();
     }
 
 

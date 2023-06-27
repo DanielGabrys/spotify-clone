@@ -6,6 +6,7 @@ use App\Models\Playlist;
 use App\Models\PlaylistSong;
 use App\Models\Song;
 use App\Models\Tag;
+use App\Models\Template;
 use Livewire\Component;
 
 class GlobalMethods extends Component
@@ -74,6 +75,11 @@ class GlobalMethods extends Component
             $q->where('spotify_user_id',$this->user['user_id']);
         }])->
         orderBy('title');
+    }
+
+    public function getUserTemplates()
+    {
+        return Template::where("spotify_user_id", $this->user['user_id'])->orderBy('created_at')->get();
     }
 
 

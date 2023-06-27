@@ -68,7 +68,7 @@ class Templates extends GlobalMethods
     {
 
         $this->uniqueRule = "unique:template,name,".$this->selected_tempalte_id;
-        $this->templates= Template::all();
+        $this->templates= $this->getUserTemplates();
         $this->selected_template = $this->templates->first() ?? null;
         $this->selected_tempalte_id = $this->selected_template->id ?? null;
 
@@ -99,14 +99,16 @@ class Templates extends GlobalMethods
         $template ->name = $this->template_name;
         $template ->loop = $this->template_loops;
         $template ->max_time = $this->template_time;
+        $template->spotify_user_id = $this->user['user_id'];
 
         $template->save();
+
         $this->selected_template = Template::find($template->id);
         $this->selected_tempalte_id = $this->selected_template->id;
         $this->template_tags = $this->selected_template->templateTags()->get();
 
 
-        $this->templates = Template::all();
+        $this->templates = $this->getUserTemplates();
 
         $this->setTemplateEditFormValues();
 
@@ -130,7 +132,7 @@ class Templates extends GlobalMethods
         $this->template_tags = $this->selected_template->templateTags()->get();
 
 
-        $this->templates = Template::all();
+        $this->templates = $this->getUserTemplates();
 
 
     }
@@ -176,7 +178,7 @@ class Templates extends GlobalMethods
 
 
         Template::where('id',$id)->delete();
-        $this->templates = Template::all();
+        $this->templates = $this->getUserTemplates();
 
         if($this->selected_tempalte_id==$id)
         {

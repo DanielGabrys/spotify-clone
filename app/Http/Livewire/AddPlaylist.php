@@ -32,8 +32,7 @@ class AddPlaylist extends GlobalMethods
 
     public function mount()
     {
-        $this->playlists = Playlist::all();
-
+        $this->playlists = $this->getPlaylist();
     }
 
 
