@@ -3,8 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Playlist;
+use App\Models\Song;
 use App\Models\SongTag;
-use App\Models\SpotifyApi\Song;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
@@ -42,11 +42,8 @@ class SongMenu extends GlobalMethods
     public function deleteTagFromSong($song_id,$tag_id)
     {
 
-        if(Tag::find($tag_id)->name!="-")
-        {
             SongTag::where('song_id', $song_id)->where('tag_id', $tag_id)->delete();
             $this->emit('refreshSongTagsCenter');
-        }
     }
 
 
@@ -135,7 +132,7 @@ class SongMenu extends GlobalMethods
     public function render()
     {
         return view('livewire.song-menu',[
-        'songs' => Song::with('songsTags')->orderBy('title')->paginate(8),
+        'songs' => $this->getSongsWithUserTags()->paginate(10),
         'songs_json' => Song::with('songsTags')->orderBy('title')->get()->toJson(),
         'playlists' => Playlist::all(),
         ] );

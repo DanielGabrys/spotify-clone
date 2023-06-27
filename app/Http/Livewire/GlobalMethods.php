@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\Playlist;
 use App\Models\PlaylistSong;
+use App\Models\Song;
+use App\Models\Tag;
 use Livewire\Component;
 
 class GlobalMethods extends Component
@@ -47,6 +49,34 @@ class GlobalMethods extends Component
     {
         return Playlist::where('spotify_user_id',$this->user['user_id'])->orderBy('name')->get();
     }
+
+    public function getUserTags()
+    {
+
+        return Tag::where('spotify_user_id',$this->user['user_id'])->orderBy('name')->get();
+    }
+
+    public function getPlaylistSongsWithUserTags($playlist)
+    {
+
+        return $playlist->songs()->with(['songsTags' => function ($q)
+        {
+            $q->where('spotify_user_id',$this->user['user_id']);
+        }])->
+        orderBy('position')->get();
+    }
+
+    public function getSongsWithUserTags()
+    {
+
+        return Song::with(['songsTags' => function ($q)
+        {
+            $q->where('spotify_user_id',$this->user['user_id']);
+        }])->
+        orderBy('title');
+    }
+
+
 
 
 }

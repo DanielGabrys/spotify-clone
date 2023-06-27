@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Playlist;
 use App\Models\PlaylistSong;
-use App\Models\SpotifyApi\Song;
+use App\Models\Song;
 use App\Models\SpotifyApi\SpotifyUser;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
@@ -43,10 +43,7 @@ class CenterContent extends GlobalMethods
     public function mount()
     {
         $this->subView = $this->MiddleViews['songMiddler'];
-        $this->songs = Song::with('songsTags')->get();
-       // $this->songs_json = $this->songs->toJson();
         $this->user = json_decode(json_encode(new SpotifyUser($this->user)),true);
-
         $this->playlists = $this->getPlaylist();
 
     }
@@ -78,7 +75,8 @@ class CenterContent extends GlobalMethods
     {
 
             $this->currentPlaylist = Playlist::find($id);
-            $this->songs = $this->currentPlaylist->songs()->with('songsTags')->orderBy('position')->get();
+            $this->songs = $this->getPlaylistSongsWithUserTags($this->currentPlaylist);
+
             $this->songs_json = $this->songs->toJson();
           //  dd($this->songs_json);
 
@@ -97,7 +95,8 @@ class CenterContent extends GlobalMethods
 
         $this->subView = $this->MiddleViews['addPlaylistMiddler'];
         Playlist::where('id',$id)->delete();
-        $this->songs = $this->currentPlaylist->songs()->orderBy('position')->get();
+
+        $this->songs = $this->getPlaylistSongsWithUserTags($this->currentPlaylist);
         $this->playlists = $this->getPlaylist();
         $this->currentPlaylist = Playlist::first();
 
@@ -140,7 +139,7 @@ class CenterContent extends GlobalMethods
         }
 
         $temp_playlist = Playlist::find($playlist_id);
-        $this->songs = $temp_playlist->songs()->orderBy('position')->get();
+        $this->songs = $this->getPlaylistSongsWithUserTags($temp_playlist);
         $this->songs_json = $this->songs->toJson();
         $this->currentPlaylist = $temp_playlist;
 

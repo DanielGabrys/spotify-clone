@@ -19,13 +19,13 @@
                 '?client_id={{\App\Models\SpotifyApi\SpotifyApi:: $api_client_id}}' +
                 '&response_type=code' +
                 '&redirect_uri={{\App\Models\SpotifyApi\SpotifyApi:: $redirect_url}}' +
-                '&scope=app-remote-control user-top-read user-read-currently-playing user-read-recently-played streaming app-remote-control user-read-playback-state user-modify-playback-state' +
+                '&scope=app-remote-control user-top-read user-read-currently-playing user-read-recently-played streaming app-remote-control user-read-playback-state user-modify-playback-state playlist-modify-public'  +
                 '&show_dialog=true';
             // Debug
 //
-            //console.log(logInUri);
+            console.log(logInUri);
             // Open URL to request user log in from Spotify
-            window.open(logInUri, '_self');
+           window.open(logInUri, '_self');
         }
     </script>
 

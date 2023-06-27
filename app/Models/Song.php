@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Models\SpotifyApi;
+namespace App\Models;
 
-use App\Models\Playlist;
-use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Song extends Model
 {
@@ -28,5 +27,10 @@ class Song extends Model
     public function songsTags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function songTags(): HasMany
+    {
+        return $this->HasMany(Tag::class);
     }
 }

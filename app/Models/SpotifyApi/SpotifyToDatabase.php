@@ -4,11 +4,9 @@ namespace App\Models\SpotifyApi;
 
 use App\Models\Playlist;
 use App\Models\PlaylistSong;
+use App\Models\Song;
 use App\Models\SongTag;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use wapmorgan\Mp3Info\Mp3Info;
-use function Symfony\Component\String\s;
 
 class SpotifyToDatabase extends Model
 {
@@ -113,13 +111,6 @@ class SpotifyToDatabase extends Model
         $song->spotify_track_id = $track->spotify_track_id;
         $song->save();
 
-
-        //tag
-        $songTag = new SongTag();
-        $songTag -> song_id = $song->id;
-        $songTag -> tag_id = 1;
-
-        $songTag->save();
 
         return $song->id;
 

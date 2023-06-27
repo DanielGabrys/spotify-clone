@@ -12,6 +12,7 @@ class SpotifyUser
     public $href;
     public $image;
     public $spotify_profile;
+    public $token;
 
     public $user_id;
 
@@ -22,6 +23,8 @@ class SpotifyUser
         $this->href = $user['href'];
         $this->image =$user['images'][0]["url"];
         $this->spotify_profile = $user['external_urls']['spotify'];
+        $this->token = SpotifyApi::$token;
+
     }
 
 

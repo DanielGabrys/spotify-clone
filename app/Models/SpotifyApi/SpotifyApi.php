@@ -17,6 +17,12 @@ class SpotifyApi extends Model
     public static $redirect_url = 'http://localhost:8001/callback';
     private static $token_url = 'https://accounts.spotify.com/api/token';
 
+
+    public static function getCurrentUserToken($user)
+    {
+        self::$token = $user['token'];
+    }
+
     public static function getSpotifyToken()
     {
 
@@ -53,7 +59,7 @@ class SpotifyApi extends Model
         return false;
     }
 
-    public static function getBaseSpotifyToken()
+    public static function getUserSpotifyToken()
     {
 
         $curl = curl_init();
@@ -61,13 +67,12 @@ class SpotifyApi extends Model
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
         curl_setopt($curl, CURLOPT_POST,           true );
         curl_setopt($curl, CURLOPT_POSTFIELDS,     'grant_type=client_credentials' );
-        curl_setopt($curl, CURLOPT_HTTPHEADER,     array('Authorization: Basic '.base64_encode(self::$api_client_id.':'.self::$client_secret)));
+        curl_setopt($curl, CURLOPT_HTTPHEADER,     array('Authorization: Basic '.base64_encode(self::$api_client_id.':'.self::$client_secret),'Content-Type:application/x-www-form-urlencoded'));
 
 
         $response = curl_exec($curl);;
 
         curl_close($curl);
-
 
         $token = json_decode($response);
         $err = curl_error($curl);
@@ -95,6 +100,35 @@ class SpotifyApi extends Model
 
         curl_setopt_array($curl,$options);
 
+        $response = curl_exec($curl);
+        //dd($response);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        if (!$err)
+        {
+            return json_decode($response,true);
+        }
+
+
+        return $err;
+
+    }
+
+    public static function storeSpotifyEndpoint($url,$request)
+    {
+
+        $curl = curl_init();
+        $options = array(
+            CURLOPT_URL => $url,
+            CURLOPT_POST => 1,
+            CURLOPT_POSTFIELDS => $request,
+            CURLOPT_HTTPHEADER => array('Authorization: Bearer ' . self::$token,'Content-Type: application/json'
+            ),
+            CURLOPT_RETURNTRANSFER => 1
+        );
+
+        curl_setopt_array($curl,$options);
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
@@ -156,7 +190,40 @@ class SpotifyApi extends Model
     }
 
 
+    public static function getDevices()
+    {
+       $endpoint =  'https://api.spotify.com/v1/me/player/devices';
+       $result = SpotifyApi::getSpotifyEnpoint($endpoint);
 
+
+        return $result['devices'][0]['id'];
+    }
+
+    public static function getPlayerState()
+    {
+        $endpoint =  'https://api.spotify.com/v1/me/player';
+        $result = SpotifyApi::getSpotifyEnpoint($endpoint);
+
+      //  dd($result);
+    }
+
+    public static function storePlaylist($user,$data)
+    {
+
+        $endpoint =  'https://api.spotify.com/v1/users/'.$user['user_id'].'/playlists';
+        self::getCurrentUserToken($user);
+        return self::storeSpotifyEndpoint($endpoint,$data);
+
+    }
+
+    public static function storePlaylistItems($playlist_id,$data)
+    {
+
+        $endpoint =  'https://api.spotify.com/v1/playlists/'.$playlist_id.'/tracks';
+        $result = self::storeSpotifyEndpoint($endpoint,$data);
+
+       // dd($result);
+    }
 
 
 }

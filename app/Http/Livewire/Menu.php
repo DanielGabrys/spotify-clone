@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\SpotifyApi\Song;
+use App\Models\Song;
 use Livewire\Component;
 
 class Menu extends Component

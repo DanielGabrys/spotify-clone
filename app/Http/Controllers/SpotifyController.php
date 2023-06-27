@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Playlist;
-use App\Models\SpotifyApi\Song;
+use App\Models\Song;
 use App\Models\SpotifyApi\SpotifyApi;
-use App\Models\SpotifyApi\SpotifyPlaylist;
 use App\Models\SpotifyApi\SpotifyToDatabase;
-use App\Models\SpotifyApi\SpotifyTrack;
 
 class SpotifyController extends Controller
 {
@@ -28,8 +26,9 @@ class SpotifyController extends Controller
 
 
         $user = SpotifyApi::getUser();
-       // $playlists =  SpotifyApi::getUserPlaylists($user['id']);
-       // $this->loadPlaylistToDatabase($playlists);
+
+        $playlists =  SpotifyApi::getUserPlaylists($user['id']);
+        $this->loadPlaylistToDatabase($playlists);
 
         return $this->index($user);
 

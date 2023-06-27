@@ -65,7 +65,7 @@
 
         <h3 id="playlist-menu"> <i class="bi bi-music-note-list"></i> <span> Tagi  </span> </h3>
 
-        @livewire('tags')
+        @livewire('tags',['user'=>$user])
 
 
     </div>

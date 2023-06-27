@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 
 use App\Models\Playlist;
+use App\Models\SpotifyApi\SpotifyApi;
 use App\Models\Tag;
 use App\Models\TagTemplate;
 use App\Models\Template;
@@ -202,7 +203,7 @@ class Templates extends GlobalMethods
 
         $tag_ids = TagTemplate::where('template_id',$this->selected_tempalte_id)->orderBy('id')->get()->pluck('tag_id');
         $songs = Tag::with('songsTags')->whereIn('id',$tag_ids)->get()->toArray();
-
+        $spotify_playlist_songs_ids = [];
 
         $ordered_tags =[];
 
@@ -231,6 +232,8 @@ class Templates extends GlobalMethods
                             break;
 
                         array_push($selected_songs, $tag['songs_tags'][$rand]['id'] ?? null);
+                        array_push($spotify_playlist_songs_ids, $tag['songs_tags'][$rand]['spotify_track_id'] ?? null);
+
 
                         unset($ordered_tags[$index]['songs_tags'][$rand]);
                     }
@@ -249,10 +252,14 @@ class Templates extends GlobalMethods
 
         }
 
-
         $this->templatePlaylistToDatabase($selected_songs);
+
+        $uris = $this->normalizeSpotifyPlaylistTracksIds($spotify_playlist_songs_ids);
+        $this->storePlaylistWithSongsInSpotify($uris);
+
        // dd($selected_songs,$ordered_tags,$this->calculateTime($time),$max_time);
 
+        return $uris;
     }
 
     public function templatePlaylistToDatabase($songs)
@@ -295,6 +302,41 @@ class Templates extends GlobalMethods
     {
 
         $this->validateOnly($property);
+
+    }
+
+    public function normalizeSpotifyPlaylistTracksIds($tracks)
+    {
+        $array = array();
+
+        for($i=0;$i<count($tracks);$i++)
+        {
+            $uris ="spotify:track:".$tracks[$i];
+            array_push($array,$uris);
+        }
+
+        $array = json_encode( array('uris' => $array));
+        //dd($array);
+
+        return $array;
+
+    }
+
+    public function storePlaylistWithSongsInSpotify($uris)
+    {
+
+        //add playlist to spotify
+        $data = array(
+            'name' => $this->template_playlist_name,
+            'description' => "Template Tag Playlist",
+        );
+
+        $json = json_encode($data);
+        $spotify_playlist = SpotifyApi::storePlaylist($this->user,$json);
+        SpotifyApi::storePlaylistItems($spotify_playlist['id'],$uris);
+
+
+
 
     }
 

@@ -1,56 +1,5 @@
 <div class="AudioList">
 
-    <div>
-        <form class="form-custom">
-            <div class="form-custom-item">
-                <div class="">
-                    <input type="text" wire:model="title" class="form-input" id="FormTitle" placeholder="tytuł">
-                </div>
-                @error('title') <span class="text-red-500"> {{$message}} </span> @enderror
-            </div>
-
-            <div class="form-custom-item">
-                <div class="">
-                    <input type="text" wire:model="author" class="form-input" id="FormAuthor" placeholder="autor">
-                </div>
-                @error('author') <span class="text-red-500"> {{$message}} </span> @enderror
-            </div>
-
-
-            <div class="form-custom-item">
-                <div class="form-custom-item-file">
-                    <div class="form-custom-item-file-label"> zdjęcie </div>
-                    <input type="file" wire:model="img" class="custom-input-file" id="FormAuthor" >
-                </div>
-
-                @error('img') <span class="text-red-500"> {{$message}} </span> @enderror
-
-            </div>
-
-            <div class="form-custom-item">
-                <div class="form-custom-item-file">
-                    <div class="form-custom-item-file-label"> utwór </div>
-                    <input type="file" wire:model="songSrc" class="custom-input-file"  id="FormAuthor" >
-                </div>
-
-                @error('songSrc') <span class="text-red-500"> {{$message}} </span> @enderror
-
-            </div>
-
-
-            <a wire:click.prevent="addSongForm()" href="#">
-                <button type="button" class="btn btn-primary" id="add-song-button">DODAJ </button>
-            </a>
-
-
-
-
-        </form>
-    </div>
-
-    <h2 class="title">The list
-        <span>{{$songs->count()}} songs</span>
-    </h2>
 
     <div class="songsContainer_SongMenu">
 
@@ -91,11 +40,12 @@
 
                              @foreach($song->songsTags as $tag )
 
-                                 @if($tag->name!='-')
+
+
                                  <span class="song_tag_item"> {{$tag->name }}
                                           <i wire:click.prevent="deleteTagFromSong({{$song->id}},{{$tag->id }})" class="bi bi-x-square"></i>
                                  </span>
-                                 @endif
+
 
                              @endforeach
 

@@ -285,6 +285,7 @@ class Player
 
     async stopTrack()
     {
+
         let request_answer = await fetch(
             "https://api.spotify.com/v1/me/player/pause",
             {
@@ -303,6 +304,8 @@ class Player
         console.log(this.interval,"up")
         this.clearIntervals(this.intervals)
         console.log(this.interval,"cleaned")
+
+
     }
 
     async startTrack()
@@ -322,6 +325,7 @@ class Player
             }
         )
     }
+
 
     async seekTrack()
     {

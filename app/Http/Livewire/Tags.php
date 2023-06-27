@@ -6,7 +6,7 @@ use App\Models\SongTag;
 use App\Models\Tag;
 use Livewire\Component;
 
-class Tags extends Component
+class Tags extends GlobalMethods
 {
 
     public $tags;
@@ -24,7 +24,7 @@ class Tags extends Component
     public function mount()
     {
 
-        $this->tags= Tag::all()->whereNotIn('name','-');
+        $this->tags= $this->getUserTags();
     }
 
     public function render()
@@ -39,16 +39,17 @@ class Tags extends Component
 
         $tag = new Tag();
         $tag->name = strtoupper($this->tag_name);
+        $tag->spotify_user_id = $this->user['user_id'];
         $tag->save();
 
-        $this->tags= Tag::all()->whereNotIn('name','-');
+        $this->tags= $this->getUserTags();
         $this->resetValidationData();
     }
 
     public function deleteTag($id)
     {
         Tag::find($id)->delete();
-        $this->tags= Tag::all()->whereNotIn('name','-');
+        $this->tags= $this->getUserTags();
         $this->emit('refreshTag');
 
     }
@@ -57,7 +58,7 @@ class Tags extends Component
     public function addSongTag($tag_name,$song_id)
     {
 
-        $tag = Tag::where('name',$tag_name)->first()->id;
+        $tag = Tag::where('spotify_user_id',$this->user['user_id'])->where('name',$tag_name)->first()->id;
         $exit = SongTag::where('song_id',$song_id)->where('tag_id',$tag)->first();
 
         if($exit==null)
