@@ -26,6 +26,7 @@
             @error('playlist_img') <span class="text-red-500"> {{$message}} </span> @enderror
         </div>
 
+
         <a wire:click.prevent="addPlaylistForm()" href="#">
             <button type="button" class="btn btn-primary" id="add-song-button">DODAJ </button>
         </a>

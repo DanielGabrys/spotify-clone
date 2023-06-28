@@ -11,10 +11,24 @@
             @error('search') <span class="text-red-500"> {{$message}} </span> @enderror
         </div>
 
-        <div class="form-custom-item">
-                <i class="bi bi-search"></i>
+        <a wire:click.prevent="setSearchParameters()" href="#">
+            <div class="form-custom-item" >
+                    <i class="bi bi-search"></i>
+            </div>
+        </a>
 
+
+
+        <div class="form-check form-check-inline">
+
+            <input wire:model="search_type_track" type="checkbox" class="btn-check" name="options" id="option2" autocomplete="off">
+            <label class="btn btn-primary" for="option2">UTWÓR</label>
+
+            <input wire:model="search_type_author" type="checkbox" class="btn-check" name="options" id="option3" autocomplete="off">
+            <label class="btn btn-primary" for="option3">AUDIO</label>
         </div>
+
+
 
     </form>
 

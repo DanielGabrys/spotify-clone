@@ -42,7 +42,22 @@ class SongMenu extends GlobalMethods
 
 
     public $search;
-    public $searched_songs;
+    public $search_type_track;
+    public $search_type_author;
+
+
+    public function mount()
+    {
+        $this->search_type_all = 1;
+        $this->search_type_track =0;
+        $this->search_type_author=0;
+
+    }
+
+    public function setSearchParameters()
+    {
+        dd($this->search_type_all,$this->search_type_track, $this->search_type_author);
+    }
 
 
 
@@ -86,7 +101,12 @@ class SongMenu extends GlobalMethods
     public function render()
     {
 
-        $items = $this->getSearchedSongsWithUserTags($this->search);
+        $items = $this->getSearchedSongsWithUserTags(
+            $this->search,
+            $this->search_type_track,
+            $this->search_type_author);
+
+
         return view('livewire.song-menu',[
         'songs' => $items->paginate(10),
         'songs_json' => $items->get()->toJson(),
