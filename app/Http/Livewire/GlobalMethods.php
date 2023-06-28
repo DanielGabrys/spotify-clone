@@ -88,6 +88,17 @@ class GlobalMethods extends Component
 
     }
 
+    public function getSearchedSongsWithUserTags($search)
+    {
 
+        return Song::where(function($query) use ($search) {
+            $query->where('title', 'LIKE', '%' . $search . '%')
+                ->orWhere('author', 'LIKE', '%' . $search . '%');
+        })->
+        with(['songsTags' => function ($q) {
+            $q->where('spotify_user_id', $this->user['user_id']);
+        }])->
+        orderBy('title');
+    }
 
 }

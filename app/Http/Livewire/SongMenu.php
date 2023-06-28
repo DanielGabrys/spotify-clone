@@ -19,25 +19,32 @@ class SongMenu extends GlobalMethods
 
     protected $listeners = [
         'refreshSongTags'=>'refreshTags',
+        'SongsMenu_refreshSongs' => "getSerchedSongs"
         ];
+
+    protected $rules = [
+            'title' => ['required','min:2','max:255'],
+            'author' => ['min:2','max:255'],
+            'img' => 'nullable|image|mimes:jpeg,png',
+            'songSrc' => ['required','mimes:mp3','max:14000'],
+
+        ];
+
 
     protected $paginationTheme = 'bootstrap';
 
-    // addSongForm
-    public $title;
 
+    public $title;
     public $author;
     public $img;
     public $songSrc;
     public $emptySongImage = 'storage/images/toFill/playlist.png';
 
-    protected $rules = [
-        'title' => ['required','min:2','max:255'],
-        'author' => ['min:2','max:255'],
-        'img' => 'nullable|image|mimes:jpeg,png',
-        'songSrc' => ['required','mimes:mp3','max:14000'],
 
-    ];
+    public $search;
+    public $searched_songs;
+
+
 
     public function deleteTagFromSong($song_id,$tag_id)
     {
@@ -45,6 +52,60 @@ class SongMenu extends GlobalMethods
             SongTag::where('song_id', $song_id)->where('tag_id', $tag_id)->delete();
             $this->emit('refreshSongTagsCenter');
     }
+
+
+    public function getSearchedSongs()
+    {
+
+    }
+
+
+    public function deleteSong($id)
+    {
+        $song = Song::where('id',$id);
+        $songData = $song->get()->first();
+
+
+        Storage::delete($songData->image);
+        Storage::delete($songData->src);
+
+        $song->delete();
+        $this->render();
+    }
+
+
+    public function resetValidationData()
+    {
+        // addSongForm
+        $this-> title ='';
+        $this-> author ='';
+        $this-> img = null;
+        $this-> songSrc = '';
+    }
+
+    public function render()
+    {
+
+        $items = $this->getSearchedSongsWithUserTags($this->search);
+        return view('livewire.song-menu',[
+        'songs' => $items->paginate(10),
+        'songs_json' => $items->get()->toJson(),
+        'playlists' => $this->getPlaylist(),
+        ] );
+    }
+
+    public function updated($property)
+    {
+        $this->validateOnly($property);
+    }
+
+
+
+
+
+
+
+
 
 
     public function refreshTags()
@@ -105,42 +166,4 @@ class SongMenu extends GlobalMethods
         $songTag->save();
 
     }
-
-    public function deleteSong($id)
-    {
-        $song = Song::where('id',$id);
-        $songData = $song->get()->first();
-
-
-        Storage::delete($songData->image);
-        Storage::delete($songData->src);
-
-        $song->delete();
-        $this->render();
-    }
-
-
-    public function resetValidationData()
-    {
-        // addSongForm
-        $this-> title ='';
-        $this-> author ='';
-        $this-> img = null;
-        $this-> songSrc = '';
-    }
-
-    public function render()
-    {
-        return view('livewire.song-menu',[
-        'songs' => $this->getSongsWithUserTags()->paginate(10),
-        'songs_json' => $this->getSongsWithUserTags()->get()->toJson(),
-        'playlists' => $this->getPlaylist(),
-        ] );
-    }
-
-    public function updated($property)
-    {
-        $this->validateOnly($property);
-    }
-
 }

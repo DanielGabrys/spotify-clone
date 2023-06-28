@@ -61,7 +61,7 @@ class Templates extends GlobalMethods
 
     public function render()
     {
-        return view('livewire.track-templates');
+        return view('livewire.templates');
     }
 
 

@@ -75,8 +75,9 @@ class Tags extends GlobalMethods
     public function addSongTag($name,$song_id)
     {
 
-        $tag = $this->getUserTagByName($name)->id;
-        $exit = SongTag::where('song_id',$song_id)->where('tag_id',$tag)->first();
+
+        $tag = $this->getUserTagByName($name);
+        $exit = SongTag::where('song_id',$song_id)->where('tag_id',$tag->id)->first();
 
         if($exit==null)
         {

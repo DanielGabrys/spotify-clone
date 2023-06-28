@@ -72,6 +72,7 @@
 
 
       let songs = JSON.parse(songList);
+      console.log("songs",songs)
        player.setSongList(songs)
 
        player.setTrack(start_song_id)
