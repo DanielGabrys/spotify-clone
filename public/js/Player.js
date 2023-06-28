@@ -97,8 +97,7 @@ class Player
 
         this.tags =  this.SongList.find(x => x.src === this.currentSRC);
 
-
-        for(let i=1;i<this.tags.songs_tags.length;i++)
+        for(let i=0;i<this.tags.songs_tags.length;i++)
         {
             let div = document.createElement("div");
             div.innerHTML = '<span>' + this.tags.songs_tags[i].name + '</span>'
