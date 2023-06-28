@@ -57,6 +57,7 @@ class Templates extends GlobalMethods
     public $template_loops_edit=false;
 
     public $template_playlist_name;
+    public $template_playlist_export;
 
     public function render()
     {
@@ -152,7 +153,7 @@ class Templates extends GlobalMethods
     {
 
 
-        $tag = Tag::where('name',$tag_name)->first()->id;
+        $tag = $this->getUserTagByName($tag_name)->id;
         $template_id = $this->selected_tempalte_id;
 
         $track_item = new TagTemplate();
@@ -256,6 +257,11 @@ class Templates extends GlobalMethods
 
         $this->templatePlaylistToDatabase($selected_songs);
 
+        // not eksport to spotify
+        if(!$this->template_playlist_export)
+            return '';
+
+        // eksport to spotify
         $uris = $this->normalizeSpotifyPlaylistTracksIds($spotify_playlist_songs_ids);
         $this->storePlaylistWithSongsInSpotify($uris);
 

@@ -59,6 +59,9 @@ class Player
 
     setInitialSong()
     {
+
+        this.SongList =[];
+        /*
         if(this.SongList.length===0)
             return 0;
 
@@ -82,6 +85,8 @@ class Player
        this.interval_time=0
 
         this.setTrackSliderLength(duration)
+
+         */
     }
 
     setTagsInfo()
@@ -155,12 +160,14 @@ class Player
 
             this.clearIntervals(this.intervals)
 
-            await this.startTrack()
-            this.setStopIcon()
-            this.state = "play"
-            this.interval = setInterval(updateTrackState,1000,player)
-        this.intervals.push(this.interval)
-            this.waveAnimation()
+            await this.startTrack().then((data) =>
+            {
+                this.setStopIcon()
+                this.state = "play"
+                this.interval = setInterval(updateTrackState, 1000, player)
+                this.intervals.push(this.interval)
+                this.waveAnimation()
+            });
     }
 
 
@@ -310,7 +317,6 @@ class Player
 
     async startTrack()
     {
-        console.log(this.currentTime)
         let request_answer = await fetch(
             "https://api.spotify.com/v1/me/player/play",
             {

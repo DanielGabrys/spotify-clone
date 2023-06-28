@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\SongTag;
 use App\Models\Tag;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class Tags extends GlobalMethods
@@ -12,14 +13,30 @@ class Tags extends GlobalMethods
     public $tags;
 
     //form
-    public $tag_name;
+    public $name;
 
     protected $listeners = ['addSongTag'];
 
     protected $rules = [
-        'tag_name' => ['required','min:1','max:20',"unique:tag,name"],
+        'name' => ['required','min:1','max:20',],
 
     ];
+
+    protected function rules_dynamic()
+    {
+
+        $name=$this->name;
+        return [
+            'name' => ['required','min:1','max:20',
+                Rule::unique("tag")->where(function ($query) use($name) {
+                    $query->where('spotify_user_id', $this->user['user_id'])->where('name', $name);
+                })
+
+            ],
+
+        ];
+    }
+
 
     public function mount()
     {
@@ -35,10 +52,10 @@ class Tags extends GlobalMethods
 
     public function addTag()
     {
-        $this->validate($this->rules);
+        $this->validate($this->rules_dynamic());
 
         $tag = new Tag();
-        $tag->name = strtoupper($this->tag_name);
+        $tag->name = strtoupper($this->name);
         $tag->spotify_user_id = $this->user['user_id'];
         $tag->save();
 
@@ -55,17 +72,17 @@ class Tags extends GlobalMethods
     }
 
 
-    public function addSongTag($tag_name,$song_id)
+    public function addSongTag($name,$song_id)
     {
 
-        $tag = Tag::where('spotify_user_id',$this->user['user_id'])->where('name',$tag_name)->first()->id;
+        $tag = $this->getUserTagByName($name)->id;
         $exit = SongTag::where('song_id',$song_id)->where('tag_id',$tag)->first();
 
         if($exit==null)
         {
             $songTag = new SongTag();
 
-            $songTag->tag_id = $tag;
+            $songTag->tag_id = $tag->id;
             $songTag->song_id = $song_id;
 
             $songTag->save();
@@ -76,7 +93,7 @@ class Tags extends GlobalMethods
 
     public function resetValidationData()
     {
-        $this-> tag_name ='';
+        $this-> name ='';
     }
 
     public function updated($property)

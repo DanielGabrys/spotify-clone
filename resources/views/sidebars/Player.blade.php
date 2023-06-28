@@ -53,7 +53,6 @@
     player.setPlayerProperties()
     player.setInitialSong()
 
-    console.log(player)
     console.log(player.SongList)
 
 
@@ -84,17 +83,20 @@
 
     function PlayNextSong(id)
     {
+        if(player.SongList.length)
         player.setTrack(player.currentSongId+1)
     }
 
     function PlayPrevSong(id)
     {
-        player.setTrack(player.currentSongId+-1)
+        if(player.SongList.length)
+            player.setTrack(player.currentSongId+-1)
     }
 
     function TrackSliderChange()
     {
-        player.seekTrack()
+        if(player.SongList.length)
+            player.seekTrack()
     }
 
 

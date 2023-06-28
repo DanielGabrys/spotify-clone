@@ -82,6 +82,11 @@ class GlobalMethods extends Component
         return Template::where("spotify_user_id", $this->user['user_id'])->orderBy('created_at')->get();
     }
 
+    public function getUserTagByName($name)
+    {
+        return Tag::where('spotify_user_id',$this->user['user_id'])->where('name',$name)->first();
+
+    }
 
 
 

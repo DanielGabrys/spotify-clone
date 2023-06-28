@@ -15,7 +15,7 @@
 
             <div class="form-custom-item-tag">
                 <div class="">
-                    <input type="text" wire:model="tag_name" class="form-input" id="tag_name" placeholder="nazwa tagu">
+                    <input type="text" wire:model="name" class="form-input" id="name" placeholder="nazwa tagu">
                 </div>
 
             </div>
@@ -27,7 +27,7 @@
 
         </form>
 
-        @error('tag_name') <span class="text-red-500"> {{$message}} </span> @enderror
+        @error('name') <span class="text-red-500"> {{$message}} </span> @enderror
 
 
 

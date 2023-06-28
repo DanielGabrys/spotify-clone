@@ -27,8 +27,8 @@ class SpotifyController extends Controller
 
         $user = SpotifyApi::getUser();
 
-        $playlists =  SpotifyApi::getUserPlaylists($user['id']);
-        $this->loadPlaylistToDatabase($playlists);
+      //  $playlists =  SpotifyApi::getUserPlaylists($user['id']);
+      //  $this->loadPlaylistToDatabase($playlists);
 
         return $this->index($user);
 
@@ -41,7 +41,7 @@ class SpotifyController extends Controller
 
 
         return view('sidebars.Main',[
-            'songs_json' =>$songs_json,
+            'songs_json' =>'',
             'user' => $user,
         ]);
     }

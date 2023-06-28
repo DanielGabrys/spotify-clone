@@ -141,6 +141,14 @@
                         </a>
                     </div>
 
+                    <div class="form-custom-item">
+                        <input type="checkbox" wire:model="template_playlist_export" class="form-input" id="export_spotify"  >
+                        <label class="form-check-label" for="flexCheckDefault"> Eksportuj do Spotify
+                    </div>
+
+
+
+
                 </form>
 
             </div>
@@ -155,8 +163,7 @@
                         @error('template_name_edit') <span class="text-red-500"> {{$message}} </span> @enderror
                     </div>
 
-
-                    <div class="form-custom-item">
+                        <div class="form-custom-item">
                             <input type="number" min="1" wire:model="template_time_edit" class="form-input" id="template_time_edit" value="{{$selected_template->max_time}}">
 
                         @error('template_time_edit') <span class="text-red-500"> {{$message}} </span> @enderror
