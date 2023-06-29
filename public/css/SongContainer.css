@@ -638,4 +638,8 @@
     transition: background-color 0.3s;
 }
 
+#search-tag-suspend
+{
+    cursor: pointer;
+}
 

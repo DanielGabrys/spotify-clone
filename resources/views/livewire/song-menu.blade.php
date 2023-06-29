@@ -22,12 +22,25 @@
         <div class="form-check form-check-inline">
 
             <input wire:model="search_type_track" type="checkbox" class="btn-check" name="options" id="option2" autocomplete="off">
-            <label class="btn btn-primary" for="option2">UTWÓR</label>
+            <label class="btn btn-success" for="option2">UTWÓR</label>
 
             <input wire:model="search_type_author" type="checkbox" class="btn-check" name="options" id="option3" autocomplete="off">
-            <label class="btn btn-primary" for="option3">AUDIO</label>
+            <label class="btn btn-success" for="option3">AUTOR</label>
         </div>
 
+        <div class="form-check form-check-inline">
+
+            @foreach($tags as $tag)
+                    <input wire:model="search_tags.{{$tag->id}}" type="checkbox" class="btn-check" name="options_tag_{{$tag->id}}" id="option_{{$tag->id}}" autocomplete="off" >
+                    <label class="btn btn-primary" for="option_{{$tag->id}}"> {{$tag->name}} </label>
+
+            @endforeach
+
+                <input wire:model="untagged" type="checkbox" class="btn-check" name="options_tag_empty" id="option_tag_empty" autocomplete="off">
+                <label class="btn btn-danger" for="option_tag_empty">NIEOTAGOWANE</label>
+
+
+        </div>
 
 
     </form>

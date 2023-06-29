@@ -61,6 +61,8 @@ class Tags extends GlobalMethods
 
         $this->tags= $this->getUserTags();
         $this->resetValidationData();
+
+        $this->emit("SongsMenu_refreshTags");
     }
 
     public function deleteTag($id)
@@ -68,6 +70,8 @@ class Tags extends GlobalMethods
         Tag::find($id)->delete();
         $this->tags= $this->getUserTags();
         $this->emit('refreshTag');
+        $this->emit('SongsMenu_refreshSongsTags');
+
 
     }
 

@@ -7,6 +7,7 @@ use App\Models\PlaylistSong;
 use App\Models\Song;
 use App\Models\Tag;
 use App\Models\Template;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class GlobalMethods extends Component
@@ -88,8 +89,15 @@ class GlobalMethods extends Component
 
     }
 
-    public function getSearchedSongsWithUserTags($search,$track,$author)
+    public function getSearchedSongsWithUserTags($search,$track,$author,$tags,$untagged)
     {
+
+     $search_tags =[];
+     foreach ($tags as $key => $item)
+     {
+         if(!$item)
+         array_push($search_tags,$key);
+     }
 
       $track_query ='%'.$search.'%';
       $author_query = '%'.$search.'%';
@@ -110,15 +118,51 @@ class GlobalMethods extends Component
             $author_query = '%'.$search.'%';
       }
 
-            return Song::where(function ($query) use ($search,$track_query,$author_query) {
+
+
+
+      $songs = Song::where(function ($query) use ($search,$track_query,$author_query) {
                 $query->where('title', 'LIKE', $track_query)
                     ->orWhere('author', 'LIKE', $author_query);
+            });
+
+
+
+      // tag selection
+        if($untagged)
+        {
+            $tags= $songs-> whereHas('songsTags',function (Builder $q) use($search_tags) {
+                $q->whereIn('tag.id',$search_tags)
+                ->where('spotify_user_id', $this->user['user_id']);
+
+            });
+        }
+        else {
+            $tags = $songs->whereDoesntHave('songsTags', function (Builder $q) use ($search_tags,$track_query,$author_query) {
+                $q->whereNotIn('tag.id', $search_tags);
+
             })->
-            with(['songsTags' => function ($q) {
+            orWhereHas('songsTags', function (Builder $q) use ($search_tags,$track_query,$author_query) {
+                $q->whereIn('tag.id', $search_tags)
+                    ->where('spotify_user_id', $this->user['user_id']);
+
+
+            })->
+            where(function ($query) use ($search,$track_query,$author_query) {
+                $query->where('title', 'LIKE', $track_query)
+                    ->orWhere('author', 'LIKE', $author_query);
+
+            })    ;
+        }
+
+
+
+        $songsTags = $tags-> with(['songsTags' => function ($q) {
                 $q->where('spotify_user_id', $this->user['user_id']);
             }])->
             orderBy('title');
 
+      return $songsTags;
 
     }
 

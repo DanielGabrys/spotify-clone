@@ -10,7 +10,7 @@
         > {{$tag->name}} <i wire:click.prevent="deleteTag({{$tag->id}})" class="bi bi-x" style="cursor: pointer;"> </i> </span>
     @endforeach
 
-        <form class="form-custom">
+        <div class="form-custom">
 
 
             <div class="form-custom-item-tag">
@@ -25,7 +25,7 @@
                 <button type="button" class="btn btn-secondary" id="add-tag-button">DODAJ </button>
             </a>
 
-        </form>
+        </div>
 
         @error('name') <span class="text-red-500"> {{$message}} </span> @enderror
 

@@ -7,7 +7,7 @@
     <body>
 
     <div class="container" id="home_container">
-        <p><img src="images/logo.png" alt="Music Utopia Logo"></p>
+        <p><img src="{{asset('storage/images/toFill/logo.jpeg')}}" alt="Balllroom Music Generator"></p>
         <p><button onclick="userLogInRequest();">Log In User</button></p>
     </div>
 
