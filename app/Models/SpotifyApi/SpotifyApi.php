@@ -29,7 +29,6 @@ class SpotifyApi extends Model
     {
 
         if(!isset($_GET['code']))
-            dd("elo");
             return false;
 
 
@@ -51,6 +50,7 @@ class SpotifyApi extends Model
 
 
         $token = json_decode($response);
+        dd($response);
         $err = curl_error($curl);
 
         if (!isset($token->error) && isset($token))
