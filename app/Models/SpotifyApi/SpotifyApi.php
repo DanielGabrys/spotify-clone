@@ -29,6 +29,7 @@ class SpotifyApi extends Model
     {
 
         if(!isset($_GET['code']))
+            dd("elo");
             return false;
 
 
