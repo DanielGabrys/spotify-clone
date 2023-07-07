@@ -15,7 +15,12 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Ball&Room'),
+    'spotify_client_id' => env('SPOTIFY_CLIENT_ID', 'USD'),
+    'spotify_client_secret' => env('SPOTIFY_CLIENT_SECRET', 'USD'),
+    'redirect_url' => env('REDIRECT_URL', 'USD'),
+
+
 
     /*
     |--------------------------------------------------------------------------

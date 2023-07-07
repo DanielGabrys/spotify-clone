@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class SpotifyApi extends Model
 {
 
-    public static $api_client_id = '0a6e3cc6bbc04d2aa78c49aafd8e1f66';
-    public static $client_secret = 'f7c8a67ebed34a659c3094d1c9cc259b';
     public static $token;
     private static $user_id;
 
     public static  $base_url = 'https://api.spotify.com/v1';
-    public static $redirect_url = 'http://localhost:8001/callback';
     private static $token_url = 'https://accounts.spotify.com/api/token';
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+    }
 
     public static function getCurrentUserToken($user)
     {
@@ -31,9 +33,9 @@ class SpotifyApi extends Model
 
 
         $submit_post_fields = 'grant_type=authorization_code&code=' . $_GET['code'];
-        $submit_post_fields .= "&redirect_uri=".SpotifyApi::$redirect_url;
+        $submit_post_fields .= "&redirect_uri=".SpotifyApi::config('app.redirect_url');
 
-        $access_token = "Basic " . base64_encode(self::$api_client_id.':'.self::$client_secret);
+        $access_token = "Basic " . base64_encode(config('app.spotify_client_id').':'.config('app.spotify_client_secret'));
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, self::$token_url);
@@ -67,7 +69,7 @@ class SpotifyApi extends Model
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
         curl_setopt($curl, CURLOPT_POST,           true );
         curl_setopt($curl, CURLOPT_POSTFIELDS,     'grant_type=client_credentials' );
-        curl_setopt($curl, CURLOPT_HTTPHEADER,     array('Authorization: Basic '.base64_encode(self::$api_client_id.':'.self::$client_secret),'Content-Type:application/x-www-form-urlencoded'));
+        curl_setopt($curl, CURLOPT_HTTPHEADER,     array('Authorization: Basic '.base64_encode(config('app.spotify_client_id').':'.config('app.spotify_client_secret')),'Content-Type:application/x-www-form-urlencoded'));
 
 
         $response = curl_exec($curl);;
