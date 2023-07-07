@@ -33,9 +33,9 @@ class SpotifyApi extends Model
 
 
         $submit_post_fields = 'grant_type=authorization_code&code=' . $_GET['code'];
-        $submit_post_fields .= "&redirect_uri=".'https://danielgabrysrekrutacja.shop/callback';
+        $submit_post_fields .= "&redirect_uri=".config('app.redirect_url');
 
-        dd($submit_post_fields);
+
         $access_token = "Basic " . base64_encode(config('app.spotify_client_id').':'.config('app.spotify_client_secret'));
 
         $curl = curl_init();
