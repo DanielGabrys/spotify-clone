@@ -389,7 +389,7 @@
         let logInUri = 'https://accounts.spotify.com/authorize' +
             '?client_id={{config('app.spotify_client_id')}}' +
             '&response_type=code' +
-            '&redirect_uri={{config('app.redirect_url')}}' +
+            '&redirect_uri={{config('app.auth_redirect_url')}}' +
             '&scope=app-remote-control user-top-read user-read-currently-playing user-read-recently-played streaming app-remote-control user-read-playback-state user-modify-playback-state playlist-modify-public'  +
             '&show_dialog=true';
         // Debug

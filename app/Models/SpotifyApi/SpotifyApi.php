@@ -14,12 +14,6 @@ class SpotifyApi extends Model
     public static  $base_url = 'https://api.spotify.com/v1';
     private static $token_url = 'https://accounts.spotify.com/api/token';
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-    }
-
     public static function getCurrentUserToken($user)
     {
         self::$token = $user['token'];
@@ -33,7 +27,7 @@ class SpotifyApi extends Model
 
 
         $submit_post_fields = 'grant_type=authorization_code&code=' . $_GET['code'];
-        $submit_post_fields .= "&redirect_uri=".config('app.redirect_url');
+        $submit_post_fields .= "&redirect_uri=".config('app.auth_redirect_url');
 
 
         $access_token = "Basic " . base64_encode(config('app.spotify_client_id').':'.config('app.spotify_client_secret'));
