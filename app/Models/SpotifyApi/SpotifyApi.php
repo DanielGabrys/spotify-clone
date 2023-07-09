@@ -45,7 +45,6 @@ class SpotifyApi extends Model
 
 
         $token = json_decode($response);
-        dd($response);
         $err = curl_error($curl);
 
         if (!isset($token->error) && isset($token))
@@ -94,7 +93,7 @@ class SpotifyApi extends Model
             CURLOPT_POST => false,
             CURLOPT_HTTPHEADER => array('Authorization: Bearer ' . self::$token),
             CURLOPT_RETURNTRANSFER => true
-            );
+        );
 
         curl_setopt_array($curl,$options);
 
@@ -172,7 +171,7 @@ class SpotifyApi extends Model
         $endpoint = 'https://api.spotify.com/v1/me/tracks';
         $result = SpotifyApi::getSpotifyEnpoint($endpoint);
 
-        dd($result);
+       // dd($result);
         return $result;
     }
 
@@ -190,8 +189,8 @@ class SpotifyApi extends Model
 
     public static function getDevices()
     {
-       $endpoint =  'https://api.spotify.com/v1/me/player/devices';
-       $result = SpotifyApi::getSpotifyEnpoint($endpoint);
+        $endpoint =  'https://api.spotify.com/v1/me/player/devices';
+        $result = SpotifyApi::getSpotifyEnpoint($endpoint);
 
 
         return $result['devices'][0]['id'];
@@ -202,7 +201,7 @@ class SpotifyApi extends Model
         $endpoint =  'https://api.spotify.com/v1/me/player';
         $result = SpotifyApi::getSpotifyEnpoint($endpoint);
 
-      //  dd($result);
+        //  dd($result);
     }
 
     public static function storePlaylist($user,$data)
@@ -220,7 +219,7 @@ class SpotifyApi extends Model
         $endpoint =  'https://api.spotify.com/v1/playlists/'.$playlist_id.'/tracks';
         $result = self::storeSpotifyEndpoint($endpoint,$data);
 
-       // dd($result);
+        // dd($result);
     }
 
 
