@@ -47,6 +47,11 @@ class GlobalMethods extends Component
 
     }
 
+    public function getUserId()
+    {
+        return $this->user['user_id'];
+    }
+
     public function getPlaylist()
     {
         return Playlist::where('spotify_user_id',$this->user['user_id'])->orderBy('name')->get();

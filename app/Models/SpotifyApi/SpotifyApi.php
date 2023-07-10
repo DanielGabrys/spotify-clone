@@ -8,16 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class SpotifyApi extends Model
 {
 
-    public static $token;
+    private static $token;
     private static $user_id;
 
     public static  $base_url = 'https://api.spotify.com/v1';
     private static $token_url = 'https://accounts.spotify.com/api/token';
 
-    public static function getCurrentUserToken($user)
+    public static function getCurrentUserToken()
+    {
+       return self::$token;
+    }
+
+    public static function setUserToken($user)
     {
         self::$token = $user['token'];
+
     }
+
 
     public static function getSpotifyToken()
     {
@@ -144,13 +151,15 @@ class SpotifyApi extends Model
         $endpoint = 'https://api.spotify.com/v1/me';
         $result = SpotifyApi::getSpotifyEnpoint($endpoint);
         self::$user_id = $result['id'];
+
         return $result;
 
     }
 
-    public static function getUserPlaylists($id)
+    public static function getUserPlaylists($user)
     {
-        $endpoint = 'https://api.spotify.com/v1/users/'.$id.'/playlists?limit=50';
+        self::setUserToken($user);
+        $endpoint = 'https://api.spotify.com/v1/users/'.$user['user_id'].'/playlists?limit=50';
         $result = SpotifyApi::getSpotifyEnpoint($endpoint);
         SpotifyPlaylist::playlistToCollection($result);
 
@@ -159,7 +168,6 @@ class SpotifyApi extends Model
 
     public static function getPlaylistItems($id)
     {
-
         $endpoint = 'https://api.spotify.com/v1/playlists/'.$id.'/tracks';
         $result = SpotifyApi::getSpotifyEnpoint($endpoint);
 

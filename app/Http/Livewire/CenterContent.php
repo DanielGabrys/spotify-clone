@@ -5,10 +5,12 @@ namespace App\Http\Livewire;
 use App\Models\Playlist;
 use App\Models\PlaylistSong;
 use App\Models\Song;
+use App\Models\SpotifyApi\SpotifyApi;
 use App\Models\SpotifyApi\SpotifyUser;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use function Symfony\Component\String\u;
 
 class CenterContent extends GlobalMethods
 {
@@ -17,7 +19,9 @@ class CenterContent extends GlobalMethods
     use WithPagination;
 
 
-    protected $listeners = ['refreshPlaylist'];
+    protected $listeners =
+        ['refreshPlaylist',
+        'CenterContent_playlistImported' => 'refreshImportedPlaylist'];
 
     public  $subView = "";
     public  $MiddleViews = array(
@@ -49,25 +53,19 @@ class CenterContent extends GlobalMethods
     }
 
 
-    public function render()
-    {
-
-        return view('livewire.center-content');
-    }
-
-
-    public function SongsMenu()
-    {
-        $this->subView = $this->MiddleViews['songMiddler'];
-
-    }
-
-
     //emit calls
     public function refreshPlaylist()
     {
         $this->playlists = $this->getPlaylist();
     }
+
+    public function refreshImportedPlaylist()
+    {
+        $this->playlists = $this->getPlaylist();
+        $this->emit('SpotifyPlaylistMigrate_refreshImported');
+
+    }
+
 
 
     //playlist
@@ -82,11 +80,6 @@ class CenterContent extends GlobalMethods
 
             $this->dragableSubView ="livewire.play-undraggable-mode";
             $this->subView = "livewire.playlist-details";
-    }
-
-    public function addPlaylist()
-    {
-        $this->subView = $this->MiddleViews['addPlaylistMiddler'];
     }
 
     public function deletePlaylist($id)
@@ -158,10 +151,7 @@ class CenterContent extends GlobalMethods
     }
 
 
-
-
-
-    //tags
+    //subviews
     public function tags()
     {
         $this->subView = "livewire.add-song";
@@ -169,10 +159,25 @@ class CenterContent extends GlobalMethods
 
     public function generateTagPlaylist()
     {
-
         $this->subView = $this->MiddleViews['templateMiddler'];
     }
 
+    public function addPlaylist()
+    {
+        $this->subView = $this->MiddleViews['addPlaylistMiddler'];
+    }
+
+
+    public function SongsMenu()
+    {
+        $this->subView = $this->MiddleViews['songMiddler'];
+
+    }
+
+    public function render()
+    {
+        return view('livewire.center-content');
+    }
 
 
 }

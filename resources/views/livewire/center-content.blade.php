@@ -21,7 +21,9 @@
 
         </div>
 
-        <h3 id="playlist-menu"> <i class="bi bi-music-note-list"></i> <span> Playlisty  </span> </h3>
+        @livewire('spotify-playlist-migrate', ['user' => $user])
+
+
 
         <div class="menu_song" >
 

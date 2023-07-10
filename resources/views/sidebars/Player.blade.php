@@ -47,7 +47,7 @@
 
 
 
-    player.setToken('@php echo \App\Models\SpotifyApi\SpotifyApi::$token @endphp')
+    player.setToken('@php echo \App\Models\SpotifyApi\SpotifyApi::getCurrentUserToken() @endphp')
 
     player.setSongList({!! $songs_json !!})
     player.setPlayerProperties()

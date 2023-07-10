@@ -51,7 +51,7 @@
 
 
     <script>
-        const Token = '@php echo \App\Models\SpotifyApi\SpotifyApi::$token @endphp';
+        const Token = '@php echo \App\Models\SpotifyApi\SpotifyApi::getCurrentUserToken() @endphp';
     </script>
 
     <script src="{{asset('js/web_playback.js')}}" ></script>
