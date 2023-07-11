@@ -185,11 +185,38 @@ body
     font-size: 10px;
     height: 30px;
     margin-left: 10px;
-    width: 160px;
+    width: 220px;
    /* border: 1px solid #fff;
 
     */
     overflow: hidden;
+}
+
+.header .menu_side .menu_song li .song_item_info{
+    font-size: 10px;
+    height: 30px;
+    margin-left: 10px;
+    width: 220px;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+}
+
+.header .menu_side .menu_song li .song_url{
+    font-size: 15px;
+    height: 30px;
+    margin-left: 10px;
+    width: 100px;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+
+}
+
+.header .menu_side .menu_song li .song_url span{
+    font-size: 15px;
+    overflow: hidden;
+    color: green;
 }
 
 .header .menu_side .menu_song li .song_info .song_title, .subtitle{
@@ -206,8 +233,8 @@ body
 }
 
 .header .menu_side .menu_song li .bi{
-    position: absolute;
-    right: 10px;
+
+    margin-left: 2px;
 }
 
 .header .master_play{
@@ -545,3 +572,13 @@ a:link
     color: black;
     text-transform: uppercase;
 }
+
+.master_play .user_info span
+{
+    font-size: 25px;
+    margin: 15px 0px 0px 20px;
+    font-weight: 800;
+    color: green;
+
+}
+

@@ -13,6 +13,8 @@ class SpotifyPlaylist extends Model
     public $description;
     public $image;
 
+    public $spotify_playlist_url;
+
 
     public function __construct($playlist)
     {
@@ -20,6 +22,14 @@ class SpotifyPlaylist extends Model
         $this->name = $playlist['name'];
         $this->href = $playlist['description'];
         $this->image = $playlist['images'][0]["url"] ?? null;
+        $this->spotify_playlist_url = '';
+
+    }
+
+
+    public function setDetails($details)
+    {
+        $this->spotify_playlist_url = $details['external_urls']['spotify'];
     }
 
 

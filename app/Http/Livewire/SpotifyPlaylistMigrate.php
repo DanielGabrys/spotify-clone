@@ -37,19 +37,16 @@ class SpotifyPlaylistMigrate extends GlobalMethods
         $this->progress='';
 
     }
-    public function test()
-    {
-
-    }
 
     public function updatePlaylistsFromSpotify()
     {
         $this->savePlaylistToDatabase();
     }
 
-    public function savePlaylist($playlist)
+    public function savePlaylist($playlist,$details)
     {
         $item = new SpotifyPlaylist($playlist);
+        $item->setDetails($details);
 
         $playlist_db = new Playlist();
 
@@ -57,6 +54,7 @@ class SpotifyPlaylistMigrate extends GlobalMethods
         $playlist_db ->description = $item -> description;
         $playlist_db ->image =$item ->image ?? Playlist::$image;
         $playlist_db ->spotify_user_id = $this->getUserId();
+        $playlist_db ->spotify_playlist_url = $item->spotify_playlist_url;
 
         $playlist_db->save();
 
@@ -73,7 +71,6 @@ class SpotifyPlaylistMigrate extends GlobalMethods
 
             if($exist!=null)
             {
-
                 $this->addSongToDatabasePlaylist($exist,$playlist_id);
             }
             else
@@ -127,14 +124,15 @@ class SpotifyPlaylistMigrate extends GlobalMethods
     public function saveSongTodatabase($track)
     {
 
-        $song = new Song();
 
+        $song = new Song();
         $song->title = $track->title;
         $song->author = $track->author;
         $song->image =$track->image;
         $song->src = $track->src;
         $song->duration = $track->duration;
         $song->spotify_track_id = $track->spotify_track_id;
+        $song->spotify_track_url = $track->spotify_track_url;
         $song->save();
 
 
@@ -175,7 +173,8 @@ class SpotifyPlaylistMigrate extends GlobalMethods
             SpotifyApi::setUserToken($this->user);
 
             $playlist = $this->playlists['items'][$this->current_playlist];
-            $playlist_id = $this->savePlaylist($playlist);
+            $playlist_details = SpotifyApi::getPlaylistDetails($playlist['id']);
+            $playlist_id = $this->savePlaylist($playlist,$playlist_details);
             $tracks = SpotifyApi::getPlaylistItems($playlist['id']);
             $this->saveSongsToDatabaseFromPlaylist($tracks, $playlist_id);
             $this->current_playlist++;

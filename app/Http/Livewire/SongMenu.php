@@ -67,6 +67,7 @@ class SongMenu extends GlobalMethods
 
     }
 
+
     public function setSearchParameters()
     {
         dd($this->search_tags,$this->untagged);

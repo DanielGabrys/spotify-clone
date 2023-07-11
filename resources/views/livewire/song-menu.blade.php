@@ -77,7 +77,8 @@
                     <div id="{{$song->id}}"
                          class="dropzone"
                          x-data @dragover="onDragOver(event)" @drop="onDrop(event)"
-                    >Upuść Tag </div>
+                         >Upuść Tag
+                    </div>
 
                     <div class="TagTools">
 
@@ -92,8 +93,6 @@
 
 
                              @endforeach
-
-
 
                     </div>
 
@@ -121,6 +120,12 @@
                                 </li>
                             </ul>
                         </div>
+
+                        <a id="{{$song->spotify_track_id}}" href="{{$song->spotify_track_url}}" target="blank" >
+                            <div class="user_info">
+                                <span> <i class="bi bi-spotify"></i> </span>
+                            </div>
+                        </a>
 
                     </div>
 

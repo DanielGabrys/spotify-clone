@@ -58,6 +58,12 @@
                                 </i>
                             </div>
 
+                            <a id="player_href" href="{{$song->spotify_track_url}}" target="blank" >
+                                <div class="user_info">
+                                    <span> <i class="bi bi-spotify"></i> </span>
+                                </div>
+                            </a>
+
                         </div>
 
                     </div>

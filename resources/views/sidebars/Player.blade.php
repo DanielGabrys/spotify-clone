@@ -34,6 +34,12 @@
         </div>
 
 
+    <a id="player_href" href="" target="blank" >
+        <div class="user_info">
+            <span> <i class="bi bi-spotify"></i> </span>
+        </div>
+    </a>
+
     <div id="played_menu_tag" class="played_menu_tag" >
     </div>
 

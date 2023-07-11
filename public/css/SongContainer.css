@@ -326,6 +326,16 @@
 
 }
 
+.AudioList .songs .song .section .songTools .user_info span
+{
+    font-size: 25px;
+    margin: 15px 0px 0px 20px;
+    font-weight: 800;
+    color: green;
+
+}
+
+
 .song_tag_item
 {
     padding: 2px;

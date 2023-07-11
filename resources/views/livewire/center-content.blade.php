@@ -29,20 +29,33 @@
 
             @foreach($playlists as $playlist)
 
-                <a wire:click.prevent="playlist({{$playlist->id}})" >
                     <li class="songItem" id="song_{{$loop->index}}">
-                        <span> {{$loop->iteration}} </span>
 
-                            <img src="{{$playlist->image ?? asset('storage/images/toFill/emptyPlaylist.png')}}" alt="">
+                        <a wire:click.prevent="playlist({{$playlist->id}})" >
+                            <div class="song_item_info">
 
-                        <div class="song_info">
-                            <div class="song_title">{{$playlist->name}}</div>
-                            <div class="subtitle">{{$playlist->description}}</div>
-                        </div>
+                                <span> {{$loop->iteration}} </span>
 
-                        <i data-bs-toggle="modal" data-bs-target="#PlaylistModal_{{$playlist->id}}" class="bi bi-trash-fill"></i>
+                                <img src="{{$playlist->image ?? asset('storage/images/toFill/emptyPlaylist.png')}}" alt="">
+
+                                <div class="song_info">
+                                    <div class="song_title">{{$playlist->name}}</div>
+                                    <div class="subtitle">{{$playlist->description}}</div>
+                                </div>
+
+                            </div>
+                        </a>
+
+                            <div class="song_url">
+
+                                <a href="{{$playlist->spotify_playlist_url}}" target="blank">  <span> <i class="bi bi-spotify"></i> </span> </a>
+                                <i data-bs-toggle="modal" data-bs-target="#PlaylistModal_{{$playlist->id}}" class="bi bi-trash-fill"></i>
+
+                            </div>
+
+
                     </li>
-                </a>
+
 
                 <div class="modal fade" id="PlaylistModal_{{$playlist->id}}" tabindex="-1" aria-labelledby="PlaylistModalLabel_{{$playlist->id}}" aria-hidden="true">
                     <div class="modal-dialog">

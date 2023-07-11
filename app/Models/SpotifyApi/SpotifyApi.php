@@ -170,7 +170,13 @@ class SpotifyApi extends Model
     {
         $endpoint = 'https://api.spotify.com/v1/playlists/'.$id.'/tracks';
         $result = SpotifyApi::getSpotifyEnpoint($endpoint);
+        return $result;
+    }
 
+    public static function getPlaylistDetails($id)
+    {
+        $endpoint = 'https://api.spotify.com/v1/playlists/'.$id;
+        $result = SpotifyApi::getSpotifyEnpoint($endpoint);
         return $result;
     }
 
@@ -211,6 +217,25 @@ class SpotifyApi extends Model
 
         //  dd($result);
     }
+
+    public static function getTrack($id)
+    {
+        $endpoint = 'https://api.spotify.com/v1/tracks/'.$id;
+        $result = SpotifyApi::getSpotifyEnpoint($endpoint);
+
+        return $result;
+    }
+
+    public static function getTrackAudioFeatures($id)
+    {
+        $endpoint = 'https://api.spotify.com/v1/audio-features/'.$id;
+        $result = SpotifyApi::getSpotifyEnpoint($endpoint);
+
+        // dd($result);
+        return $result;
+    }
+
+
 
     public static function storePlaylist($user,$data)
     {

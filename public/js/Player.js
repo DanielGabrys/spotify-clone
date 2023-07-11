@@ -234,6 +234,7 @@ class Player
         document.getElementById('playerTitle').innerText = this.SongList[this.currentSongId].title
         document.getElementById('playerSubtitle').innerText = this.SongList[this.currentSongId].author
         document.getElementById('playerImg').src = this.SongList[this.currentSongId].image
+        document.getElementById('player_href').href = this.SongList[this.currentSongId].spotify_track_url
         // document.getElementById('playerAudio').src = this.SongList[this.currentSongId].src
         this.currentSRC = this.SongList[this.currentSongId].src
         document.getElementById('duration').innerText = this.calculateTime(duration)

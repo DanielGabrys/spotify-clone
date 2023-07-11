@@ -14,6 +14,7 @@ class SpotifyTrack extends Model
     public $image;
     public $src;
     public $duration;
+    public $spotify_track_url;
 
 
     public function __construct($track)
@@ -22,8 +23,10 @@ class SpotifyTrack extends Model
         $this->title = $track['name'];
         $this->author = $track['artists'][0]['name'];
         $this->image = $track['album']['images'][0]["url"] ?? null;
-        $this->src = "spotify:track:".$track['id'];
+        $this->src = $track['uri'];
         $this->duration=$track['duration_ms']/1000;
+        $this->spotify_track_url = $track['external_urls']['spotify'] ?? '';
+
     }
 
 }
