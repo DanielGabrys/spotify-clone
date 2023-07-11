@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\SongController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[SpotifyController::class,'authorizeSpotify'])->name('authorizeSpotify');
 
 Route::get('/callback',[SpotifyController::class,'authorizeCallback'])->name('authorizeCallback');
+
+Route::get('generate', function (){
+    Artisan::call('storage:link');
+    echo 'ok';
+});
