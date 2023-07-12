@@ -17,7 +17,6 @@ class AddPlaylist extends GlobalMethods
 
 
     public $playlists;
-    public $emptyPlaylistImage = 'storage/images/toFill/emptyPlaylist.png';
 
     // addPlaylistForm
     public $playlist_name;
@@ -46,31 +45,7 @@ class AddPlaylist extends GlobalMethods
     {
 
         $this->validate($this->rules);
-
-        $playlist = new Playlist;
-        $playlist ->name = $this->playlist_name;
-        $playlist ->description = $this->playlist_description;
-        $playlist ->image =$this->emptyPlaylistImage;
-        $playlist->spotify_user_id = $this->user['user_id'];
-        $playlist->spotify_playlist_url = '';
-
-
-
-        if($this->playlist_img != null)
-        {
-            $path_playlist = 'public/playlist/img';
-
-            //song image
-            $img = $this->playlist_img->store($path_playlist);
-            $img = substr($img, 6);
-            $Img = "storage" . $img;
-
-            $playlist->image = $Img;
-        }
-
-
-
-        $playlist->save();
+        $this->storeUserPlaylist($this->playlist_name,$this->playlist_description,$this->playlist_img);
         $this->playlists = $this->getPlaylist();
         $this->resetValidationData();
         $this->emit('refreshPlaylist');

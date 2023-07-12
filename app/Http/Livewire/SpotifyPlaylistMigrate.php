@@ -48,17 +48,9 @@ class SpotifyPlaylistMigrate extends GlobalMethods
         $item = new SpotifyPlaylist($playlist);
         $item->setDetails($details);
 
-        $playlist_db = new Playlist();
+        $playlist_id = $this->storeSpotifyPlaylist($item);
 
-        $playlist_db ->name = $item -> name;
-        $playlist_db ->description = $item -> description;
-        $playlist_db ->image =$item ->image ?? Playlist::$image;
-        $playlist_db ->spotify_user_id = $this->getUserId();
-        $playlist_db ->spotify_playlist_url = $item->spotify_playlist_url;
-
-        $playlist_db->save();
-
-        return $playlist_db->id;
+        return $playlist_id;
     }
 
     public function saveSongsToDatabaseFromPlaylist($playlist_tracks,$playlist_id)

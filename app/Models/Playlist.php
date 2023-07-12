@@ -19,6 +19,8 @@ class Playlist extends Model
         ];
 
     public static $image = 'storage/images/toFill/emptyPlaylist.png';
+    public static $template_image = 'storage/images/toFill/template_playlist.png';
+
 
     public function songs(): BelongsToMany
     {

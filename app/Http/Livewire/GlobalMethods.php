@@ -7,6 +7,7 @@ use App\Models\PlaylistSong;
 use App\Models\Song;
 use App\Models\Tag;
 use App\Models\Template;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
@@ -169,6 +170,65 @@ class GlobalMethods extends Component
 
       return $songsTags;
 
+    }
+
+    public function storeSpotifyPlaylist($item)
+    {
+        $playlist_db = new Playlist();
+
+        $playlist_db ->name = $item -> name;
+        $playlist_db ->description = $item -> description;
+        $playlist_db ->image =$item ->image ?? Playlist::$image;
+        $playlist_db ->spotify_user_id = $this->getUserId();
+        $playlist_db ->spotify_playlist_url = $item->spotify_playlist_url;
+
+        $playlist_db->save();
+
+        return $playlist_db->id;
+    }
+
+    public function storeTemplatePlaylist($name)
+    {
+
+        $playlist = new Playlist;
+        $playlist ->name = $name;
+        $playlist ->description = Carbon::now()->toDateString();
+        $playlist ->image = Playlist::$template_image;
+        $playlist->spotify_user_id = $this->user['user_id'];
+        $playlist ->spotify_playlist_url = '';
+
+
+        $playlist->save();
+
+        return $playlist->id;
+    }
+
+    public function storeUserPlaylist($name,$description,$image)
+    {
+
+        $playlist = new Playlist;
+        $playlist ->name = $name;
+        $playlist ->description = $description;
+        $playlist ->image =Playlist::$image;
+        $playlist->spotify_user_id = $this->user['user_id'];
+        $playlist ->spotify_playlist_url = '';
+
+        if($image != null)
+        {
+            $path_playlist = 'public/playlist/img';
+
+            //song image
+            $img = $this->playlist_img->store($path_playlist);
+            $img = substr($img, 6);
+            $Img = "storage" . $img;
+
+            $playlist->image = $Img;
+        }
+
+
+        $playlist->save();
+
+        return $playlist->id;
     }
 
 }

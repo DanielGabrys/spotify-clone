@@ -23,9 +23,6 @@ class Templates extends GlobalMethods
 
     public $uniqueRule;
 
-    public $emptyPlaylistImage = 'storage/images/toFill/template_playlist.png';
-
-
 
     protected $rules = [
         'template_name' => [ 'required','min:2','max:20',"unique:template,name"],
@@ -257,11 +254,11 @@ class Templates extends GlobalMethods
 
         $this->templatePlaylistToDatabase($selected_songs);
 
-        // not eksport to spotify
+        // not export to spotify
         if(!$this->template_playlist_export)
             return '';
 
-        // eksport to spotify
+        // export to spotify
         $uris = $this->normalizeSpotifyPlaylistTracksIds($spotify_playlist_songs_ids);
         $this->storePlaylistWithSongsInSpotify($uris);
 
@@ -279,17 +276,11 @@ class Templates extends GlobalMethods
             try
             {
 
-                $playlist = new Playlist;
-                $playlist ->name = $this->template_playlist_name;
-                $playlist ->description = Carbon::now()->toDateString();
-                $playlist ->image =$this->emptyPlaylistImage;
-                $playlist->spotify_user_id = $this->user['user_id'];
-
-                $playlist->save();
+                $playlist_id = $this->storeTemplatePlaylist($this->template_playlist_name);
 
                 foreach ($songs as $song)
                 {
-                    $this->addSongToPlaylist($song,$playlist->id);
+                    $this->addSongToPlaylist($song,$playlist_id);
 
                 }
 
@@ -342,8 +333,6 @@ class Templates extends GlobalMethods
         $json = json_encode($data);
         $spotify_playlist = SpotifyApi::storePlaylist($this->user,$json);
         SpotifyApi::storePlaylistItems($spotify_playlist['id'],$uris);
-
-
 
 
     }
