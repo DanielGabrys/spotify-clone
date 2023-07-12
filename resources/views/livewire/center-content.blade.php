@@ -48,7 +48,7 @@
 
                             <div class="song_url">
 
-                                <a href="{{$playlist->spotify_playlist_url}}" target="blank">  <span> <i class="bi bi-spotify"></i> </span> </a>
+                                <a id="{{$playlist->spotify_playlist_url}}" href="{{$playlist->spotify_playlist_url}}" target="blank">  <span> <i class="bi bi-spotify"></i> </span> </a>
                                 <i data-bs-toggle="modal" data-bs-target="#PlaylistModal_{{$playlist->id}}" class="bi bi-trash-fill"></i>
 
                             </div>
