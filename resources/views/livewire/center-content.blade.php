@@ -27,6 +27,7 @@
 
         <div class="menu_song" >
 
+            <ul>
             @foreach($playlists as $playlist)
 
                     <li class="songItem" id="song_{{$loop->index}}">
@@ -76,6 +77,7 @@
                 </div>
 
             @endforeach
+            </ul>
         </div>
 
         <h3 id="playlist-menu"> <i class="bi bi-music-note-list"></i> <span> Tagi  </span> </h3>
