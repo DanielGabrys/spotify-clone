@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('track_template_pivot', function (Blueprint $table) {
+        Schema::create('tag_template_pivot', function (Blueprint $table) {
             $table->id();
 
             $table->bigInteger("template_id")->unsigned();
