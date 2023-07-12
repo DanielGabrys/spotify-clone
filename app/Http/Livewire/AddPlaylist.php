@@ -52,6 +52,7 @@ class AddPlaylist extends GlobalMethods
         $playlist ->description = $this->playlist_description;
         $playlist ->image =$this->emptyPlaylistImage;
         $playlist->spotify_user_id = $this->user['user_id'];
+        $playlist->spotify_playlist_url = '';
 
 
 
