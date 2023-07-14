@@ -50,6 +50,8 @@ class CenterContent extends GlobalMethods
         $this->user = json_decode(json_encode(new SpotifyUser($this->user)),true);
         $this->playlists = $this->getPlaylist();
 
+
+
     }
 
 
@@ -57,13 +59,14 @@ class CenterContent extends GlobalMethods
     public function refreshPlaylist()
     {
         $this->playlists = $this->getPlaylist();
+
     }
 
-    public function refreshImportedPlaylist()
+    public function refreshImportedPlaylist($playlists)
     {
-        $this->playlists = $this->getPlaylist();
-        $this->emit('SpotifyPlaylistMigrate_refreshImported');
 
+        $this->playlists = $this->getUploadedPlaylist($playlists);
+        $this->emit('SpotifyPlaylistMigrate_refreshImported');
     }
 
 
@@ -72,11 +75,10 @@ class CenterContent extends GlobalMethods
     public function playlist($id)
     {
 
-            $this->currentPlaylist = Playlist::find($id);
+            $this->currentPlaylist = Playlist::where('id',$id)->first();
             $this->songs = $this->getPlaylistSongsWithUserTags($this->currentPlaylist);
 
             $this->songs_json = $this->songs->toJson();
-          //  dd($this->songs_json);
 
             $this->dragableSubView ="livewire.play-undraggable-mode";
             $this->subView = "livewire.playlist-details";
@@ -89,9 +91,12 @@ class CenterContent extends GlobalMethods
         $this->subView = $this->MiddleViews['addPlaylistMiddler'];
         Playlist::where('id',$id)->delete();
 
-        $this->songs = $this->getPlaylistSongsWithUserTags($this->currentPlaylist);
         $this->playlists = $this->getPlaylist();
-        $this->currentPlaylist = Playlist::first();
+        $this->currentPlaylist = Playlist::first() ?? 0;
+
+        if($this->currentPlaylist)
+        $this->songs = $this->getPlaylistSongsWithUserTags($this->currentPlaylist);
+
 
 
     }

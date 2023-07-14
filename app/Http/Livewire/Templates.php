@@ -331,6 +331,7 @@ class Templates extends GlobalMethods
         );
 
         $json = json_encode($data);
+        SpotifyApi::setUserToken($this->user);
         $spotify_playlist = SpotifyApi::storePlaylist($this->user,$json);
         SpotifyApi::storePlaylistItems($spotify_playlist['id'],$uris);
 

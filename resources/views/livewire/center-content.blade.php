@@ -24,7 +24,6 @@
         @livewire('spotify-playlist-migrate', ['user' => $user])
 
 
-
         <div class="menu_song" >
 
             <ul>

@@ -55,8 +55,14 @@ class GlobalMethods extends Component
 
     public function getPlaylist()
     {
-        return Playlist::where('spotify_user_id',$this->user['user_id'])->orderBy('name')->get();
+       return Playlist::where('spotify_user_id',$this->user['user_id'])->orderBy('name')->get() ;
     }
+
+    public function getUploadedPlaylist($ids)
+    {
+        return Playlist::where('spotify_user_id',$this->user['user_id'])->whereNotIn('id',$ids)->orderBy('name')->get() ;
+    }
+
 
     public function getUserTags()
     {

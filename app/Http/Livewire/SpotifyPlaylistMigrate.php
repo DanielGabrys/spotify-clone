@@ -14,7 +14,8 @@ class SpotifyPlaylistMigrate extends GlobalMethods
 {
 
     protected $listeners =
-        ['SpotifyPlaylistMigrate_refreshImported'=> 'savePlaylistToDatabase'];
+        ['SpotifyPlaylistMigrate_refreshImported'=> 'savePlaylistToDatabase',
+            'test'];
 
     public function render()
     {
@@ -29,13 +30,12 @@ class SpotifyPlaylistMigrate extends GlobalMethods
     public $current_playlist=0;
     public $playlists;
     public $progress;
+    public $playlists_to_delete;
 
     public function mount()
     {
         $this->current_playlist=0;
-        $this->songs = Song::all();
         $this->progress='';
-
     }
 
     public function updatePlaylistsFromSpotify()
@@ -146,22 +146,31 @@ class SpotifyPlaylistMigrate extends GlobalMethods
         $playlist_song->save();
     }
 
+    public function savePlaylistToDatabaseInitial()
+    {
+        $this->playlists_to_delete = Playlist::where('spotify_user_id', $this->getUserId())->get()->pluck('id');
+        $this->playlists =  SpotifyApi::getUserPlaylists($this->user);
+
+
+        $this->total_playlists = $this->playlists['total'];
+        $this->current_playlist = 0;
+        $this-> songs = Song::all();
+        $this->  explored_track = [];
+        $this->  explored_track_id = [];
+        $this->progress='';
+
+
+        $this->savePlaylistToDatabase();
+
+    }
+
     public function savePlaylistToDatabase()
     {
-        if($this->current_playlist==0)
+
+
+        if(count($this->playlists['items']) > $this->current_playlist )
         {
-            Playlist::where('spotify_user_id', $this->getUserId())->delete();
-            $this->playlists =  SpotifyApi::getUserPlaylists($this->user);
-            $this->total_playlists = $this->playlists['total'];
-            $this->current_playlist = 0;
 
-            $this->progress=($this->current_playlist+1).'/'.$this->total_playlists;
-
-
-        }
-
-        if(count($this->playlists['items']) > $this->current_playlist)
-        {
             SpotifyApi::setUserToken($this->user);
 
             $playlist = $this->playlists['items'][$this->current_playlist];
@@ -171,15 +180,18 @@ class SpotifyPlaylistMigrate extends GlobalMethods
             $this->saveSongsToDatabaseFromPlaylist($tracks, $playlist_id);
             $this->current_playlist++;
             $this->progress=$this->current_playlist.'/'.$this->total_playlists;
-            $this->emit('CenterContent_playlistImported');
+
+            $this->emitUp('CenterContent_playlistImported',$this->playlists_to_delete);
 
         }
         else
         {
+            Playlist::whereIn('id',$this->playlists_to_delete)->delete();
             $this->current_playlist=0;
             $this->progress='zakończono';
 
         }
 
     }
+
 }
