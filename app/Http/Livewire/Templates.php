@@ -216,10 +216,11 @@ class Templates extends GlobalMethods
 
         }
 
+
         while($time<$max_time && count($ordered_tags)>0)
         {
-                $index = 0;
-                foreach ($ordered_tags as $tag)
+
+                foreach ($ordered_tags as $key => $tag)
                 {
 
                     if (count($tag['songs_tags']) > 0)
@@ -235,22 +236,20 @@ class Templates extends GlobalMethods
                         array_push($spotify_playlist_songs_ids, $tag['songs_tags'][$rand]['spotify_track_id'] ?? null);
 
 
-                        unset($ordered_tags[$index]['songs_tags'][$rand]);
+                        unset($ordered_tags[$key]['songs_tags'][$rand]);
                     }
                     else
                     {
-                        unset($ordered_tags[$index]);
+                        unset($ordered_tags[$key]);
                     }
-
-                    $index++;
-
 
                 }
 
-                if(!$this->selected_template->loop)
+            if(!$this->selected_template->loop)
                     break;
 
         }
+
 
         $this->templatePlaylistToDatabase($selected_songs);
 

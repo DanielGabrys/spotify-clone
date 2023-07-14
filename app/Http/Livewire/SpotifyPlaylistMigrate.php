@@ -189,6 +189,8 @@ class SpotifyPlaylistMigrate extends GlobalMethods
             Playlist::whereIn('id',$this->playlists_to_delete)->delete();
             $this->current_playlist=0;
             $this->progress='zakończono';
+            $this->emitUp('refreshPlaylist');
+
 
         }
 
