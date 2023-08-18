@@ -1,6 +1,7 @@
 class Player
 {
 
+    requestStatus =1;
     token;
     SongList
     currentSongId = 0;
@@ -133,14 +134,20 @@ class Player
          }
 
 
-         if (this.state == "pause") {
-             await this.startTrack()
+         if (this.state == "pause")
+         {
+             await this.startTrack().then((data)=>
+             {
+                 if(!this.requestStatus) return 0;
 
-             this.interval = setInterval(updateTrackState,1000,player)
-             this.intervals.push(this.interval)
-             this.setStopIcon()
-             this.state = "play"
-             //this.waveAnimation()
+                 this.interval = setInterval(updateTrackState,1000,player)
+                 this.intervals.push(this.interval)
+                 this.setStopIcon()
+                 this.state = "play"
+             })
+
+
+
 
          } else if (this.state == "play") {
 
@@ -161,11 +168,13 @@ class Player
 
             await this.startTrack().then((data) =>
             {
+                if(!this.requestStatus) return 0;
+
                 this.setStopIcon()
                 this.state = "play"
                 this.interval = setInterval(updateTrackState, 1000, player)
                 this.intervals.push(this.interval)
-                this.waveAnimation()
+               // this.waveAnimation()
             });
     }
 
@@ -308,7 +317,6 @@ class Player
             (data) => console.log("")
         );
 
-        console.log(this.interval,"up")
         this.clearIntervals(this.intervals)
         console.log(this.interval,"cleaned")
 
@@ -329,7 +337,19 @@ class Player
                     Authorization: "Bearer " + token,
                 }),
             }
-        )
+        ).then((response) =>
+        {
+
+            this.requestStatus=1
+
+            if(response.status>=400 && response.status<600)
+            {
+                alert('Nawiązanie połączenia ze Spotify nie powiodło się. Uruchom aplikację')
+                this.requestStatus=0
+            }
+
+
+        })
     }
 
 
