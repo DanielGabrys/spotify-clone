@@ -19,9 +19,9 @@ class SpotifyController extends Controller
 
 
         $token = SpotifyApi::getSpotifyToken();
-
+       
         if(!$token)
-            return   view('welcome');
+            return redirect()->route('ballroom');
 
 
         $user = SpotifyApi::getUser();
@@ -40,5 +40,12 @@ class SpotifyController extends Controller
             'user' => $user,
         ]);
     }
+
+
+    public function ballroom()
+    {
+        return   view('welcome');
+    }
+
 
 }

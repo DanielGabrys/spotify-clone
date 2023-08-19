@@ -22,7 +22,5 @@ Route::get('/',[SpotifyController::class,'authorizeSpotify'])->name('authorizeSp
 
 Route::get('/callback',[SpotifyController::class,'authorizeCallback'])->name('authorizeCallback');
 
-Route::get('generate', function (){
-    Artisan::call('storage:link');
-    echo 'ok';
-});
+Route::get('/ballroom',[SpotifyController::class,'ballroom'])->name('ballroom');
+
