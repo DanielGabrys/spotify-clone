@@ -8,7 +8,7 @@ use App\Models\SpotifyApi\SpotifyApi;
 
 class SpotifyController extends Controller
 {
-    public function authorizeSpotify()
+    public function welcome()
     {
         return view('welcome');
 
@@ -21,7 +21,7 @@ class SpotifyController extends Controller
         $token = SpotifyApi::getSpotifyToken();
        
         if(!$token)
-            return redirect()->route('ballroom');
+            return redirect()->route('welcome');
 
 
         $user = SpotifyApi::getUser();
@@ -40,12 +40,5 @@ class SpotifyController extends Controller
             'user' => $user,
         ]);
     }
-
-
-    public function ballroom()
-    {
-        return   view('welcome');
-    }
-
 
 }

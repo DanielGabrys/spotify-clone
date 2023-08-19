@@ -18,9 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/ballroom/',[SongController::class,'ShowSongs'])->name('ballroom');
 
-Route::get('/',[SpotifyController::class,'authorizeSpotify'])->name('authorizeSpotify');
+Route::get('/',[SpotifyController::class,'welcome'])->name('welcome');
 
 Route::get('/callback',[SpotifyController::class,'authorizeCallback'])->name('authorizeCallback');
 
-Route::get('/ballroom',[SpotifyController::class,'ballroom'])->name('ballroom');
 
