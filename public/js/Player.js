@@ -236,7 +236,7 @@ class Player {
         this.setTagsInfo()
 
         this.clearIntervals(this.intervals);
-        // await this.playMusicTrack()
+        await this.playMusicTrack()
 
 
 
