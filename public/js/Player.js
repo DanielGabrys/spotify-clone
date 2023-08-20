@@ -236,7 +236,7 @@ class Player {
         this.setTagsInfo()
 
         this.clearIntervals(this.intervals);
-        await this.playMusicTrack()
+        // await this.playMusicTrack()
 
 
 
@@ -367,18 +367,6 @@ async function updateState(object) {
         headers: new Headers({
             Authorization: "Bearer " + token,
         }),
-
-    }).then((response) => {
-
-        this.requestStatus = 1
-
-
-        if (response.status >= 400 && response.status < 600) {
-            alert('Nawiązanie połączenia ze Spotify nie powiodło się. Uruchom aplikację')
-            this.requestStatus = 0
-        }
-
-
     })
 
     const jsonData = await state.json();
