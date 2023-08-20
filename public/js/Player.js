@@ -154,16 +154,16 @@ class Player {
 
         this.clearIntervals(this.intervals)
 
-        await this.startTrack().then((data) => {
-            console.log("r", this.requestStatus);
-            if (!this.requestStatus) return 0;
+        //  await this.startTrack().then((data) => {
+        console.log("r", this.requestStatus);
+        if (!this.requestStatus) return 0;
 
-            this.setStopIcon()
-            this.state = "play"
-            this.interval = setInterval(updateTrackState, 1000, player)
-            this.intervals.push(this.interval)
-                // this.waveAnimation()
-        });
+        this.setStopIcon()
+        this.state = "play"
+        this.interval = setInterval(updateTrackState, 1000, player)
+        this.intervals.push(this.interval)
+            // this.waveAnimation()
+            //});
     }
 
 
