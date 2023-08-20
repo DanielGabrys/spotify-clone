@@ -155,7 +155,6 @@ class Player {
         this.clearIntervals(this.intervals)
 
         await this.startTrack().then((data) => {
-            console.log("r", this.requestStatus);
             if (!this.requestStatus) return 0;
 
             this.setStopIcon()
