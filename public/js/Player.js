@@ -154,16 +154,16 @@ class Player {
 
         this.clearIntervals(this.intervals)
 
-        //  await this.startTrack().then((data) => {
-        console.log("r", this.requestStatus);
-        if (!this.requestStatus) return 0;
+        await this.startTrack().then((data) => {
+            console.log("r", this.requestStatus);
+            if (!this.requestStatus) return 0;
 
-        this.setStopIcon()
-        this.state = "play"
-        this.interval = setInterval(updateTrackState, 1000, player)
-        this.intervals.push(this.interval)
-            // this.waveAnimation()
-            //});
+            this.setStopIcon()
+            this.state = "play"
+            this.interval = setInterval(updateTrackState, 1000, player)
+            this.intervals.push(this.interval)
+                // this.waveAnimation()
+        });
     }
 
 
@@ -367,6 +367,18 @@ async function updateState(object) {
         headers: new Headers({
             Authorization: "Bearer " + token,
         }),
+
+    }).then((response) => {
+
+        this.requestStatus = 1
+
+
+        if (response.status >= 400 && response.status < 600) {
+            alert('Nawiązanie połączenia ze Spotify nie powiodło się. Uruchom aplikację')
+            this.requestStatus = 0
+        }
+
+
     })
 
     const jsonData = await state.json();
