@@ -220,6 +220,8 @@ class Player {
 
         }
 
+        console.log(id, this.SongList.length);
+        console.log("cur", this.currentSongId);
         let duration = this.SongList[this.currentSongId].duration
 
         document.getElementById('playerTitle').innerText = this.SongList[this.currentSongId].title

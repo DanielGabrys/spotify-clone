@@ -75,11 +75,11 @@
     function PlaySong(songList,start_song_id)
     {
 
-
+        console.log("song",start_song_id)
 
       let songs = JSON.parse(songList);
       console.log("songs",songs)
-       player.setSongList(songs)
+      player.setSongList(songs)
 
        player.setTrack(start_song_id)
 

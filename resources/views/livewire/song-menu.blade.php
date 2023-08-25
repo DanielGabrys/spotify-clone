@@ -59,7 +59,7 @@
                 <audio id ="audio_{{$loop->iteration + $songs->firstItem() - 2}}" ></audio>
 
 
-                <div x-data @click="PlaySong(@js($songs_json),@js($loop->iteration + $songs->firstItem() - 2))" class="section">
+                <div x-data @click="PlaySong(@js($songs_json),@js($loop->index))" class="section">
 
                     <div class="imgBox">
                         <img src="{{$song->image}}" alt="">
